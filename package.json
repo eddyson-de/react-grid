@@ -11,7 +11,7 @@
   ],
   "repository": "https://github.com/eddyson-de/react-grid",
   "scripts": {
-    "prepublish": "mkdir -p dist && babel --plugins=transform-es2015-modules-umd Ardagryd.js --out-file ./dist/Ardagryd.umd.js --source-maps",
+    "prepublish": "webpack && webpack -p",
     "dev": "webpack-dev-server --progress --profile --colors --hot",
     "test": "mocha --compilers js:babel-core/register --recursive --require ./test/setup.js",
     "testw": "mocha --compilers js:babel-core/register --recursive --watch --require ./test/setup.js"
@@ -59,6 +59,7 @@
     "faker": "^3.0.1",
     "node-libs-browser": "1.0.0",
     "react-dom": "^15.1.0",
-    "bootstrap": "3.3.6"
+    "bootstrap": "3.3.6",
+    "yargs": "^4.6.0"
   }
 }
