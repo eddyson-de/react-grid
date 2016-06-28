@@ -666,7 +666,7 @@ export class Grid extends Component {
         this.state = {
             config: props.config ? props.config : {},
             filter: filterConfigFromProp(props.filter),
-            sort: sortConfigFromProp(props.sort),
+            sort: props.sort ? sortConfigFromProp(props.sort): undefined,
             skip: 0
         };
         this.dispatch = this.dispatch.bind(this);
@@ -675,7 +675,7 @@ export class Grid extends Component {
     componentWillReceiveProps(nextProps){
         const newState = {};
         if (!(JSON.stringify(this.props.sort) === JSON.stringify(nextProps.sort))){
-            newState.sort =  nextProps.sort;
+            newState.sort = nextProps.sort;
         }
         if (!(JSON.stringify(this.props.filter) === JSON.stringify(nextProps.filter))){
             newState.filter = nextProps.filter;
