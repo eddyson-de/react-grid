@@ -84,7 +84,7 @@ const Ardagryd = (props)=>{
 
 
         //Filter objects based on supplied filter strings
-        const columnNamesWithFilter = [];
+        let columnNamesWithFilter = [];
         let filters = {};
         let filterConfig = filterConfigFromProp(props.filter);
         if (filterConfig){
