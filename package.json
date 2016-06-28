@@ -14,7 +14,8 @@
     "prepublish": "webpack && webpack -p",
     "dev": "webpack-dev-server --progress --profile --colors --hot",
     "test": "mocha --compilers js:babel-core/register --recursive --require ./test/setup.js",
-    "testw": "mocha --compilers js:babel-core/register --recursive --watch --require ./test/setup.js"
+    "testw": "mocha --compilers js:babel-core/register --recursive --watch --require ./test/setup.js",
+    "cover": "babel-node node_modules/istanbul/lib/cli cover node_modules/mocha/bin/_mocha -- --recursive --require ./test/setup.js"
   },
   "keywords": [
     "React",
@@ -60,6 +61,8 @@
     "node-libs-browser": "1.0.0",
     "react-dom": "^15.1.0",
     "bootstrap": "3.3.6",
-    "yargs": "^4.6.0"
+    "yargs": "^4.6.0",
+    "istanbul": "^1.1.0-alpha.1",
+    "coveralls": "2.10.0"
   }
 }
