@@ -186,11 +186,11 @@ export default Ardagryd;
 const GridTable = (props) => <Table bordered hover>{props.children}</Table>;
 
 const GridBody=(props)=>{
-        var Row = props.config.row;
-        var Cell = props.config.cell;
-        var CellRenderer = props.config.cellRendererBase;
+        const Row = props.config.row;
+        const Cell = props.config.cell;
+        const CellRendererBase = props.config.cellRendererBase;
 
-        var rows = props.objects.map((curr) => {
+        const rows = props.objects.map((curr) => {
             let current = curr;
             var cells = props.columnKeys.map((key) => {
                 let configForColumn = props.columns[key];
@@ -205,21 +205,23 @@ const GridBody=(props)=>{
                 }else{
                     value = displayValueGetter(args);
                 }
-                if (value == null){
-                    return <Cell key={key} columnName={key}/>;
-                }
-                else if (typeof value === "string" || typeof value === "number" || typeof value === "boolean" || React.isValidElement(value)){
-                    return <Cell key={key} columnName={key}>{value}</Cell>;
+                let CellRenderer = CellRendererBase;
+                if(configForColumn && configForColumn.cellRenderer){
+                    CellRenderer = configForColumn.cellRenderer;
                 } else {
-                    if(configForColumn && configForColumn.cellRenderer){
-                        CellRenderer = configForColumn.cellRenderer;
+                    if (value == null){
+                        return <Cell key={key} columnName={key}/>;
                     }
-                    return (
-                        <Cell key={key} columnName={key}>
-                            <CellRenderer config={props.config} value={value} columns={props.columns} columnName={key} object={current}/>
-                        </Cell>
-                    );
+                    else if (typeof value === "string" || typeof value === "number" || typeof value === "boolean" || React.isValidElement(value)){
+                        return <Cell key={key} columnName={key}>{value}</Cell>;
+                    }
                 }
+
+                return (
+                    <Cell key={key} columnName={key}>
+                        <CellRenderer config={props.config} value={value} columns={props.columns} columnName={key} object={current}/>
+                    </Cell>
+                );
             });
 
             return(
