@@ -1,5 +1,4 @@
 import React from 'react'
-import Input from 'react-bootstrap/lib/Input'
 import Glyphicon from 'react-bootstrap/lib/Glyphicon'
 import Button from 'react-bootstrap/lib/Button'
 import FormControl from 'react-bootstrap/lib/FormControl'
