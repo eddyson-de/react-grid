@@ -83,16 +83,15 @@ const Ardagryd = (props)=>{
 
 
         //Filter objects based on supplied filter strings
-        let columnNamesWithFilter = [];
         let filters = {};
         let filterConfig = filterConfigFromProp(props.filter);
-        columnNamesWithFilter = filterConfig.map((filterObject) => {
+        let columnNamesWithFilter = filterConfig.map((filterObject) => {
             filters[filterObject.columnName] = filterObject.expression;
             return filterObject.columnName;
          });
 
-        var objects = props.objects.filter((currentObjectToBeFiltered) => {
-            for (var i in columnNamesWithFilter){
+        let objects = props.objects.filter((currentObjectToBeFiltered) => {
+            for (let i in columnNamesWithFilter){
 
                 if (!currentObjectToBeFiltered[columnNamesWithFilter[i]]){
                     return false;
