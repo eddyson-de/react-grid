@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component, PropTypes } from 'react'
 import Glyphicon from 'react-bootstrap/lib/Glyphicon'
 import Button from 'react-bootstrap/lib/Button'
 import FormControl from 'react-bootstrap/lib/FormControl'
@@ -199,7 +199,7 @@ const GridBody=(props)=>{
                 }
                 const args = {columns:props.columns, columnName:key, config:props.config, value:current[key], object:current};
                 let value;
-                if (displayValueGetter.prototype instanceof React.Component){
+                if (displayValueGetter.prototype instanceof Component){
                     value = React.createElement(displayValueGetter, args);
                 }else{
                     value = displayValueGetter(args);
@@ -257,7 +257,7 @@ const GridColumnHeader = (props) => {
         return(<tr>{headerCells}</tr>)
 }
 
-class GridHeaderCell extends React.Component {
+class GridHeaderCell extends Component {
     constructor(props){
         super(props);
         this.sortChanged = this.sortChanged.bind(this);
@@ -304,17 +304,17 @@ class GridHeaderCell extends React.Component {
 }
 
 GridHeaderCell.propTypes = {
-    columnName: React.PropTypes.string.isRequired,
-    sort: React.PropTypes.oneOf([true, false, ASCENDING, DESCENDING]),
-    updateSort: React.PropTypes.func.isRequired,
-    sortable: React.PropTypes.bool
+    columnName: PropTypes.string.isRequired,
+    sort: PropTypes.oneOf([true, false, ASCENDING, DESCENDING]),
+    updateSort: PropTypes.func.isRequired,
+    sortable: PropTypes.bool
 };
 
 GridHeaderCell.defaultProps = {
     sortable: true
 }
 
-class GridRow extends React.Component {
+class GridRow extends Component {
 
     constructor(props){
         super(props);
@@ -381,7 +381,7 @@ const ObjectCellRenderer = (props)=> {
         )
 }
 
-class ArrayCellRenderer extends React.Component {
+class ArrayCellRenderer extends Component {
     constructor(p){
         super(p);
     }
@@ -406,7 +406,7 @@ class ArrayCellRenderer extends React.Component {
     }
 }
 
-class ToolbarDefault extends React.Component {
+class ToolbarDefault extends Component {
     constructor(props) {
         super(props);
     }
@@ -440,7 +440,7 @@ class ToolbarDefault extends React.Component {
     }
 }
 
-class Filter extends React.Component {
+class Filter extends Component {
 
     constructor(props){
         super(props);
@@ -480,7 +480,7 @@ class Filter extends React.Component {
     }
 };
 
-class Pager extends React.Component {
+class Pager extends Component {
     constructor(props){
         super(props);
         this.updatePagination = this.updatePagination.bind(this);
@@ -518,10 +518,10 @@ class Pager extends React.Component {
 }
 
 Pager.propTypes = {
-  length : React.PropTypes.number.isRequired,
-  paging : React.PropTypes.number.isRequired,
-  skip : React.PropTypes.number.isRequired,
-  updatePagination : React.PropTypes.func.isRequired
+  length : PropTypes.number.isRequired,
+  paging : PropTypes.number.isRequired,
+  skip : PropTypes.number.isRequired,
+  updatePagination : PropTypes.func.isRequired
 };
 
 const defaultConfig = {
@@ -552,19 +552,19 @@ Ardagryd.defaultProps = {
 };
 
 Ardagryd.propTypes = {
-    objects: React.PropTypes.arrayOf(React.PropTypes.object),
-    config: React.PropTypes.object.isRequired,
-    columns: React.PropTypes.objectOf(React.PropTypes.shape({
-      displayValueGetter: React.PropTypes.func,
-      id: React.PropTypes.bool,
-      label: React.PropTypes.string,
-      order: React.PropTypes.number,
-      hideTools: React.PropTypes.bool,
-      sortable: React.PropTypes.bool,
+    objects: PropTypes.arrayOf(PropTypes.object),
+    config: PropTypes.object.isRequired,
+    columns: PropTypes.objectOf(PropTypes.shape({
+      displayValueGetter: PropTypes.func,
+      id: PropTypes.bool,
+      label: PropTypes.string,
+      order: PropTypes.number,
+      hideTools: PropTypes.bool,
+      sortable: PropTypes.bool,
       cellRenderer: elementType,
-      filter: React.PropTypes.string
+      filter: PropTypes.string
     })).isRequired,
-    dispatch: React.PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired
 };
 
 //Find id-column, or enhance objects with ids
@@ -597,7 +597,7 @@ function getLabel(columnKey, columnConfig){
     && columnConfig[columnKey].label ? columnConfig[columnKey].label : columnKey;
 }
 
-export class Grid extends React.Component {
+export class Grid extends Component {
 
     constructor(props){
         super(props);
@@ -661,9 +661,9 @@ export class Grid extends React.Component {
 }
 
 Grid.PropTypes = {
-    objects: React.PropTypes.array.isRequired,
-    config: React.PropTypes.object.isRequired,
-    columns: React.PropTypes.object.isRequired
+    objects: PropTypes.array.isRequired,
+    config: PropTypes.object.isRequired,
+    columns: PropTypes.object.isRequired
 };
 
 Grid.defaultProps = {
