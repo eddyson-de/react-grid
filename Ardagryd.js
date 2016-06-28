@@ -674,12 +674,14 @@ export class Grid extends Component {
     }
 
     componentWillReceiveProps(nextProps){
+        const newState = {};
         if (!(JSON.stringify(this.props.sort) === JSON.stringify(nextProps.sort))){
-            this.setState({sort: nextProps.sort});
+            newState.sort =  nextProps.sort;
         }
         if (!(JSON.stringify(this.props.filter) === JSON.stringify(nextProps.filter))){
-            this.setState({filter: nextProps.filter});
+            newState.filter = nextProps.filter;
         }
+        this.setState(newState);
     }
 
     dispatch(action) {
