@@ -17,10 +17,7 @@ export class App extends React.Component {
 
     var config = {showToolbar: true, paging: 10};
     var columns = {
-      name: {
-        sort: true,
-        displayValueGetter: ({value, object, columns}) => <span>{value}</span>
-      },
+
       edit: {
         label: "Edit",
         hideTools: true,

@@ -10,6 +10,51 @@ const DESCENDING = "desc";
 //Workaround. See -> https://phabricator.babeljs.io/T6777
 typeof undefined;
 
+
+
+//helpers
+
+let sortConfigFromProp = (sortProp) => {
+    let sortColumn;
+    let order = ASCENDING;
+
+    switch (typeof  sortProp){
+        case "string":
+            sortColumn = sortProp;
+            break;
+        case "object":
+            let sortConfigObject;
+            if (Array.isArray(sortProp) && sortProp.length > 0){
+                sortConfigObject = sortProp[0];
+            } else {
+                sortConfigObject = sortProp;
+            }
+            sortColumn = sortConfigObject.columnName;
+            if (sortConfigObject.order
+                && (sortConfigObject.order === ASCENDING || sortConfigObject.order === DESCENDING)){
+                order = sortConfigObject.order;
+            }
+            break;
+        default:
+    }
+        return {
+            columnName: sortColumn,
+            order: order
+        }
+
+};
+
+let filterConfigFromProp = (filterProp) => {
+
+    let filter = [];
+    if (filterProp && !Array.isArray(filterProp)){
+        filter.push(filterProp);
+    } else if (Array.isArray(filterProp)){
+        return filterProp
+    }
+    return filter;
+};
+
 const Ardagryd = (props)=>{
         //Merge custom and default config
         const config = Object.assign({},defaultConfig,props.config);
@@ -30,41 +75,26 @@ const Ardagryd = (props)=>{
 
         //Columns to show
         var columnKeys = [];
-        //extract filters from columnConfig
-
-        var order = ASCENDING;
-        var sortColumn;
-
-        let filters = {};
-        for (const columnName in columnConfig){
-            const configForColumn = columnConfig[columnName];
-            if (configForColumn){
-                const filter = configForColumn.filter;
-                if (filter && filter !== ""){
-                    filters[columnName] = filter;
-                }
-                // Extract sort column from config
-                // TODO: handle case where multiple columns have a sort property
-                if (sortColumn === undefined){
-                    const sort = configForColumn.sort;
-                    if (sort !== undefined){
-                        sortColumn = columnName;
-                        if (sort === DESCENDING){
-                          order = DESCENDING;
-                        }
-                    }
-                }
-            }
-        }
-        //If there is no configured sort-column take first configured column
-
-        sortColumn = sortColumn ? sortColumn : availableColumnKeys && availableColumnKeys.length > 0 ? availableColumnKeys[0]: null;
 
         var idColumn = getOrCreateIdColumn(props.objects,columnConfig);
 
 
         //Filter objects based on supplied filter strings
-        var columnNamesWithFilter = Object.keys(filters);
+        var columnNamesWithFilter = [];
+        let filters = {};
+        let filterConfig = filterConfigFromProp(props.filter);
+        if (filterConfig){
+            if (Array.isArray(filterConfig)){
+                columnNamesWithFilter = filterConfig.map((filterObject) => {
+                    filters[filterObject.columnName] = filterObject.expression;
+                    return filterObject.columnName;
+                 });
+
+            } else {
+                columnNamesWithFilter.push(filterConfig.columnName);
+                filters[filterConfig.columnName] = filterConfig.expression;
+            }
+        }
         var objects = props.objects.filter((currentObjectToBeFiltered) => {
             for (var i in columnNamesWithFilter){
 
@@ -108,7 +138,16 @@ const Ardagryd = (props)=>{
         }
 
         //Sort
-        if (sortColumn){
+
+    //default order
+    var order = sortConfigFromProp(props.sort).order;
+
+    var sortColumn = sortConfigFromProp(props.sort).columnName;
+
+    //check for sort configuration
+
+  
+    if (sortColumn){
             // TODO allow to pass in a custom sort and/or sortValueGetter function
 
             // temporary array holds objects with position and sort-value
@@ -145,7 +184,7 @@ const Ardagryd = (props)=>{
 
         var tools;
         if(config.showToolbar){
-            tools = (<Toolbar config={config} columnKeys={columnKeys} columns={columnConfig}/>)
+            tools = (<Toolbar config={config} columnKeys={columnKeys} columns={columnConfig} filter={filterConfig}/>)
         }
 
         let pagedObjects;
@@ -167,7 +206,7 @@ const Ardagryd = (props)=>{
                 {pager()}
                 <Grid>
                     <GridHeader>
-                        <ColumnHeader columns={columnConfig} config={config} columnKeys={columnKeys} />
+                        <ColumnHeader columns={columnConfig} config={config} columnKeys={columnKeys} sort={props.sort} />
                         {tools}
                     </GridHeader>
                     <GridBody idColumn={idColumn} objects={pagedObjects} columns={columnConfig} config={config} columnKeys={columnKeys}/>
@@ -241,9 +280,12 @@ const GridColumnHeader = (props) => {
             var columnLabel = getLabel(currentKey, columnConfig);
             const configForCurrentColumn = columnConfig[currentKey];
             const sortable = configForCurrentColumn && configForCurrentColumn.sortable === false ? false : true;
-
+            let sort = false;
+            if (props.sort && props.sort.columnName === currentKey){
+                sort = props.sort.order;
+            }
             return(
-                <GridHeaderCell key={currentKey} columnName={currentKey} columnIndex={index} sortable={sortable} sort={configForCurrentColumn && configForCurrentColumn.sort} updateSort={props.config.eventHandler}>
+                <GridHeaderCell key={currentKey} columnName={currentKey} columnIndex={index} sortable={sortable} sort={sort} updateSort={props.config.eventHandler}>
                     {columnLabel}
                 </GridHeaderCell>
             );
@@ -288,7 +330,7 @@ class GridHeaderCell extends React.Component {
                 {label}
               </span>
               { sortable &&
-                <Button active={active} bsSize="xsmall" style={{marginLeft: '5px'}} onClick={this.sortChanged}>
+                <Button className={"sort-toggle-for-"+label} active={active} bsSize="xsmall" style={{marginLeft: '5px'}} onClick={this.sortChanged}>
                   <Glyphicon glyph={iconName}/>
                 </Button>
               }
@@ -407,7 +449,7 @@ class ToolbarDefault extends React.Component {
     }
 
     render(){
-        let {columnKeys, config, columns } = this.props;
+        let {columnKeys, config, columns, filter } = this.props;
         var Filter = config.filter;
 
         let filters = columnKeys.map((currentColumnKey) => {
@@ -418,10 +460,12 @@ class ToolbarDefault extends React.Component {
               renderFilter = false;
           }
           if(renderFilter){
-            var filter = columns[currentColumnKey] && columns[currentColumnKey].filter ? columns[currentColumnKey].filter : "";
+              let filterObject = filter.filter((obj) => obj.columnName === currentColumnKey)[0];
+
+            var query = filterObject ? filterObject.expression : "";
             return(
                 <th key={currentColumnKey}>
-                    <Filter config={config} column={currentColumnKey} query={filter} />
+                    <Filter config={config} column={currentColumnKey} query={query} />
                 </th>
             )}
           else {return(<th key={currentColumnKey}></th>)}
@@ -547,6 +591,17 @@ Ardagryd.defaultProps = {
     dispatch: () => {}
 };
 
+
+const filterConfig = React.PropTypes.shape({
+    columnName: React.PropTypes.string.isRequired,
+    expression: React.PropTypes.string.isRequired
+});
+
+const sortConfig = React.PropTypes.shape({
+    columnName: React.PropTypes.string.isRequired,
+    order: React.PropTypes.oneOf([ASCENDING, DESCENDING])
+});
+
 Ardagryd.propTypes = {
     objects: React.PropTypes.arrayOf(React.PropTypes.object),
     config: React.PropTypes.object.isRequired,
@@ -560,7 +615,15 @@ Ardagryd.propTypes = {
       cellRenderer: elementType,
       filter: React.PropTypes.string
     })).isRequired,
-    dispatch: React.PropTypes.func.isRequired
+    dispatch: React.PropTypes.func.isRequired,
+    sort: React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        sortConfig,
+        React.PropTypes.arrayOf(sortConfig)
+    ]),
+    filter: React.PropTypes.oneOfType([
+        filterConfig,
+        React.PropTypes.arrayOf(filterConfig)])
 };
 
 //Find id-column, or enhance objects with ids
@@ -597,19 +660,23 @@ export class Grid extends React.Component {
 
     constructor(props){
         super(props);
+
         this.state = {
             config: props.config ? props.config : {},
-            columns: props.columns ? props.columns : {},
+            filter: filterConfigFromProp(props.filter),
+            sort: sortConfigFromProp(props.sort),
             skip: 0
         };
         this.dispatch = this.dispatch.bind(this);
     }
 
     componentWillReceiveProps(nextProps){
-      this.setState({
-          config: nextProps.config ? nextProps.config : {},
-          columns: nextProps.columns ? nextProps.columns : {}
-      });
+        if (!(JSON.stringify(this.props.sort) === JSON.stringify(nextProps.sort))){
+            this.setState({sort: nextProps.sort});
+        }
+        if (!(JSON.stringify(this.props.filter) === JSON.stringify(nextProps.filter))){
+            this.setState({filter: nextProps.filter});
+        }
     }
 
     dispatch(action) {
@@ -617,41 +684,36 @@ export class Grid extends React.Component {
         //State reducer
         switch (action.type){
             case "filter-change":
-                var newColumnConfig = {};
-                var newColumnValues = {};
-                newColumnValues[action.column] = {};
-                newColumnValues[action.column].filter = action.query;
-                newColumnConfig = merge(this.state.columns,  newColumnValues);
+                let changed = false;
 
-                this.setState({columns: newColumnConfig, skip: 0});
+                let newFilters = this.state.filter.map((currFilter) => {
+                    if (currFilter.columnName === action.column){
+                        currFilter.expression = action.query;
+                        changed = true;
+                        return currFilter;
+                    } else {
+                        return currFilter;
+                    }
+                });
+
+                if (!changed){
+                    newFilters.push({columnName: action.column, expression: action.query});
+                }
+
+                this.setState({filter: newFilters, skip: 0});
                 break;
             case "change-page":
                 this.setState({skip: action.skip});
                 break;
             case "toggle-sort":
-                let newColumnConfig = Object.assign({}, this.state.columns);
-                let sortApplied = false;
-                Object.keys(newColumnConfig).forEach((key)=> {
-                    const value = newColumnConfig[key];
-                    if (key === action.columnName){
-                        value.sort = action.order;
-                        sortApplied = true;
-                    } else {
-                        delete value.sort;
-                    }
-                });
-                if (!sortApplied){
-                  newColumnConfig[action.columnName] = {sort: action.order};
-                }
-
-                this.setState({columns: newColumnConfig, skip: 0});
+                this.setState({sort: {columnName: action.columnName, order: action.order}, skip: 0});
                 break;
 
         }
     }
 
     render(){
-        return(<Ardagryd dispatch={this.dispatch} objects={this.props.objects} columns={this.state.columns} config={this.state.config} skip={this.state.skip} />)
+        return(<Ardagryd dispatch={this.dispatch} objects={this.props.objects} columns={this.props.columns} config={this.props.config} filter={this.state.filter} skip={this.state.skip} sort={this.state.sort} />)
     }
 
 }

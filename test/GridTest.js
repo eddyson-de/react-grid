@@ -219,8 +219,6 @@ function renderInContainer(component, componentProps={}) {
 
 }
 
-
-
 describe('Grid render tests', function(){
 
   it('Should render Grid with 8 rows', function(){
@@ -235,37 +233,6 @@ describe('Grid render tests', function(){
     let tbodyDOM = ReactDOM.findDOMNode(tbody);
 
     should(tbodyDOM.childNodes.length).be.exactly(8);
-  });
-
-  it('Should filter grid to 2 rows', function (){
-
-    let grid = TestUtils.renderIntoDocument(
-      <Grid objects={data} columns={{
-      name: {
-        sort: true,
-        filter: "ie"
-      }}} config={{}}/>
-    );
-
-    let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
-    let tbodyDOM = ReactDOM.findDOMNode(tbody);
-
-    should(tbodyDOM.childNodes.length).be.exactly(2);
-  });
-
-  it('Should shout sort by name in descending order', function (){
-
-    let grid = TestUtils.renderIntoDocument(
-      <Grid objects={data} columns={{
-      name: {
-        sort: "desc"
-      }}} config={{}}/>
-    );
-
-    let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
-    let tbodyDOM = ReactDOM.findDOMNode(tbody);
-
-    should(tbodyDOM.childNodes[0].childNodes[0].textContent).be.exactly("Tyrel Feest");
   });
 
   it('Should have 8 columns by default', function (){
