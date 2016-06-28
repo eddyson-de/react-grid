@@ -5,7 +5,6 @@ import FormControl from 'react-bootstrap/lib/FormControl'
 import Table from 'react-bootstrap/lib/Table'
 import Pagination from 'react-bootstrap/lib/Pagination'
 import elementType from 'react-prop-types/lib/elementType';
-import merge from 'deepmerge'
 
 const ASCENDING = "asc";
 const DESCENDING = "desc";
