@@ -19,25 +19,25 @@ const Ardagryd = (props)=>{
         const config = Object.assign({},defaultConfig,props.config);
 
         //Get components from config
-        var Grid = config.grid;
-        var GridHeader = config.header;
+        const Grid = config.grid;
+        const GridHeader = config.header;
 
-        var Toolbar = config.toolbar;
-        var GridBody = config.body;
-        var ColumnHeader = config.columnHeader;
+        const Toolbar = config.toolbar;
+        const GridBody = config.body;
+        const ColumnHeader = config.columnHeader;
 
         //Get custom column-configuration
-        var columnConfig = props.columns;
+        const columnConfig = props.columns;
 
         config.eventHandler = props.dispatch;
 
 
         //Columns to show
-        var columnKeys = [];
+        let columnKeys = [];
         //extract filters from columnConfig
 
-        var order = ASCENDING;
-        var sortColumn;
+        let order = ASCENDING;
+        let sortColumn;
 
         let filters = {};
         for (const columnName in columnConfig){
@@ -64,13 +64,13 @@ const Ardagryd = (props)=>{
 
         sortColumn = sortColumn ? sortColumn : availableColumnKeys && availableColumnKeys.length > 0 ? availableColumnKeys[0]: null;
 
-        var idColumn = getOrCreateIdColumn(props.objects,columnConfig);
+        const idColumn = getOrCreateIdColumn(props.objects,columnConfig);
 
 
         //Filter objects based on supplied filter strings
-        var columnNamesWithFilter = Object.keys(filters);
-        var objects = props.objects.filter((currentObjectToBeFiltered) => {
-            for (var i in columnNamesWithFilter){
+        const columnNamesWithFilter = Object.keys(filters);
+        let objects = props.objects.filter((currentObjectToBeFiltered) => {
+            for (let i in columnNamesWithFilter){
 
                 if (!currentObjectToBeFiltered[columnNamesWithFilter[i]]){
                     return false;
@@ -105,8 +105,8 @@ const Ardagryd = (props)=>{
             }).sort((a,b) => {
                 const configForA = columnConfig[a];
                 const configForB = columnConfig[b];
-                let valueForA = configForA && configForA.order != null ? configForA.order : 1000;
-                let valueForB = configForB && configForB.order != null ? configForB.order : 1000;
+                const valueForA = configForA && configForA.order != null ? configForA.order : 1000;
+                const valueForB = configForB && configForB.order != null ? configForB.order : 1000;
                 return valueForA-valueForB;
             });
         }
@@ -147,19 +147,19 @@ const Ardagryd = (props)=>{
             objects.reverse();
         }
 
-        var tools;
+        let tools;
         if(config.showToolbar){
             tools = (<Toolbar config={config} columnKeys={columnKeys} columns={columnConfig}/>)
         }
 
         let pagedObjects;
-        var paging = config.paging;
+        const paging = config.paging;
         if (paging){
             pagedObjects = objects.slice(props.skip, props.skip+paging);
         } else {
             pagedObjects = props.objects;
         }
-        var pager = () => {
+        const pager = () => {
             if(config.paging){
                 return(
                     <Pager length={objects.length} updatePagination={config.eventHandler} skip={props.skip} paging={config.paging} />
@@ -190,9 +190,8 @@ const GridBody=(props)=>{
         const Cell = props.config.cell;
         const CellRendererBase = props.config.cellRendererBase;
 
-        const rows = props.objects.map((curr) => {
-            let current = curr;
-            var cells = props.columnKeys.map((key) => {
+        const rows = props.objects.map((current) => {
+            const cells = props.columnKeys.map((key) => {
                 let configForColumn = props.columns[key];
                 let displayValueGetter = props.config.displayValueGetter;
                 if(configForColumn && configForColumn.displayValueGetter){
@@ -241,10 +240,10 @@ const GridBody=(props)=>{
 const GridHeader = (props) => <thead>{props.children}</thead>;
 
 const GridColumnHeader = (props) => {
-        var GridHeaderCell = props.config.columnHeaderCell;
-        var columnConfig = props.columns;
-        var headerCells = props.columnKeys.map((currentKey, index) => {
-            var columnLabel = getLabel(currentKey, columnConfig);
+        const GridHeaderCell = props.config.columnHeaderCell;
+        const columnConfig = props.columns;
+        const headerCells = props.columnKeys.map((currentKey, index) => {
+            const columnLabel = getLabel(currentKey, columnConfig);
             const configForCurrentColumn = columnConfig[currentKey];
             const sortable = configForCurrentColumn && configForCurrentColumn.sortable === false ? false : true;
 
@@ -341,12 +340,12 @@ class GridRow extends React.Component {
 const GridCell = (props) => <td>{props.children}</td>;
 
 const BaseCellRenderer = (props) =>{
-        let ObjCellRenderer = props.config.cellRendererObject;
-        let ArrCellRenderer = props.config.cellRendererArray;
-        var valueType = typeof props.value;
+        const ObjCellRenderer = props.config.cellRendererObject;
+        const ArrCellRenderer = props.config.cellRendererArray;
+        const valueType = typeof props.value;
 
-        var columns = props.columns;
-        var columnName = props.columnName;
+        const columns = props.columns;
+        const columnName = props.columnName;
 
         switch(valueType){
             case "object":
@@ -361,13 +360,13 @@ const BaseCellRenderer = (props) =>{
 
 }
 
-const ObjectCellRenderer =(props)=> {
-        let Renderer = props.config.cellRendererBase;
-        let columns =props.columns;
-        let columnName = props.columnName;
-        let object = props.object;
+const ObjectCellRenderer = (props)=> {
+        const Renderer = props.config.cellRendererBase;
+        const columns = props.columns;
+        const columnName = props.columnName;
+        const object = props.object;
 
-        var props = Object.keys(props.value).map((key) => {
+        const items = Object.keys(props.value).map((key) => {
             return(
                 [
                     <dt>{key}</dt>,
@@ -377,7 +376,7 @@ const ObjectCellRenderer =(props)=> {
         });
         return(
                 <dl>
-                    {props}
+                    {items}
                 </dl>
         )
 }
@@ -387,13 +386,13 @@ class ArrayCellRenderer extends React.Component {
         super(p);
     }
     render(){
-        let Renderer = this.props.config.cellRendererBase;
-        var columns = this.props.columns;
-        var columnName = this.props.columnName;
-        var object = this.props.object;
+    	const Renderer = this.props.config.cellRendererBase;
+        const columns = this.props.columns;
+        const columnName = this.props.columnName;
+        const object = this.props.object;
 
 
-        var elements = this.props.value.map((value, i) => {
+        const elements = this.props.value.map((value, i) => {
             return (
                 <li key={i}><Renderer object={object} config={this.props.config} value={value} columns={columns} columnName={columnName}/></li>
             );
@@ -413,10 +412,10 @@ class ToolbarDefault extends React.Component {
     }
 
     render(){
-        let {columnKeys, config, columns } = this.props;
-        var Filter = config.filter;
+    	const {columnKeys, config, columns } = this.props;
+        const Filter = config.filter;
 
-        let filters = columnKeys.map((currentColumnKey) => {
+        const filters = columnKeys.map((currentColumnKey) => {
           let renderFilter = true;
           if(columns
             && columns[currentColumnKey]
@@ -424,7 +423,7 @@ class ToolbarDefault extends React.Component {
               renderFilter = false;
           }
           if(renderFilter){
-            var filter = columns[currentColumnKey] && columns[currentColumnKey].filter ? columns[currentColumnKey].filter : "";
+            const filter = columns[currentColumnKey] && columns[currentColumnKey].filter ? columns[currentColumnKey].filter : "";
             return(
                 <th key={currentColumnKey}>
                     <Filter config={config} column={currentColumnKey} query={filter} />
@@ -488,7 +487,7 @@ class Pager extends React.Component {
     }
 
     updatePagination(pageNumber){
-        var skipNumber = (pageNumber - 1)  * this.props.paging;
+        const skipNumber = (pageNumber - 1)  * this.props.paging;
         this.props.updatePagination({
             type: "change-page",
             skip: skipNumber
@@ -497,13 +496,13 @@ class Pager extends React.Component {
 
     render(){
 
-        var rest =  this.props.length % this.props.paging;
-        var numberOfPages = this.props.length / this.props.paging;
+        const rest =  this.props.length % this.props.paging;
+        let numberOfPages = this.props.length / this.props.paging;
         if(rest !== 0){
             numberOfPages = Math.floor(numberOfPages + 1);
         }
-        var skip = this.props.skip;
-        var activePageNumber = (this.props.skip / this.props.paging) + 1;
+        const skip = this.props.skip;
+        const activePageNumber = (this.props.skip / this.props.paging) + 1;
 
         return(
             <Pagination
