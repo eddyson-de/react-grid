@@ -335,7 +335,7 @@ class GridHeaderCell extends Component {
                 {label}
               </span>
               { sortable &&
-                <Button className={"sort-toggle-for-"+label} active={active} bsSize="xsmall" style={{marginLeft: '5px'}} onClick={this.sortChanged}>
+                <Button active={active} bsSize="xsmall" style={{marginLeft: '5px'}} onClick={this.sortChanged}>
                   <Glyphicon glyph={iconName}/>
                 </Button>
               }

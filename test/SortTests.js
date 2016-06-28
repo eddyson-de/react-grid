@@ -68,7 +68,7 @@ describe("Sorting tests",() => {
         expect(grid.find("tbody tr").at(1).find("td").at(0).text()).to.equal("C");
         expect(grid.find("tbody tr").at(2).find("td").at(0).text()).to.equal("A");
 
-        grid.find(".sort-toggle-for-name").first().simulate('click');
+        grid.find("button").first().simulate('click');
 
         expect(grid.find("tbody tr").at(0).find("td").at(0).text()).to.equal("A");
         expect(grid.find("tbody tr").at(1).find("td").at(0).text()).to.equal("B");
@@ -87,19 +87,19 @@ describe("Sorting tests",() => {
         expect(grid.find("tbody tr").at(1).find("td").at(0).text()).to.equal("C");
         expect(grid.find("tbody tr").at(2).find("td").at(0).text()).to.equal("A");
 
-        grid.find(".sort-toggle-for-name").first().simulate('click');
+        grid.find("button").first().simulate('click');
 
         expect(grid.find("tbody tr").at(0).find("td").at(0).text()).to.equal("A");
         expect(grid.find("tbody tr").at(1).find("td").at(0).text()).to.equal("B");
         expect(grid.find("tbody tr").at(2).find("td").at(0).text()).to.equal("C");
 
-        grid.find(".sort-toggle-for-name").first().simulate('click');
+        grid.find("button").first().simulate('click');
 
         expect(grid.find("tbody tr").at(0).find("td").at(0).text()).to.equal("C");
         expect(grid.find("tbody tr").at(1).find("td").at(0).text()).to.equal("B");
         expect(grid.find("tbody tr").at(2).find("td").at(0).text()).to.equal("A");
     });
-    
+
 
     it("Sort props should not override internal state if not changed", ()=> {
         let grid  = mount(<Grid
@@ -113,7 +113,7 @@ describe("Sorting tests",() => {
         expect(grid.find("tbody tr").at(1).find("td").at(0).text()).to.equal("C");
         expect(grid.find("tbody tr").at(2).find("td").at(0).text()).to.equal("A");
 
-        grid.find(".sort-toggle-for-name").first().simulate('click');
+        grid.find("button").first().simulate('click');
 
         expect(grid.find("tbody tr").at(0).find("td").at(0).text()).to.equal("A");
         expect(grid.find("tbody tr").at(1).find("td").at(0).text()).to.equal("B");
@@ -138,7 +138,7 @@ describe("Sorting tests",() => {
         expect(grid.find("tbody tr").at(1).find("td").at(0).text()).to.equal("C");
         expect(grid.find("tbody tr").at(2).find("td").at(0).text()).to.equal("A");
 
-        grid.find(".sort-toggle-for-name").first().simulate('click');
+        grid.find("button").first().simulate('click');
 
         expect(grid.find("tbody tr").at(0).find("td").at(0).text()).to.equal("A");
         expect(grid.find("tbody tr").at(1).find("td").at(0).text()).to.equal("B");
