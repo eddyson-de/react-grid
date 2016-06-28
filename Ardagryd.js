@@ -144,19 +144,19 @@ const Ardagryd = (props)=>{
         //Sort
 
     //default order
-    var order = sortConfigFromProp(props.sort).order;
 
-    var sortColumn = sortConfigFromProp(props.sort).columnName;
+
+    var { columnName, order } = sortConfigFromProp(props.sort);
 
     //check for sort configuration
 
   
-    if (sortColumn){
+    if (columnName){
             // TODO allow to pass in a custom sort and/or sortValueGetter function
 
             // temporary array holds objects with position and sort-value
             let mapped = objects.map(function(el, i) {
-              let value = el[sortColumn];
+              let value = el[columnName];
 
               if (typeof value == "string"){
                   value = value.toLowerCase();
