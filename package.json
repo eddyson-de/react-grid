@@ -55,6 +55,8 @@
       "faker": "^3.0.1",
       "node-libs-browser": "1.0.0",
       "react-dom": "^15.1.0",
-      "bootstrap": "3.3.6"
+      "bootstrap": "3.3.6",
+      "enzyme": "^2.3.0",
+      "chai": "^3.5.0"
   }
 }
