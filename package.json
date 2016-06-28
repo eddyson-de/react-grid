@@ -62,6 +62,7 @@
     "react-dom": "^15.1.0",
     "bootstrap": "3.3.6",
     "yargs": "^4.6.0",
-    "istanbul": "^1.1.0-alpha.1"
+    "istanbul": "^1.1.0-alpha.1",
+    "coveralls": "2.10.0"
   }
 }
