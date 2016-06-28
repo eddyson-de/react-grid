@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/eddyson-de/react-grid.svg?branch=master)](https://travis-ci.org/eddyson-de/react-grid)
+[![Coverage Status](https://coveralls.io/repos/github/eddyson-de/react-grid/badge.svg?branch=master)](https://coveralls.io/github/eddyson-de/react-grid?branch=master)
 
 # react-grid
 Customizable data grid for React.js
