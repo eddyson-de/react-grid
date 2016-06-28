@@ -1,8 +1,8 @@
 {
   "name": "eddyson-react-grid",
-  "version": "0.1.8",
+  "version": "0.2.0",
   "description": "Redux Compatible React Grid Component",
-  "main": "dist/Ardagryd.umd.js",
+  "main": "dist/Ardagryd.js",
   "files": [
     "dist",
     "Ardagryd.js",
