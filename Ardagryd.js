@@ -1,6 +1,10 @@
-import React from 'react'
-import { Input, Glyphicon, Button, FormControl, Table, Pagination } from 'react-bootstrap'
-import { elementType } from 'react-prop-types';
+import React, { Component, PropTypes } from 'react'
+import Glyphicon from 'react-bootstrap/lib/Glyphicon'
+import Button from 'react-bootstrap/lib/Button'
+import FormControl from 'react-bootstrap/lib/FormControl'
+import Table from 'react-bootstrap/lib/Table'
+import Pagination from 'react-bootstrap/lib/Pagination'
+import elementType from 'react-prop-types/lib/elementType';
 import merge from 'deepmerge'
 
 const ASCENDING = "asc";
@@ -60,15 +64,15 @@ const Ardagryd = (props)=>{
         const config = Object.assign({},defaultConfig,props.config);
 
         //Get components from config
-        var Grid = config.grid;
-        var GridHeader = config.header;
+        const Grid = config.grid;
+        const GridHeader = config.header;
 
-        var Toolbar = config.toolbar;
-        var GridBody = config.body;
-        var ColumnHeader = config.columnHeader;
+        const Toolbar = config.toolbar;
+        const GridBody = config.body;
+        const ColumnHeader = config.columnHeader;
 
         //Get custom column-configuration
-        var columnConfig = props.columns;
+        const columnConfig = props.columns;
 
         config.eventHandler = props.dispatch;
 
@@ -76,11 +80,11 @@ const Ardagryd = (props)=>{
         //Columns to show
         var columnKeys = [];
 
-        var idColumn = getOrCreateIdColumn(props.objects,columnConfig);
+        const idColumn = getOrCreateIdColumn(props.objects,columnConfig);
 
 
         //Filter objects based on supplied filter strings
-        var columnNamesWithFilter = [];
+        const columnNamesWithFilter = [];
         let filters = {};
         let filterConfig = filterConfigFromProp(props.filter);
         if (filterConfig){
@@ -131,8 +135,8 @@ const Ardagryd = (props)=>{
             }).sort((a,b) => {
                 const configForA = columnConfig[a];
                 const configForB = columnConfig[b];
-                let valueForA = configForA && configForA.order ? configForA.order : 1000;
-                let valueForB = configForB && configForB.order ? configForB.order : 1000;
+                const valueForA = configForA && configForA.order != null ? configForA.order : 1000;
+                const valueForB = configForB && configForB.order != null ? configForB.order : 1000;
                 return valueForA-valueForB;
             });
         }
@@ -182,19 +186,19 @@ const Ardagryd = (props)=>{
             objects.reverse();
         }
 
-        var tools;
+        let tools;
         if(config.showToolbar){
             tools = (<Toolbar config={config} columnKeys={columnKeys} columns={columnConfig} filter={filterConfig}/>)
         }
 
         let pagedObjects;
-        var paging = config.paging;
+        const paging = config.paging;
         if (paging){
             pagedObjects = objects.slice(props.skip, props.skip+paging);
         } else {
             pagedObjects = props.objects;
         }
-        var pager = () => {
+        const pager = () => {
             if(config.paging){
                 return(
                     <Pager length={objects.length} updatePagination={config.eventHandler} skip={props.skip} paging={config.paging} />
@@ -221,13 +225,12 @@ export default Ardagryd;
 const GridTable = (props) => <Table bordered hover>{props.children}</Table>;
 
 const GridBody=(props)=>{
-        var Row = props.config.row;
-        var Cell = props.config.cell;
-        var CellRenderer = props.config.cellRendererBase;
+        const Row = props.config.row;
+        const Cell = props.config.cell;
+        const CellRendererBase = props.config.cellRendererBase;
 
-        var rows = props.objects.map((curr) => {
-            let current = curr;
-            var cells = props.columnKeys.map((key) => {
+        const rows = props.objects.map((current) => {
+            const cells = props.columnKeys.map((key) => {
                 let configForColumn = props.columns[key];
                 let displayValueGetter = props.config.displayValueGetter;
                 if(configForColumn && configForColumn.displayValueGetter){
@@ -235,26 +238,28 @@ const GridBody=(props)=>{
                 }
                 const args = {columns:props.columns, columnName:key, config:props.config, value:current[key], object:current};
                 let value;
-                if (displayValueGetter.prototype.isReactComponent){
+                if (displayValueGetter.prototype instanceof Component){
                     value = React.createElement(displayValueGetter, args);
                 }else{
                     value = displayValueGetter(args);
                 }
-                if (value == null){
-                    return <Cell key={key} columnName={key}/>;
-                }
-                else if (typeof value === "string" || typeof value === "number" || typeof value === "boolean" || React.isValidElement(value)){
-                    return <Cell key={key} columnName={key}>{value}</Cell>;
+                let CellRenderer = CellRendererBase;
+                if(configForColumn && configForColumn.cellRenderer){
+                    CellRenderer = configForColumn.cellRenderer;
                 } else {
-                    if(configForColumn && configForColumn.cellRenderer){
-                        CellRenderer = configForColumn.cellRenderer;
+                    if (value == null){
+                        return <Cell key={key} columnName={key}/>;
                     }
-                    return (
-                        <Cell key={key} columnName={key}>
-                            <CellRenderer config={props.config} value={value} columns={props.columns} columnName={key} object={current}/>
-                        </Cell>
-                    );
+                    else if (typeof value === "string" || typeof value === "number" || typeof value === "boolean" || React.isValidElement(value)){
+                        return <Cell key={key} columnName={key}>{value}</Cell>;
+                    }
                 }
+
+                return (
+                    <Cell key={key} columnName={key}>
+                        <CellRenderer config={props.config} value={value} columns={props.columns} columnName={key} object={current}/>
+                    </Cell>
+                );
             });
 
             return(
@@ -274,10 +279,10 @@ const GridBody=(props)=>{
 const GridHeader = (props) => <thead>{props.children}</thead>;
 
 const GridColumnHeader = (props) => {
-        var GridHeaderCell = props.config.columnHeaderCell;
-        var columnConfig = props.columns;
-        var headerCells = props.columnKeys.map((currentKey, index) => {
-            var columnLabel = getLabel(currentKey, columnConfig);
+        const GridHeaderCell = props.config.columnHeaderCell;
+        const columnConfig = props.columns;
+        const headerCells = props.columnKeys.map((currentKey, index) => {
+            const columnLabel = getLabel(currentKey, columnConfig);
             const configForCurrentColumn = columnConfig[currentKey];
             const sortable = configForCurrentColumn && configForCurrentColumn.sortable === false ? false : true;
             let sort = false;
@@ -294,7 +299,7 @@ const GridColumnHeader = (props) => {
         return(<tr>{headerCells}</tr>)
 }
 
-class GridHeaderCell extends React.Component {
+class GridHeaderCell extends Component {
     constructor(props){
         super(props);
         this.sortChanged = this.sortChanged.bind(this);
@@ -341,17 +346,17 @@ class GridHeaderCell extends React.Component {
 }
 
 GridHeaderCell.propTypes = {
-    columnName: React.PropTypes.string.isRequired,
-    sort: React.PropTypes.oneOf([true, false, ASCENDING, DESCENDING]),
-    updateSort: React.PropTypes.func.isRequired,
-    sortable: React.PropTypes.bool
+    columnName: PropTypes.string.isRequired,
+    sort: PropTypes.oneOf([true, false, ASCENDING, DESCENDING]),
+    updateSort: PropTypes.func.isRequired,
+    sortable: PropTypes.bool
 };
 
 GridHeaderCell.defaultProps = {
     sortable: true
 }
 
-class GridRow extends React.Component {
+class GridRow extends Component {
 
     constructor(props){
         super(props);
@@ -377,12 +382,12 @@ class GridRow extends React.Component {
 const GridCell = (props) => <td>{props.children}</td>;
 
 const BaseCellRenderer = (props) =>{
-        let ObjCellRenderer = props.config.cellRendererObject;
-        let ArrCellRenderer = props.config.cellRendererArray;
-        var valueType = typeof props.value;
+        const ObjCellRenderer = props.config.cellRendererObject;
+        const ArrCellRenderer = props.config.cellRendererArray;
+        const valueType = typeof props.value;
 
-        var columns = props.columns;
-        var columnName = props.columnName;
+        const columns = props.columns;
+        const columnName = props.columnName;
 
         switch(valueType){
             case "object":
@@ -397,13 +402,13 @@ const BaseCellRenderer = (props) =>{
 
 }
 
-const ObjectCellRenderer =(props)=> {
-        let Renderer = props.config.cellRendererBase;
-        let columns =props.columns;
-        let columnName = props.columnName;
-        let object = props.object;
+const ObjectCellRenderer = (props)=> {
+        const Renderer = props.config.cellRendererBase;
+        const columns = props.columns;
+        const columnName = props.columnName;
+        const object = props.object;
 
-        var props = Object.keys(props.value).map((key) => {
+        const items = Object.keys(props.value).map((key) => {
             return(
                 [
                     <dt>{key}</dt>,
@@ -413,23 +418,23 @@ const ObjectCellRenderer =(props)=> {
         });
         return(
                 <dl>
-                    {props}
+                    {items}
                 </dl>
         )
 }
 
-class ArrayCellRenderer extends React.Component {
+class ArrayCellRenderer extends Component {
     constructor(p){
         super(p);
     }
     render(){
-        let Renderer = this.props.config.cellRendererBase;
-        var columns = this.props.columns;
-        var columnName = this.props.columnName;
-        var object = this.props.object;
+    	const Renderer = this.props.config.cellRendererBase;
+        const columns = this.props.columns;
+        const columnName = this.props.columnName;
+        const object = this.props.object;
 
 
-        var elements = this.props.value.map((value, i) => {
+        const elements = this.props.value.map((value, i) => {
             return (
                 <li key={i}><Renderer object={object} config={this.props.config} value={value} columns={columns} columnName={columnName}/></li>
             );
@@ -443,16 +448,16 @@ class ArrayCellRenderer extends React.Component {
     }
 }
 
-class ToolbarDefault extends React.Component {
+class ToolbarDefault extends Component {
     constructor(props) {
         super(props);
     }
 
     render(){
-        let {columnKeys, config, columns, filter } = this.props;
-        var Filter = config.filter;
+        const {columnKeys, config, columns, filter } = this.props;
+        const Filter = config.filter;
 
-        let filters = columnKeys.map((currentColumnKey) => {
+        const filters = columnKeys.map((currentColumnKey) => {
           let renderFilter = true;
           if(columns
             && columns[currentColumnKey]
@@ -460,9 +465,8 @@ class ToolbarDefault extends React.Component {
               renderFilter = false;
           }
           if(renderFilter){
-              let filterObject = filter.filter((obj) => obj.columnName === currentColumnKey)[0];
-
-            var query = filterObject ? filterObject.expression : "";
+            const filterObject = filter.filter((obj) => obj.columnName === currentColumnKey)[0];
+            const query = filterObject ? filterObject.expression : "";
             return(
                 <th key={currentColumnKey}>
                     <Filter config={config} column={currentColumnKey} query={query} />
@@ -479,7 +483,7 @@ class ToolbarDefault extends React.Component {
     }
 }
 
-class Filter extends React.Component {
+class Filter extends Component {
 
     constructor(props){
         super(props);
@@ -498,7 +502,6 @@ class Filter extends React.Component {
         this.setState({filterValue: event.target.value});
         if (this.timeout){
             window.clearTimeout(this.timeout);
-            console.info("clear timeout");
             this.timeout = null
         }
         this.timeout = window.setTimeout(()=>{
@@ -520,14 +523,14 @@ class Filter extends React.Component {
     }
 };
 
-class Pager extends React.Component {
+class Pager extends Component {
     constructor(props){
         super(props);
         this.updatePagination = this.updatePagination.bind(this);
     }
 
     updatePagination(pageNumber){
-        var skipNumber = (pageNumber - 1)  * this.props.paging;
+        const skipNumber = (pageNumber - 1)  * this.props.paging;
         this.props.updatePagination({
             type: "change-page",
             skip: skipNumber
@@ -536,13 +539,13 @@ class Pager extends React.Component {
 
     render(){
 
-        var rest =  this.props.length % this.props.paging;
-        var numberOfPages = this.props.length / this.props.paging;
+        const rest =  this.props.length % this.props.paging;
+        let numberOfPages = this.props.length / this.props.paging;
         if(rest !== 0){
             numberOfPages = Math.floor(numberOfPages + 1);
         }
-        var skip = this.props.skip;
-        var activePageNumber = (this.props.skip / this.props.paging) + 1;
+        const skip = this.props.skip;
+        const activePageNumber = (this.props.skip / this.props.paging) + 1;
 
         return(
             <Pagination
@@ -558,10 +561,10 @@ class Pager extends React.Component {
 }
 
 Pager.propTypes = {
-  length : React.PropTypes.number.isRequired,
-  paging : React.PropTypes.number.isRequired,
-  skip : React.PropTypes.number.isRequired,
-  updatePagination : React.PropTypes.func.isRequired
+  length : PropTypes.number.isRequired,
+  paging : PropTypes.number.isRequired,
+  skip : PropTypes.number.isRequired,
+  updatePagination : PropTypes.func.isRequired
 };
 
 const defaultConfig = {
@@ -603,27 +606,27 @@ const sortConfig = React.PropTypes.shape({
 });
 
 Ardagryd.propTypes = {
-    objects: React.PropTypes.arrayOf(React.PropTypes.object),
-    config: React.PropTypes.object.isRequired,
-    columns: React.PropTypes.objectOf(React.PropTypes.shape({
-      displayValueGetter: React.PropTypes.func,
-      id: React.PropTypes.bool,
-      label: React.PropTypes.string,
-      order: React.PropTypes.number,
-      hideTools: React.PropTypes.bool,
-      sortable: React.PropTypes.bool,
+    objects: PropTypes.arrayOf(PropTypes.object),
+    config: PropTypes.object.isRequired,
+    columns: PropTypes.objectOf(PropTypes.shape({
+      displayValueGetter: PropTypes.func,
+      id: PropTypes.bool,
+      label: PropTypes.string,
+      order: PropTypes.number,
+      hideTools: PropTypes.bool,
+      sortable: PropTypes.bool,
       cellRenderer: elementType,
-      filter: React.PropTypes.string
+      filter: PropTypes.string
     })).isRequired,
-    dispatch: React.PropTypes.func.isRequired,
-    sort: React.PropTypes.oneOfType([
-        React.PropTypes.string,
+    dispatch: PropTypes.func.isRequired,
+    sort: PropTypes.oneOfType([
+        PropTypes.string,
         sortConfig,
-        React.PropTypes.arrayOf(sortConfig)
+        PropTypes.arrayOf(sortConfig)
     ]),
-    filter: React.PropTypes.oneOfType([
+    filter: PropTypes.oneOfType([
         filterConfig,
-        React.PropTypes.arrayOf(filterConfig)])
+        PropTypes.arrayOf(filterConfig)])
 };
 
 //Find id-column, or enhance objects with ids
@@ -656,7 +659,7 @@ function getLabel(columnKey, columnConfig){
     && columnConfig[columnKey].label ? columnConfig[columnKey].label : columnKey;
 }
 
-export class Grid extends React.Component {
+export class Grid extends Component {
 
     constructor(props){
         super(props);
@@ -719,9 +722,9 @@ export class Grid extends React.Component {
 }
 
 Grid.PropTypes = {
-    objects: React.PropTypes.array.isRequired,
-    config: React.PropTypes.object.isRequired,
-    columns: React.PropTypes.object.isRequired
+    objects: PropTypes.array.isRequired,
+    config: PropTypes.object.isRequired,
+    columns: PropTypes.object.isRequired
 };
 
 Grid.defaultProps = {

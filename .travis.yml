@@ -1,6 +1,8 @@
 language: node_js
 node_js:
 - node
+script: npm run cover
+after_script: "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
 deploy:
   provider: npm
   skip_cleanup: true

@@ -280,6 +280,41 @@ describe('Grid render tests', function(){
 
   });
   
+  it('Should be possible to override the cell renderer per column', function (){
+
+    let grid = TestUtils.renderIntoDocument(
+      <Grid objects={data} columns={{
+        name: {
+          order: 0,
+          cellRenderer: ({object: {name, email}})=><a href={`mailto:${email}`}>{name}</a>
+        }
+        }} config={{}}/>
+    );
+
+    let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
+    let tbodyDOM = ReactDOM.findDOMNode(tbody);
+
+    should(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.exactly('<a href="mailto:Emilian20@yahoo.com">Nike Floder</a>');
+  });
+  
+  it('Should use the cell renderer also if displayValueGetter returns null', function (){
+
+    let grid = TestUtils.renderIntoDocument(
+      <Grid objects={data} columns={{
+        name: {
+          order: 0,
+          displayValueGetter: ()=>null,
+          cellRenderer: ({object: {name, email}})=><a href={`mailto:${email}`}>{name}</a>
+        }
+        }} config={{}}/>
+    );
+
+    let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
+    let tbodyDOM = ReactDOM.findDOMNode(tbody);
+
+    should(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.exactly('<a href="mailto:Emilian20@yahoo.com">Nike Floder</a>');
+  });
+  
   it('Should be possible to override the displayValueGetter per column', function (){
 
     let grid = TestUtils.renderIntoDocument(
@@ -435,6 +470,52 @@ describe('Grid render tests', function(){
     should(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.exactly('<span class="custom">John Doe</span>');
   });
   
+  it('Can use a bound function as displayValueGetter', function (){
+    
+    class Renderer extends React.Component {
+      
+      constructor(props){
+        super(props);
+      }
+      
+      render(){
+        return <span className="custom">{this.props.value}</span>;
+      }
+      
+    }
+    
+    class Foo extends React.Component {
+      
+      constructor(props){
+        super(props);
+        this.createRenderer = this.createRenderer.bind(this);
+      }
+      
+      createRenderer({value}){
+        return <Renderer value={value} />;
+      }
+      
+      render(){
+        return <Grid objects={[{name: "John Doe"}]} columns={{
+          name: {
+            order: 0,
+            displayValueGetter: this.createRenderer
+          }
+          }} config={{}}/>;
+      }
+      
+    }
+    
+    let grid = TestUtils.renderIntoDocument(
+      <Foo />
+    );
+
+    let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
+    let tbodyDOM = ReactDOM.findDOMNode(tbody);
+
+    should(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.exactly('<span class="custom">John Doe</span>');
+  });
+  
   it('Should not jump to the first page if the props don\'t change', function (){
     let people = [{"name": "John"}, {"name": "Jack"}];
     let [container, instance] = renderInContainer(Grid, { objects: people, columns: {}, config: {paging: 1} });
@@ -452,4 +533,23 @@ describe('Grid render tests', function(){
     should(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.exactly("Jack");
   });
 
+  it('Should order columns with order 0 before columns with order 1', function (){
+
+    let grid = TestUtils.renderIntoDocument(
+      <Grid objects={[{"first": "John", "last": "Doe"}]} columns={{
+        first: {
+          order: 0
+        },
+        last: {
+          order: 1
+        }
+        }} config={{}}/>
+    );
+
+    let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
+    let tbodyDOM = ReactDOM.findDOMNode(tbody);
+
+    should(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.exactly('John');
+  });
+  
 });

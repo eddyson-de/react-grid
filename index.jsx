@@ -3,7 +3,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Grid} from './Ardagryd';
 import data from './testData'
-import 'react-select/dist/react-select.css';
 
 
 export class App extends React.Component {
