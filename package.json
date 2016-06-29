@@ -6,6 +6,7 @@
   "files": [
     "dist",
     "Ardagryd.js",
+    "lib",
     "README",
     "LICENSE"
   ],
