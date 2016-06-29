@@ -150,4 +150,15 @@ describe("Sorting tests",() => {
         expect(grid.find("tbody tr").at(1).find("td").at(0).text()).to.equal("B");
         expect(grid.find("tbody tr").at(2).find("td").at(0).text()).to.equal("A");
     });
+
+    it("Should sort properly if a property is missing from an item.", ()=> {
+        let grid  = mount(<Grid
+            objects={[
+                {name: "Foo", color: "blue"},
+                {name: "Bar"}]}
+            sort={"color"}/>);
+
+        expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("Foo");
+        expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal("Bar");
+    });
 });
