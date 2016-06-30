@@ -246,4 +246,21 @@ describe('Grid filter tests', function () {
         expect(grid.find("tbody").children().length).be.equal(2);
     });
 
+    it('Should use more than one filter expression', ()=>{
+        let grid = mount(<Grid objects={[{name: "aa", email: "aa@www.com"}, {name: "ab",email:"adsf@adsf.de"}, {name: "ccb",email:"adsf@ajgj.de"}]} filter={[{columnName: "name", expression: "a"}]} />);
+        expect(grid.find("tbody").children().length).be.equal(2);
+
+        grid.setProps({filter: [{columnName: "name", expression: "a"},{columnName: "email", expression: ".com"}]});
+
+        expect(grid.find("tbody").children().length).be.equal(1);
+    });
+
+    it('Filter should not be ignored on missing property', ()=>{
+        let grid = mount(<Grid objects={[{name: "aa", email: "aa@www.com"}, {name: "ab"}, {name: "ccb"}]} filter={[{columnName: "name", expression: "a"}]} />);
+        expect(grid.find("tbody").children().length).be.equal(2);
+
+        grid.setProps({filter: [{columnName: "name", expression: "a"},{columnName: "email", expression: ".com"}]});
+
+        expect(grid.find("tbody").children().length).be.equal(1);
+    });
 });
