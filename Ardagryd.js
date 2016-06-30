@@ -1,5 +1,5 @@
-import Grid from './lib/Grid'
-import Ardagryd from './lib/Ardagryd'
+import Grid from './lib/Grid';
+import Ardagryd from './lib/Ardagryd';
 
-export default Ardagryd
+export default Ardagryd;
 export { Grid };
