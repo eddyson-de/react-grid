@@ -225,7 +225,6 @@ describe('Grid render tests', function(){
     let grid = TestUtils.renderIntoDocument(
       <Grid objects={data} columns={{
       name: {
-        sort: true,
         displayValueGetter: ({value, object, columns}) => <span>{value}</span>
       }}} config={{}}/>
     );
