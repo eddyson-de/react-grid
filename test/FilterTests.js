@@ -191,8 +191,16 @@ describe('Grid filter tests', function () {
         expect(grid.find("tbody").children().length).be.equal(2);
     });
 
-    //TODO: trigger change event on input element and check event propagation
-    it('Component should react to filter change via Filter input element');
+    it('Component should react to filter change via Filter input element', function() {
+
+      let grid = mount(
+          <Grid objects={data} columns={{}} config={{}}/>
+      );
+      grid.find('input').first().simulate('change', {target: {value: 'ie'}});
+      setTimeout(function () {
+          expect(grid.find("tbody").children().length).be.equal(2);
+      }, 500);
+    });
 
 
     it('Component should react to filter change via props', function () {
