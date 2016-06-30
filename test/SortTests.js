@@ -169,4 +169,25 @@ describe("Sorting tests",() => {
         expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal("Foo");
         expect(grid.find("tbody tr").at(2).find("td").first().text()).to.equal("Baz");
     });
+
+    it("Should use custom sortValueGetter", () => {
+        let grid = mount(<Grid objects={[
+        {name: "Z"},
+        {name: "A"}
+        ]} columns={{id: {show: false}}}/>);
+
+        expect(grid.find("tbody tr").find("td").first().text()).to.equal("Z");
+        expect(grid.find("tbody tr").find("td").last().text()).to.equal("A");
+
+        grid.setProps({sort: "name"});
+
+        expect(grid.find("tbody tr").find("td").first().text()).to.equal("A");
+        expect(grid.find("tbody tr").find("td").last().text()).to.equal("Z");
+
+        grid.setProps({columns: {id: {show: false},
+                        name: {sortValueGetter: ({value}) => value == "Z" ? "A" : "Z"}}});
+
+        expect(grid.find("tbody tr").find("td").first().text()).to.equal("Z");
+        expect(grid.find("tbody tr").find("td").last().text()).to.equal("A");
+    });
 });

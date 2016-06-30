@@ -234,8 +234,16 @@ describe('Grid filter tests', function () {
 
         grid.setProps({filter: {columnName: "name", expression: "ie"}});
 
-        expect(grid.find("tbody").children().length).be.equal(8);
+        expect(grid.find("tbody").children().length).be.equal(8)
     });
 
+    it('Should use custom filterFunction', ()=>{
+       let grid = mount(<Grid objects={[{name: "a"}, {name: "b"}]} filter={[{columnName: "name", expression: "a"}]} />);
+        expect(grid.find("tbody").children().length).be.equal(1);
+
+        grid.setProps({columns:{name:{filterFunction: ({value}) => true}}});
+
+        expect(grid.find("tbody").children().length).be.equal(2);
+    });
 
 });
