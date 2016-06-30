@@ -65,6 +65,8 @@
     "istanbul": "^1.1.0-alpha.1",
     "coveralls": "2.11.9",
     "enzyme": "^2.3.0",
-    "chai": "^3.5.0"
+    "chai": "^3.5.0",
+    "eslint": "^2.13.1",
+    "eslint-plugin-react": "^5.2.2"
   }
 }
