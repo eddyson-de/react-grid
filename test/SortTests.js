@@ -155,10 +155,18 @@ describe("Sorting tests",() => {
         let grid  = mount(<Grid
             objects={[
                 {name: "Foo", color: "blue"},
-                {name: "Bar"}]}
+                {name: "Bar", color: "yellow"},
+                {name: "Baz"}]}
             sort={"color"}/>);
 
-        expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("Foo");
-        expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal("Bar");
+        expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("Baz");
+        expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal("Foo");
+        expect(grid.find("tbody tr").at(2).find("td").first().text()).to.equal("Bar");
+
+        grid.setProps({sort:{columnName: "color", order: "desc"}});
+
+        expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("Bar");
+        expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal("Foo");
+        expect(grid.find("tbody tr").at(2).find("td").first().text()).to.equal("Baz");
     });
 });
