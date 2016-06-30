@@ -12,11 +12,12 @@
   ],
   "repository": "https://github.com/eddyson-de/react-grid",
   "scripts": {
-    "prepublish": "webpack && webpack -p",
+    "prepublish": "eslint Ardagryd.js lib && webpack && webpack -p",
     "dev": "webpack-dev-server --progress --profile --colors --hot",
     "test": "mocha --compilers js:babel-core/register --recursive --require ./test/setup.js",
     "testw": "mocha --compilers js:babel-core/register --recursive --watch --require ./test/setup.js",
-    "cover": "babel-node node_modules/istanbul/lib/cli cover node_modules/mocha/bin/_mocha -- --recursive --require ./test/setup.js"
+    "cover": "babel-node node_modules/istanbul/lib/cli cover node_modules/mocha/bin/_mocha -- --recursive --require ./test/setup.js",
+    "eslint": "eslint Ardagryd.js lib"
   },
   "keywords": [
     "React",

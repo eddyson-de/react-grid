@@ -33,6 +33,8 @@
         "semi": [
             "warn",
             "always"
-        ]
+        ],
+        "react/display-name" : "warn",
+        "react/prop-types" : "warn"
     }
 }
