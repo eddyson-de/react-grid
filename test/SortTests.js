@@ -54,8 +54,8 @@ describe("Sorting tests",() => {
         expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal("Baz");
         expect(grid.find("tbody tr").at(2).find("td").first().text()).to.equal("Bar");
     });
-    
-    
+
+
     it("Click on name column sort button should sort by name property in ascending order.", ()=> {
         let grid  = mount(<Grid
             objects={[
@@ -63,7 +63,7 @@ describe("Sorting tests",() => {
                 {name: "C", nr: 2},
                 {name: "A", nr: 3}]}
             sort={{columnName: "nr", order: "asc"}} columns={{id: {show:false}}}/>);
-        
+
         expect(grid.find("tbody tr").at(0).find("td").at(0).text()).to.equal("B");
         expect(grid.find("tbody tr").at(1).find("td").at(0).text()).to.equal("C");
         expect(grid.find("tbody tr").at(2).find("td").at(0).text()).to.equal("A");
@@ -179,15 +179,19 @@ describe("Sorting tests",() => {
         expect(grid.find("tbody tr").find("td").first().text()).to.equal("Z");
         expect(grid.find("tbody tr").find("td").last().text()).to.equal("A");
 
+        expect(grid.find("th button span").first().html()).to.equal('<span class="glyphicon glyphicon-sort"></span>');
+
         grid.setProps({sort: "name"});
 
         expect(grid.find("tbody tr").find("td").first().text()).to.equal("A");
         expect(grid.find("tbody tr").find("td").last().text()).to.equal("Z");
+        expect(grid.find("th button span").first().html()).to.equal('<span class="glyphicon glyphicon-sort-by-attributes"></span>');
 
         grid.setProps({columns: {id: {show: false},
                         name: {sortValueGetter: ({value}) => value == "Z" ? "A" : "Z"}}});
 
         expect(grid.find("tbody tr").find("td").first().text()).to.equal("Z");
         expect(grid.find("tbody tr").find("td").last().text()).to.equal("A");
+        expect(grid.find("th button span").first().html()).to.equal('<span class="glyphicon glyphicon-sort-by-attributes"></span>');
     });
 });
