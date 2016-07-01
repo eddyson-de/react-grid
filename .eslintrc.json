@@ -33,7 +33,6 @@
         "semi": [
             "warn",
             "always"
-        ],
-        "react/prop-types" : "warn"
+        ]
     }
 }
