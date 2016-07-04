@@ -3,7 +3,6 @@ import TestUtils      from 'react-addons-test-utils';
 import console        from 'console';
 import { Grid } from '../Ardagryd';
 import ReactDOM from 'react-dom'
-import should from 'should'
 import { expect } from 'chai'
 import { mount, render } from 'enzyme'
 
@@ -234,7 +233,7 @@ describe('Grid render tests', function(){
     let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
     let tbodyDOM = ReactDOM.findDOMNode(tbody);
 
-    should(tbodyDOM.childNodes.length).be.exactly(8);
+    expect(tbodyDOM.childNodes.length).be.equal(8);
   });
 
   it('Should have 8 columns by default', function (){
@@ -248,7 +247,7 @@ describe('Grid render tests', function(){
     let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
     let tbodyDOM = ReactDOM.findDOMNode(tbody);
 
-    should(tbodyDOM.childNodes[0].childNodes.length).be.exactly(8);
+    expect(tbodyDOM.childNodes[0].childNodes.length).be.equal(8);
   });
 
   it('Should hide 2 columns', function (){
@@ -264,7 +263,7 @@ describe('Grid render tests', function(){
     let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
     let tbodyDOM = ReactDOM.findDOMNode(tbody);
 
-    should(tbodyDOM.childNodes[0].childNodes.length).be.exactly(6);
+    expect(tbodyDOM.childNodes[0].childNodes.length).be.equal(6);
   });
 
   it('Should react to changing properties', function (){
@@ -274,11 +273,11 @@ describe('Grid render tests', function(){
     let tbody = TestUtils.scryRenderedDOMComponentsWithTag(instance, "tbody")[0];
     let tbodyDOM = ReactDOM.findDOMNode(tbody);
 
-    should(tbodyDOM.childNodes.length).be.exactly(0);
+    expect(tbodyDOM.childNodes.length).be.equal(0);
 
     container.setState({objects:data, columns:{name: { show: true }}});
-    should(tbodyDOM.childNodes.length).be.exactly(8);
-    should(tbodyDOM.childNodes[0].childNodes.length).be.exactly(1);
+    expect(tbodyDOM.childNodes.length).be.equal(8);
+    expect(tbodyDOM.childNodes[0].childNodes.length).be.equal(1);
 
   });
   
@@ -296,7 +295,7 @@ describe('Grid render tests', function(){
     let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
     let tbodyDOM = ReactDOM.findDOMNode(tbody);
 
-    should(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.exactly('<a href="mailto:Emilian20@yahoo.com">Nike Floder</a>');
+    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal('<a href="mailto:Emilian20@yahoo.com">Nike Floder</a>');
   });
   
   it('Should use the cell renderer also if displayValueGetter returns null', function (){
@@ -314,7 +313,7 @@ describe('Grid render tests', function(){
     let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
     let tbodyDOM = ReactDOM.findDOMNode(tbody);
 
-    should(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.exactly('<a href="mailto:Emilian20@yahoo.com">Nike Floder</a>');
+    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal('<a href="mailto:Emilian20@yahoo.com">Nike Floder</a>');
   });
   
   it('Should be possible to override the displayValueGetter per column', function (){
@@ -331,7 +330,7 @@ describe('Grid render tests', function(){
     let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
     let tbodyDOM = ReactDOM.findDOMNode(tbody);
 
-    should(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.exactly("John Doe");
+    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal("John Doe");
   });
   
   it('Should be possible to override global displayValueGetter', function (){
@@ -349,7 +348,7 @@ describe('Grid render tests', function(){
     let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
     let tbodyDOM = ReactDOM.findDOMNode(tbody);
 
-    should(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.exactly("This is the name");
+    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal("This is the name");
   });
   
   it('Should be possible to override the global displayValueGetter with a per-column configuration', function (){
@@ -368,7 +367,7 @@ describe('Grid render tests', function(){
     let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
     let tbodyDOM = ReactDOM.findDOMNode(tbody);
 
-    should(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.exactly("Robert Paulson");
+    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal("Robert Paulson");
   });
   
   //TODO this is deprecated!
@@ -386,7 +385,7 @@ describe('Grid render tests', function(){
     let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
     let tbodyDOM = ReactDOM.findDOMNode(tbody);
 
-    should(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.exactly('<span>"John Doe"</span>');
+    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal('<span>"John Doe"</span>');
   });
   
   it('Should render an array value', function (){
@@ -401,7 +400,7 @@ describe('Grid render tests', function(){
     let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
     let tbodyDOM = ReactDOM.findDOMNode(tbody);
 
-    should(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.exactly("<ul><li><span>Dude</span></li><li><span>Johnny</span></li></ul>");
+    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal("<ul><li><span>Dude</span></li><li><span>Johnny</span></li></ul>");
   });
   
   it('Can dynamically add an array-typed column', function (){
@@ -422,7 +421,7 @@ describe('Grid render tests', function(){
     let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
     let tbodyDOM = ReactDOM.findDOMNode(tbody);
 
-    should(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.exactly("<ul><li><span>Dude</span></li><li><span>Johnny</span></li></ul>");
+    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal("<ul><li><span>Dude</span></li><li><span>Johnny</span></li></ul>");
   });
   
   it('Can override the displayValueGetter for an array-typed column', function (){
@@ -439,7 +438,7 @@ describe('Grid render tests', function(){
     let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
     let tbodyDOM = ReactDOM.findDOMNode(tbody);
 
-    should(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.exactly("Dude or Johnny");
+    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal("Dude or Johnny");
   });
 
   
@@ -469,7 +468,7 @@ describe('Grid render tests', function(){
     let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
     let tbodyDOM = ReactDOM.findDOMNode(tbody);
 
-    should(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.exactly('<span class="custom">John Doe</span>');
+    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal('<span class="custom">John Doe</span>');
   });
   
   it('Can use a bound function as displayValueGetter', function (){
@@ -515,7 +514,7 @@ describe('Grid render tests', function(){
     let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
     let tbodyDOM = ReactDOM.findDOMNode(tbody);
 
-    should(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.exactly('<span class="custom">John Doe</span>');
+    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal('<span class="custom">John Doe</span>');
   });
   
   it('Should not jump to the first page if the props don\'t change', function (){
@@ -525,14 +524,14 @@ describe('Grid render tests', function(){
     let tbody = TestUtils.scryRenderedDOMComponentsWithTag(instance, "tbody")[0];
     let tbodyDOM = ReactDOM.findDOMNode(tbody);
 
-    should(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.exactly("John");
+    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal("John");
     let linkToPage2 = TestUtils.scryRenderedDOMComponentsWithTag(instance, "a")[2];
     Simulate.click(linkToPage2);
-    should(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.exactly("Jack");
-    should(linkToPage2.parentNode.className).be.exactly("active");
+    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal("Jack");
+    expect(linkToPage2.parentNode.className).be.equal("active");
     container.setState({objects: people});
-    should(linkToPage2.parentNode.className).be.exactly("active");
-    should(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.exactly("Jack");
+    expect(linkToPage2.parentNode.className).be.equal("active");
+    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal("Jack");
   });
 
   it('Should order columns with order 0 before columns with order 1', function (){
@@ -551,7 +550,7 @@ describe('Grid render tests', function(){
     let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
     let tbodyDOM = ReactDOM.findDOMNode(tbody);
 
-    should(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.exactly('John');
+    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal('John');
   });
   
   it('Should be possible to hide the tools for a column', ()=>{
