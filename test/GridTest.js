@@ -2,12 +2,8 @@ import React          from 'react';
 import TestUtils      from 'react-addons-test-utils';
 import console        from 'console';
 import { Grid } from '../Ardagryd';
-import ReactDOM from 'react-dom'
 import { expect } from 'chai'
 import { mount, render } from 'enzyme'
-
-
-let Simulate = TestUtils.Simulate;
 
 let data = [{
   "name": "Nike Floder",
@@ -179,80 +175,33 @@ let data = [{
   }
 }];
 
-/**
- * Renders a component inside of a container
- *
- * @param {React.Component} component The component to test
- * @param {Object} componentProps={}  The default props to set on the component
- * @return {Array} The container component as the first item, the component to test as the second item
- */
-function renderInContainer(component, componentProps={}) {
-
-  class PropChangeContainer extends React.Component {
-
-    constructor(props) {
-
-      super(props);
-
-      // set the state of the container from it's props (which will be the default
-      // componentProps) passed to the function
-      this.state = props;
-
-    }
-
-    render() {
-
-      // render the component within the container and pass the container state
-      // as the component's initial props
-      return React.createElement(component, this.state);
-
-    }
-
-  }
-
-  // get both the container and component instances and return them
-  let container = TestUtils.renderIntoDocument(<PropChangeContainer {...componentProps} />);
-  let instance = TestUtils.findRenderedComponentWithType(container, component);
-
-  return [
-    container,
-    instance
-  ];
-
-}
-
 describe('Grid render tests', function(){
 
   it('Should render Grid with 8 rows', function(){
-    let grid = TestUtils.renderIntoDocument(
+    let grid = render(
       <Grid objects={data} columns={{
       name: {
         displayValueGetter: ({value, object, columns}) => <span>{value}</span>
       }}} config={{}}/>
     );
-    let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
-    let tbodyDOM = ReactDOM.findDOMNode(tbody);
 
-    expect(tbodyDOM.childNodes.length).be.equal(8);
+    expect(grid.find("tbody").children().length).be.equal(8);
   });
 
   it('Should have 8 columns by default', function (){
 
-    let grid = TestUtils.renderIntoDocument(
+    let grid = render(
       <Grid objects={data} columns={{
       name: {
       }}} config={{}}/>
     );
 
-    let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
-    let tbodyDOM = ReactDOM.findDOMNode(tbody);
-
-    expect(tbodyDOM.childNodes[0].childNodes.length).be.equal(8);
+    expect(grid.find("tbody").children().length).be.equal(8);
   });
 
   it('Should hide 2 columns', function (){
 
-    let grid = TestUtils.renderIntoDocument(
+    let grid = render(
       <Grid objects={data} columns={{
       name: {
         show: false
@@ -260,30 +209,24 @@ describe('Grid render tests', function(){
       id:{show: false}}} config={{}}/>
     );
 
-    let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
-    let tbodyDOM = ReactDOM.findDOMNode(tbody);
-
-    expect(tbodyDOM.childNodes[0].childNodes.length).be.equal(6);
+    expect(grid.find("tbody tr").first().children().length).be.equal(6);
   });
 
   it('Should react to changing properties', function (){
 
-    let [container, instance] = renderInContainer(Grid, { objects: [], columns: {}, config: {showColumnsWithoutConfig: false} });
+    let instance = mount(<Grid objects={[]} columns={{}} config={{showColumnsWithoutConfig: false}} />);
 
-    let tbody = TestUtils.scryRenderedDOMComponentsWithTag(instance, "tbody")[0];
-    let tbodyDOM = ReactDOM.findDOMNode(tbody);
+    expect(instance.find("tbody").children().length).be.equal(0);
 
-    expect(tbodyDOM.childNodes.length).be.equal(0);
-
-    container.setState({objects:data, columns:{name: { show: true }}});
-    expect(tbodyDOM.childNodes.length).be.equal(8);
-    expect(tbodyDOM.childNodes[0].childNodes.length).be.equal(1);
+    instance.setProps({objects:data, columns:{name: { show: true }}});
+    expect(instance.find("tbody tr").length).be.equal(8);
+    expect(instance.find("tbody tr").at(0).find("td").length).be.equal(1);
 
   });
   
   it('Should be possible to override the cell renderer per column', function (){
 
-    let grid = TestUtils.renderIntoDocument(
+    let grid = render(
       <Grid objects={data} columns={{
         name: {
           order: 0,
@@ -292,15 +235,12 @@ describe('Grid render tests', function(){
         }} config={{}}/>
     );
 
-    let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
-    let tbodyDOM = ReactDOM.findDOMNode(tbody);
-
-    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal('<a href="mailto:Emilian20@yahoo.com">Nike Floder</a>');
+    expect(grid.find("td").html()).be.equal('<a href="mailto:Emilian20@yahoo.com">Nike Floder</a>');
   });
   
   it('Should use the cell renderer also if displayValueGetter returns null', function (){
 
-    let grid = TestUtils.renderIntoDocument(
+    let grid = render(
       <Grid objects={data} columns={{
         name: {
           order: 0,
@@ -310,15 +250,12 @@ describe('Grid render tests', function(){
         }} config={{}}/>
     );
 
-    let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
-    let tbodyDOM = ReactDOM.findDOMNode(tbody);
-
-    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal('<a href="mailto:Emilian20@yahoo.com">Nike Floder</a>');
+    expect(grid.find("td").html()).be.equal('<a href="mailto:Emilian20@yahoo.com">Nike Floder</a>');
   });
   
   it('Should be possible to override the displayValueGetter per column', function (){
 
-    let grid = TestUtils.renderIntoDocument(
+    let grid = render(
       <Grid objects={data} columns={{
         name: {
           order: 0,
@@ -327,15 +264,12 @@ describe('Grid render tests', function(){
         }} config={{}}/>
     );
 
-    let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
-    let tbodyDOM = ReactDOM.findDOMNode(tbody);
-
-    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal("John Doe");
+    expect(grid.find("td").html()).be.equal("John Doe");
   });
   
   it('Should be possible to override global displayValueGetter', function (){
 
-    let grid = TestUtils.renderIntoDocument(
+    let grid = render(
       <Grid objects={data} columns={{
         name: {
           order: 0
@@ -345,15 +279,12 @@ describe('Grid render tests', function(){
         }}/>
     );
 
-    let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
-    let tbodyDOM = ReactDOM.findDOMNode(tbody);
-
-    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal("This is the name");
+    expect(grid.find("td").html()).be.equal("This is the name");
   });
   
   it('Should be possible to override the global displayValueGetter with a per-column configuration', function (){
 
-    let grid = TestUtils.renderIntoDocument(
+    let grid = render(
       <Grid objects={data} columns={{
         name: {
           order: 0,
@@ -364,16 +295,13 @@ describe('Grid render tests', function(){
         }}/>
     );
 
-    let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
-    let tbodyDOM = ReactDOM.findDOMNode(tbody);
-
-    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal("Robert Paulson");
+    expect(grid.find("td").html()).be.equal("Robert Paulson");
   });
   
   //TODO this is deprecated!
   it('Should be possible to return an element from the displayValueGetter', function (){
 
-    let grid = TestUtils.renderIntoDocument(
+    let grid = render(
       <Grid objects={data} columns={{
         name: {
           order: 0,
@@ -382,30 +310,24 @@ describe('Grid render tests', function(){
         }} config={{}}/>
     );
 
-    let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
-    let tbodyDOM = ReactDOM.findDOMNode(tbody);
-
-    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal('<span>"John Doe"</span>');
+    expect(grid.find("td").html()).be.equal('<span>&quot;John Doe&quot;</span>');
   });
   
   it('Should render an array value', function (){
 
-    let grid = TestUtils.renderIntoDocument(
+    let grid = render(
       <Grid objects={[{nickNames: ["Dude", "Johnny"]}]} columns={{
         nickNames: {
           order: 0}
         }} config={{}}/>
     );
 
-    let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
-    let tbodyDOM = ReactDOM.findDOMNode(tbody);
-
-    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal("<ul><li><span>Dude</span></li><li><span>Johnny</span></li></ul>");
+    expect(grid.find("td").html()).be.equal("<ul><li><span>Dude</span></li><li><span>Johnny</span></li></ul>");
   });
   
   it('Can dynamically add an array-typed column', function (){
 
-    let grid = TestUtils.renderIntoDocument(
+    let grid = render(
       <Grid objects={[{name: "John"}]} columns={{
         nickNames: {
           displayValueGetter: ({object})=>["Dude", "Johnny"],
@@ -418,15 +340,12 @@ describe('Grid render tests', function(){
         }} config={{}}/>
     );
 
-    let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
-    let tbodyDOM = ReactDOM.findDOMNode(tbody);
-
-    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal("<ul><li><span>Dude</span></li><li><span>Johnny</span></li></ul>");
+    expect(grid.find("td").html()).be.equal("<ul><li><span>Dude</span></li><li><span>Johnny</span></li></ul>");
   });
   
   it('Can override the displayValueGetter for an array-typed column', function (){
 
-    let grid = TestUtils.renderIntoDocument(
+    let grid = render(
       <Grid objects={[{nickNames: ["Dude", "Johnny"]}]} columns={{
         nickNames: {
           order: 0,
@@ -435,10 +354,7 @@ describe('Grid render tests', function(){
         }} config={{}}/>
     );
 
-    let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
-    let tbodyDOM = ReactDOM.findDOMNode(tbody);
-
-    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal("Dude or Johnny");
+    expect(grid.find("td").html()).be.equal("Dude or Johnny");
   });
 
   
@@ -456,7 +372,7 @@ describe('Grid render tests', function(){
       
     }
 
-    let grid = TestUtils.renderIntoDocument(
+    let grid = render(
       <Grid objects={[{name: "John Doe"}]} columns={{
         name: {
           order: 0,
@@ -465,10 +381,7 @@ describe('Grid render tests', function(){
         }} config={{}}/>
     );
 
-    let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
-    let tbodyDOM = ReactDOM.findDOMNode(tbody);
-
-    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal('<span class="custom">John Doe</span>');
+    expect(grid.find("td").html()).be.equal('<span class="custom">John Doe</span>');
   });
   
   it('Can use a bound function as displayValueGetter', function (){
@@ -507,36 +420,31 @@ describe('Grid render tests', function(){
       
     }
     
-    let grid = TestUtils.renderIntoDocument(
+    let grid = render(
       <Foo />
     );
 
-    let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
-    let tbodyDOM = ReactDOM.findDOMNode(tbody);
-
-    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal('<span class="custom">John Doe</span>');
+    expect(grid.find("td").html()).be.equal('<span class="custom">John Doe</span>');
   });
   
   it('Should not jump to the first page if the props don\'t change', function (){
     let people = [{"name": "John"}, {"name": "Jack"}];
-    let [container, instance] = renderInContainer(Grid, { objects: people, columns: {}, config: {paging: 1} });
+    let instance = mount(<Grid objects={people} columns={{}} config={{paging: 1}} />);
 
-    let tbody = TestUtils.scryRenderedDOMComponentsWithTag(instance, "tbody")[0];
-    let tbodyDOM = ReactDOM.findDOMNode(tbody);
-
-    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal("John");
-    let linkToPage2 = TestUtils.scryRenderedDOMComponentsWithTag(instance, "a")[2];
-    Simulate.click(linkToPage2);
-    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal("Jack");
-    expect(linkToPage2.parentNode.className).be.equal("active");
-    container.setState({objects: people});
-    expect(linkToPage2.parentNode.className).be.equal("active");
-    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal("Jack");
+    expect(instance.find("td").first().text()).be.equal("John");
+    let liWithLinkToPage2 = instance.find("li").at(2);
+    let linkToPage2 = liWithLinkToPage2.find("a");
+    linkToPage2.simulate('click');
+    expect(instance.find("td").first().text()).be.equal("Jack");
+    expect(liWithLinkToPage2.hasClass("active")).be.true;
+    instance.setProps({objects: people});
+    expect(liWithLinkToPage2.hasClass("active")).be.true;
+    expect(instance.find("td").first().text()).be.equal("Jack");
   });
 
   it('Should order columns with order 0 before columns with order 1', function (){
 
-    let grid = TestUtils.renderIntoDocument(
+    let grid = render(
       <Grid objects={[{"first": "John", "last": "Doe"}]} columns={{
         first: {
           order: 0
@@ -547,14 +455,11 @@ describe('Grid render tests', function(){
         }} config={{}}/>
     );
 
-    let tbody = TestUtils.scryRenderedDOMComponentsWithTag(grid, "tbody")[0];
-    let tbodyDOM = ReactDOM.findDOMNode(tbody);
-
-    expect(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.equal('John');
+    expect(grid.find("td").html()).be.equal('John');
   });
   
   it('Should be possible to hide the tools for a column', ()=>{
-    let grid = mount(<Grid objects={[{a: "foo", b: "bar"}]} columns={{b:{hideTools:true}, id:{show:false}}} />);
+    let grid = render(<Grid objects={[{a: "foo", b: "bar"}]} columns={{b:{hideTools:true}, id:{show:false}}} />);
      expect(grid.find("input").length).be.equal(1);
  });
 
