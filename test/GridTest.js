@@ -1,5 +1,4 @@
 import React          from 'react';
-import TestUtils      from 'react-addons-test-utils';
 import console        from 'console';
 import { Grid } from '../Ardagryd';
 import { expect } from 'chai'
