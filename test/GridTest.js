@@ -4,6 +4,9 @@ import console        from 'console';
 import { Grid } from '../Ardagryd';
 import ReactDOM from 'react-dom'
 import should from 'should'
+import { expect } from 'chai'
+import { mount, render } from 'enzyme'
+
 
 let Simulate = TestUtils.Simulate;
 
@@ -551,4 +554,9 @@ describe('Grid render tests', function(){
     should(tbodyDOM.childNodes[0].childNodes[0].innerHTML).be.exactly('John');
   });
   
+  it('Should be possible to hide the tools for a column', ()=>{
+    let grid = mount(<Grid objects={[{a: "foo", b: "bar"}]} columns={{b:{hideTools:true}, id:{show:false}}} />);
+     expect(grid.find("input").length).be.equal(1);
+ });
+
 });
