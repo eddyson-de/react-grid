@@ -67,7 +67,7 @@
     "coveralls": "2.11.9",
     "enzyme": "^2.3.0",
     "chai": "^3.5.0",
-    "eslint": "^2.13.1",
+    "eslint": "^3.0.0",
     "eslint-plugin-react": "^5.2.2"
   }
 }
