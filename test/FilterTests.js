@@ -268,4 +268,13 @@ describe('Grid filter tests', function () {
 
         expect(grid.find("tbody").children().length).be.equal(1);
     });
+
+    it('Filter should filte numerical values', ()=>{
+        let grid = mount(<Grid objects={[{name: "aa", age: 2}, {name: "ab", age: 57}, {name: "ccb", age: 7}]} />);
+        expect(grid.find("tbody").children().length).be.equal(3);
+
+        grid.setProps({filter: [{columnName: "age", expression: "7"}]});
+
+        expect(grid.find("tbody").children().length).be.equal(2);
+    });
 });
