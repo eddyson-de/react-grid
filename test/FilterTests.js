@@ -191,7 +191,7 @@ describe('Grid filter tests', function () {
         expect(grid.find("tbody").children().length).be.equal(2);
     });
 
-    it('Component should react to filter change via Filter input element', function() {
+    it('Component should react to filter change via Filter input element', function(done) {
 
       let grid = mount(
           <Grid objects={data} columns={{}} config={{}}/>
@@ -199,6 +199,11 @@ describe('Grid filter tests', function () {
       grid.find('input').first().simulate('change', {target: {value: 'ie'}});
       setTimeout(function () {
           expect(grid.find("tbody").children().length).be.equal(2);
+          grid.find('input').first().simulate('change', {target: {value: 'er'}});
+          setTimeout(function () {
+              expect(grid.find("tbody").children().length).be.equal(3);
+              done();
+          }, 500);
       }, 500);
     });
 
