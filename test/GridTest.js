@@ -460,6 +460,11 @@ describe('Grid render tests', function(){
   it('Should be possible to hide the tools for a column', ()=>{
     let grid = render(<Grid objects={[{a: "foo", b: "bar"}]} columns={{b:{hideTools:true}, id:{show:false}}} />);
      expect(grid.find("input").length).be.equal(1);
- });
+  });
+
+  it('Should be possible to disable paging by passing false', ()=>{
+    let grid = render(<Grid objects={data} config={{paging:false}} />);
+    expect(grid.find("tbody").children().length).be.equal(8);
+  });
 
 });
