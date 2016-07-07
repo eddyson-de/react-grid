@@ -484,6 +484,7 @@ describe('Grid render tests', function(){
     expect(grid.find("li").length).be.equal(3);
     expect(liWithLinkToPage1.hasClass("active")).be.true;
     expect(grid.find("td").first().text()).be.equal("John");
+  });
 
   it('Should apply filters if sorting is disabled', ()=>{
     let grid = render(<Grid objects={data} config={{paging:false}} filter={{columnName: "name", expression: "a"}}/>);
