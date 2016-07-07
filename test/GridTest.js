@@ -485,6 +485,9 @@ describe('Grid render tests', function(){
     expect(liWithLinkToPage1.hasClass("active")).be.true;
     expect(grid.find("td").first().text()).be.equal("John");
 
+  it('Should apply filters if sorting is disabled', ()=>{
+    let grid = render(<Grid objects={data} config={{paging:false}} filter={{columnName: "name", expression: "a"}}/>);
+    expect(grid.find("tbody").children().length).be.equal(5);
   });
 
 });
