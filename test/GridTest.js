@@ -467,6 +467,25 @@ describe('Grid render tests', function(){
     expect(grid.find("tbody").children().length).be.equal(8);
   });
 
+  it('Should jump to the last page if current page exceeds number of available pages', ()=>{
+    let grid = mount(<Grid objects={[{"name":"John"}, {"name":"Jack"}]} config={{paging:1}} />);
+    expect(grid.find("tbody").children().length).be.equal(1);
+    expect(grid.find("td").first().text()).be.equal("John");
+    expect(grid.find("li").length).be.equal(4);
+    let liWithLinkToPage1 = grid.find("li").at(1);
+    let linkToPage1 = liWithLinkToPage1.find("a");
+    expect(liWithLinkToPage1.hasClass("active")).be.true;
+    let liWithLinkToPage2 = grid.find("li").at(2);
+    let linkToPage2 = liWithLinkToPage2.find("a");
+    linkToPage2.simulate('click');
+    expect(grid.find("td").first().text()).be.equal("Jack");
+    expect(liWithLinkToPage2.hasClass("active")).be.true;
+    grid.setProps({objects: [{"name":"John"}]});
+    expect(grid.find("li").length).be.equal(3);
+    expect(liWithLinkToPage1.hasClass("active")).be.true;
+    expect(grid.find("td").first().text()).be.equal("John");
+  });
+
   it('Should apply filters if sorting is disabled', ()=>{
     let grid = render(<Grid objects={data} config={{paging:false}} filter={{columnName: "name", expression: "a"}}/>);
     expect(grid.find("tbody").children().length).be.equal(5);
