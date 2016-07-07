@@ -491,4 +491,10 @@ describe('Grid render tests', function(){
     expect(grid.find("tbody").children().length).be.equal(5);
   });
 
+  it('Should throw an error when specifying a number < 1 for paging', ()=>{
+    expect(function(){
+      render(<Grid objects={data} config={{paging:0}} />)
+    }).to.throw(/Invalid value for config.paging/);
+  });
+
 });
