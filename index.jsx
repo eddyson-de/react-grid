@@ -14,7 +14,7 @@ export class App extends React.Component {
     let externalData = {getThis: "External data"};
 
 
-    var config = {showToolbar: true, paging: 10};
+    var config = {showToolbar: true, paging: 0};
     var columns = {
 
       edit: {

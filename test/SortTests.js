@@ -194,4 +194,19 @@ describe("Sorting tests",() => {
         expect(grid.find("tbody tr").find("td").last().text()).to.equal("A");
         expect(grid.find("th button span").first().html()).to.equal('<span class="glyphicon glyphicon-sort-by-attributes"></span>');
     });
+
+    it("Should sort in ascending order when supplied no order value.", ()=> {
+        let grid  = render(<Grid
+            objects={[
+                {n: 1},
+                {n: 10},
+                {n: 2},
+                {n: 20}]}
+            sort={{columnName: "n"}}/>);
+
+        expect(grid.find("tbody tr").eq(0).find("td").first().text()).to.equal('1');
+        expect(grid.find("tbody tr").eq(1).find("td").first().text()).to.equal('2');
+        expect(grid.find("tbody tr").eq(2).find("td").first().text()).to.equal('10');
+        expect(grid.find("tbody tr").eq(3).find("td").first().text()).to.equal('20');
+    });
 });
