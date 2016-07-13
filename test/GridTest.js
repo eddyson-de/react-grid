@@ -198,6 +198,17 @@ describe('Grid render tests', function(){
     expect(grid.find("tbody").children().length).be.equal(8);
   });
 
+  it('Should render the correct number of pages', function (){
+
+    let grid = render(
+      <Grid objects={data} columns={{
+      name: {
+      }}} config={{paging: 3}}/>
+    );
+
+    expect(grid.find("li").length).be.equal(5); // 3 pages + back/forward links
+  });
+
   it('Should hide 2 columns', function (){
 
     let grid = render(
@@ -481,8 +492,7 @@ describe('Grid render tests', function(){
     expect(grid.find("td").first().text()).be.equal("Jack");
     expect(liWithLinkToPage2.hasClass("active")).be.true;
     grid.setProps({objects: [{"name":"John"}]});
-    expect(grid.find("li").length).be.equal(3);
-    expect(liWithLinkToPage1.hasClass("active")).be.true;
+    expect(grid.find("li").length).be.equal(0); // no pager because only 1 item mathches the filter
     expect(grid.find("td").first().text()).be.equal("John");
   });
 
