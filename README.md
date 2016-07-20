@@ -5,7 +5,7 @@
 Customizable data grid for React.js
 ### Example
 
-[Basic example on JSFiddle](https://jsfiddle.net/dhfsk/2q1vh796/6/)
+[Basic example on JSFiddle](https://jsfiddle.net/dhfsk/2q1vh796/11/)
 
 ### Develop / test
 
