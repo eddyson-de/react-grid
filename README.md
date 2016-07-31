@@ -24,3 +24,6 @@ Start the webpack dev server:
 
 Open browser `http://localhost:8080/`
 
+### Copyright and license
+
+Copyright 2016 [eddyson GmbH](http://eddyson.de), Code released under the [MIT license](https://github.com/eddyson-de/react-grid/blob/master/LICENSE)
