@@ -495,6 +495,14 @@ describe('Grid render tests', function(){
     expect(grid.find("li").length).be.equal(0); // no pager because only 1 item mathches the filter
     expect(grid.find("td").first().text()).be.equal("John");
   });
+  
+  it('Should not jump to a negative page number when receiving an empty objects prop', ()=>{
+    let grid = mount(<Grid objects={[]} config={{}} />);
+    expect(grid.state().skip).to.equal(0);
+    // trigger componentWillReceiveProps
+    grid.setProps({objects: []});
+    expect(grid.state().skip).to.equal(0);
+  });
 
   it('Should apply filters if sorting is disabled', ()=>{
     let grid = render(<Grid objects={data} config={{paging:false}} filter={{columnName: "name", expression: "a"}}/>);
