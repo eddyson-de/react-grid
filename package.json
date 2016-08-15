@@ -64,6 +64,6 @@
     "enzyme": "2.4.1",
     "chai": "3.5.0",
     "eslint": "3.3.0",
-    "eslint-plugin-react": "6.1.0"
+    "eslint-plugin-react": "6.1.1"
   }
 }
