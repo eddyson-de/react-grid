@@ -60,7 +60,7 @@
     "bootstrap": "3.3.7",
     "yargs": "4.8.1",
     "istanbul": "1.1.0-alpha.1",
-    "coveralls": "2.11.13",
+    "coveralls": "2.11.14",
     "enzyme": "2.4.1",
     "chai": "3.5.0",
     "eslint": "3.5.0",
