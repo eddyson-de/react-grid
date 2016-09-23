@@ -277,4 +277,11 @@ describe('Grid filter tests', function () {
 
         expect(grid.find("tbody").children().length).be.equal(2);
     });
+    
+    it('Should use displayValueGetter for default filter function', () => {
+        let grid = mount(<Grid objects={[{name: "Foo"}]}
+                               columns={{name: {displayValueGetter: ({value}) => "Bar"}}}
+                               filter={[{columnName: "name", expression: "Bar"}]}     />);
+        expect(grid.find("tbody").children().length).be.equal(1);
+    });
 });
