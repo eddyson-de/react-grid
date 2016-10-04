@@ -58,7 +58,7 @@
     "node-libs-browser": "1.0.0",
     "react-dom": "15.3.2",
     "bootstrap": "3.3.7",
-    "yargs": "5.0.0",
+    "yargs": "6.0.0",
     "istanbul": "1.1.0-alpha.1",
     "coveralls": "2.11.14",
     "enzyme": "2.4.1",
