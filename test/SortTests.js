@@ -209,4 +209,16 @@ describe("Sorting tests",() => {
         expect(grid.find("tbody tr").eq(2).find("td").first().text()).to.equal('10');
         expect(grid.find("tbody tr").eq(3).find("td").first().text()).to.equal('20');
     });
+
+    it("Should correctly sort by a boolean-valued column.", ()=> {
+      let grid  = mount(<Grid
+          objects={[
+            {id: 0, val: true},
+            {id: 1, val: true},
+            {id: 2, val: false},
+            {id: 3, val: true}]}
+          sort={"val"}/>);
+
+      expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("2");
+  });
 });
