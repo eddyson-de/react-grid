@@ -514,5 +514,15 @@ describe('Grid render tests', function(){
       render(<Grid objects={data} config={{paging:0}} />)
     }).to.throw(/Invalid value for config.paging/);
   });
+    
+  it('Should render "true" or "false" for boolean columns', function(){
+    let grid = render(
+      <Grid objects={[{value: true}, {value: false}]} columns={{}} config={{}}/>
+    );
+
+    expect(grid.find("td").eq(0).html()).be.equal('true');
+    // use index 2 for the second row because if the generated ID column
+    expect(grid.find("td").eq(2).html()).be.equal('false');
+  });
 
 });
