@@ -178,10 +178,7 @@ describe('Grid render tests', function(){
 
   it('Should render Grid with 8 rows', function(){
     let grid = render(
-      <Grid objects={data} columns={{
-      name: {
-        displayValueGetter: ({value, object, columns}) => <span>{value}</span>
-      }}} config={{}}/>
+      <Grid objects={data} />
     );
 
     expect(grid.find("tbody").children().length).be.equal(8);
@@ -190,9 +187,7 @@ describe('Grid render tests', function(){
   it('Should have 8 columns by default', function (){
 
     let grid = render(
-      <Grid objects={data} columns={{
-      name: {
-      }}} config={{}}/>
+      <Grid objects={data} />
     );
 
     expect(grid.find("tbody").children().length).be.equal(8);
