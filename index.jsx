@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import {Grid} from './Ardagryd';
 import data from './testData';
 import Column from './lib/Column';
+import Cell from './lib/GridCell';
 
 
 export class App extends React.Component {
@@ -16,22 +17,14 @@ export class App extends React.Component {
 
 
     var config = {showToolbar: true, paging: 10};
-    var columns = {
-
-      edit: {
-        label: "Edit",
-        hideTools: true,
-        sortable: false,
-        displayValueGetter: ({value, object, columns}) => <a href={"#"}> EDIT ROW</a>
-      },
-      id: {show: false}
-    };
-
 		return (
 
       <div>
           <Grid objects={data}>
-              <Column name="name" show={false} />
+              <Column name="id" show={false} />
+              <Column label="Edit" name="edit" hideTools sortable={false}>
+                <Cell content={({value, object, columns}) => <a href={"#"}> EDIT ROW</a>} />
+              </Column>
           </Grid>
       </div>
 		);
