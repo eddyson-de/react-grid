@@ -3,7 +3,7 @@ import console        from 'console';
 import { Grid } from '../Ardagryd';
 import  Column  from '../lib/Column';
 import { Pager } from '../lib/Pager';
-import { Cell } from '../lib/GridCell';
+import {Cell} from '../lib/GridCell';
 import { expect } from 'chai'
 import { mount, render } from 'enzyme'
 
@@ -226,7 +226,7 @@ describe('Grid render tests', function(){
     expect(instance.find("tbody").children().length).be.equal(0);
 
     instance.setProps({objects:data, children:[
-      <Column key="name" />
+      <Column name="name" />
     ]});
     
     expect(instance.find("tbody tr").length).be.equal(8);
@@ -238,7 +238,7 @@ describe('Grid render tests', function(){
 
     let grid = render(
       <Grid objects={data}>
-        <Column key="name">
+        <Column name="name">
           <Cell content={({object: {name, email}})=><a href={`mailto:${email}`}>{name}</a>} />
         </Column>
       </Grid>
@@ -251,7 +251,7 @@ describe('Grid render tests', function(){
 
     let grid = render(
       <Grid objects={data}>
-        <Column key="name">
+        <Column name="name">
           <Cell content="John Doe" />
         </Column>
       </Grid>
@@ -276,7 +276,7 @@ describe('Grid render tests', function(){
     let grid = render(
       <Grid objects={data}>
         <Cell content="This is the name" />
-        <Column key="name">
+        <Column name="name">
           <Cell content="Robert Paulson" />
         </Column>
       </Grid>
@@ -289,7 +289,7 @@ describe('Grid render tests', function(){
 
     let grid = render(
       <Grid objects={data}>
-        <Column key="name">
+        <Column name="name">
           <Cell content={<span>John Doe</span>} />
         </Column>
       </Grid>
@@ -311,8 +311,8 @@ describe('Grid render tests', function(){
 
     let grid = render(
       <Grid objects={[{name: "John"}]}>
-        <Column key="name" id show={false}/>
-        <Column key="nickNames">
+        <Column name="name" id show={false}/>
+        <Column name="nickNames">
           <Cell content={["Dude", "Johnny"]} />
         </Column>
       </Grid>
@@ -325,7 +325,7 @@ describe('Grid render tests', function(){
 
     let grid = render(
       <Grid objects={[{nickNames: ["Dude", "Johnny"]}]}>
-        <Column key="nickNames">
+        <Column name="nickNames">
           <Cell content={({value})=>value.join(" or ")} />
         </Column>
       </Grid>
@@ -351,7 +351,7 @@ describe('Grid render tests', function(){
 
     let grid = render(
       <Grid objects={[{name: "John Doe"}]}>
-        <Column key="name">
+        <Column name="name">
           <Cell content={Renderer} />
         </Column>
       </Grid>
@@ -389,7 +389,7 @@ describe('Grid render tests', function(){
       render(){
         return (
           <Grid objects={[{name: "John Doe"}]}>
-            <Column key="name">
+            <Column name="name">
               <Cell content={this.createRenderer} />
             </Column>
           </Grid>
