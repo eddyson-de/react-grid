@@ -196,9 +196,9 @@ describe('Grid render tests', function(){
   it('Should render the correct number of pages', function (){
 
     let grid = render(
-      <Grid objects={data} columns={{
-      name: {
-      }}} config={{paging: 3}}/>
+      <Grid objects={data}>
+        <Pager rowsPerPage={3} />
+      </Grid>
     );
 
     expect(grid.find("li").length).be.equal(5); // 3 pages + back/forward links
@@ -207,11 +207,10 @@ describe('Grid render tests', function(){
   it('Should hide 2 columns', function (){
 
     let grid = render(
-      <Grid objects={data} columns={{
-      name: {
-        show: false
-      },
-      id:{show: false}}} config={{}}/>
+      <Grid objects={data}>
+        <Column key="name" show={false} />
+        <Column key="id" show={false} />
+      </Grid>
     );
 
     expect(grid.find("tbody tr").first().children().length).be.equal(6);
@@ -219,11 +218,14 @@ describe('Grid render tests', function(){
 
   it('Should react to changing properties', function (){
 
-    let instance = mount(<Grid objects={[]} columns={{}} config={{showColumnsWithoutConfig: false}} />);
+    let instance = mount(<Grid objects={[]} showColumnsWithoutConfig={false} />);
 
     expect(instance.find("tbody").children().length).be.equal(0);
 
-    instance.setProps({objects:data, columns:{name: { show: true }}});
+    instance.setProps({objects:data, children:[
+      <Column key="name" />"
+    ]});
+    
     expect(instance.find("tbody tr").length).be.equal(8);
     expect(instance.find("tbody tr").at(0).find("td").length).be.equal(1);
 
@@ -232,27 +234,11 @@ describe('Grid render tests', function(){
   it('Should be possible to override the cell renderer per column', function (){
 
     let grid = render(
-      <Grid objects={data} columns={{
-        name: {
-          order: 0,
-          cellRenderer: ({object: {name, email}})=><a href={`mailto:${email}`}>{name}</a>
-        }
-        }} config={{}}/>
-    );
-
-    expect(grid.find("td").html()).be.equal('<a href="mailto:Emilian20@yahoo.com">Nike Floder</a>');
-  });
-  
-  it('Should use the cell renderer also if displayValueGetter returns null', function (){
-
-    let grid = render(
-      <Grid objects={data} columns={{
-        name: {
-          order: 0,
-          displayValueGetter: ()=>null,
-          cellRenderer: ({object: {name, email}})=><a href={`mailto:${email}`}>{name}</a>
-        }
-        }} config={{}}/>
+      <Grid objects={data}>
+        <Column key="name">
+          <Content component={({object: {name, email}})=><a href={`mailto:${email}`}>{name}</a>} />
+        </Column>
+      </Grid>
     );
 
     expect(grid.find("td").html()).be.equal('<a href="mailto:Emilian20@yahoo.com">Nike Floder</a>');
@@ -261,12 +247,11 @@ describe('Grid render tests', function(){
   it('Should be possible to override the displayValueGetter per column', function (){
 
     let grid = render(
-      <Grid objects={data} columns={{
-        name: {
-          order: 0,
-          displayValueGetter: ({object})=>"John Doe"
-        }
-        }} config={{}}/>
+      <Grid objects={data}>
+        <Column key="name">
+          <Content>John Doe</Content>
+        </Column>
+      </Grid>
     );
 
     expect(grid.find("td").html()).be.equal("John Doe");
@@ -275,13 +260,9 @@ describe('Grid render tests', function(){
   it('Should be possible to override global displayValueGetter', function (){
 
     let grid = render(
-      <Grid objects={data} columns={{
-        name: {
-          order: 0
-        }
-        }} config={{
-          displayValueGetter: ({object})=>"This is the name"
-        }}/>
+      <Grid objects={data}>
+        <Content>This is the name</Content>
+      </Grid>
     );
 
     expect(grid.find("td").html()).be.equal("This is the name");
@@ -290,29 +271,27 @@ describe('Grid render tests', function(){
   it('Should be possible to override the global displayValueGetter with a per-column configuration', function (){
 
     let grid = render(
-      <Grid objects={data} columns={{
-        name: {
-          order: 0,
-          displayValueGetter: ({object})=>"Robert Paulson"
-        }
-        }} config={{
-          displayValueGetter: ({object})=>"This is the name"
-        }}/>
+      <Grid objects={data}>
+        <Content>This is the name</Content>
+        <Column key="name">
+          <Content>Robert Paulson</Content>
+        </Column>
+      </Grid>
     );
 
     expect(grid.find("td").html()).be.equal("Robert Paulson");
   });
   
-  //TODO this is deprecated!
   it('Should be possible to return an element from the displayValueGetter', function (){
 
     let grid = render(
-      <Grid objects={data} columns={{
-        name: {
-          order: 0,
-          displayValueGetter: ({object})=><span>"John Doe"</span>
-        }
-        }} config={{}}/>
+        <Grid objects={data}>
+        <Column key="name">
+          <Content>
+            <span>John Doe</span>
+          </Content>
+        </Column>
+      </Grid>
     );
 
     expect(grid.find("td").html()).be.equal('<span>&quot;John Doe&quot;</span>');
@@ -321,10 +300,7 @@ describe('Grid render tests', function(){
   it('Should render an array value', function (){
 
     let grid = render(
-      <Grid objects={[{nickNames: ["Dude", "Johnny"]}]} columns={{
-        nickNames: {
-          order: 0}
-        }} config={{}}/>
+      <Grid objects={[{nickNames: ["Dude", "Johnny"]}]}>
     );
 
     expect(grid.find("td").html()).be.equal("<ul><li><span>Dude</span></li><li><span>Johnny</span></li></ul>");
@@ -333,16 +309,12 @@ describe('Grid render tests', function(){
   it('Can dynamically add an array-typed column', function (){
 
     let grid = render(
-      <Grid objects={[{name: "John"}]} columns={{
-        nickNames: {
-          displayValueGetter: ({object})=>["Dude", "Johnny"],
-          order: 0
-        },
-        name: {
-          id: true,
-          show: false
-        }
-        }} config={{}}/>
+      <Grid objects={[{name: "John"}]}>
+        <Column key="name" id show={false}>
+        <Column key="nickNames">
+          <Content value={["Dude", "Johnny"]} />
+        </Column>
+      </Grid>
     );
 
     expect(grid.find("td").html()).be.equal("<ul><li><span>Dude</span></li><li><span>Johnny</span></li></ul>");
@@ -351,12 +323,11 @@ describe('Grid render tests', function(){
   it('Can override the displayValueGetter for an array-typed column', function (){
 
     let grid = render(
-      <Grid objects={[{nickNames: ["Dude", "Johnny"]}]} columns={{
-        nickNames: {
-          order: 0,
-          displayValueGetter:  ({value})=>value.join(" or ")
-        }
-        }} config={{}}/>
+      <Grid objects={[{nickNames: ["Dude", "Johnny"]}]}>
+        <Column key="nickNames">
+          <Content component={({value})=>value.join(" or ")} />
+        </Column>
+      </Grid>
     );
 
     expect(grid.find("td").html()).be.equal("Dude or Johnny");
