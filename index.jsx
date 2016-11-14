@@ -2,7 +2,8 @@ require("./node_modules/bootstrap/dist/css/bootstrap.min.css");
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Grid} from './Ardagryd';
-import data from './testData'
+import data from './testData';
+import Column from './lib/Column';
 
 
 export class App extends React.Component {
@@ -29,7 +30,9 @@ export class App extends React.Component {
 		return (
 
       <div>
-        <Grid objects={data} columns={columns} config={config} />
+          <Grid objects={data}>
+              <Column name="name" show={false} />
+          </Grid>
       </div>
 		);
 	}
