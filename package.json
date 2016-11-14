@@ -64,7 +64,7 @@
     "enzyme": "2.6.0",
     "chai": "3.5.0",
     "eslint": "3.10.0",
-    "eslint-plugin-react": "6.5.0",
+    "eslint-plugin-react": "6.7.0",
     "react-addons-test-utils": "15.3.2"
   }
 }
