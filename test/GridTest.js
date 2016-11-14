@@ -236,7 +236,7 @@ describe('Grid render tests', function(){
     let grid = render(
       <Grid objects={data}>
         <Column key="name">
-          <Content component={({object: {name, email}})=><a href={`mailto:${email}`}>{name}</a>} />
+          <Cell content={({object: {name, email}})=><a href={`mailto:${email}`}>{name}</a>} />
         </Column>
       </Grid>
     );
@@ -249,7 +249,7 @@ describe('Grid render tests', function(){
     let grid = render(
       <Grid objects={data}>
         <Column key="name">
-          <Content>John Doe</Content>
+          <Cell content="John Doe" />
         </Column>
       </Grid>
     );
@@ -261,7 +261,7 @@ describe('Grid render tests', function(){
 
     let grid = render(
       <Grid objects={data}>
-        <Content>This is the name</Content>
+        <Cell content="This is the name" />
       </Grid>
     );
 
@@ -272,9 +272,9 @@ describe('Grid render tests', function(){
 
     let grid = render(
       <Grid objects={data}>
-        <Content>This is the name</Content>
+        <Cell content="This is the name" />
         <Column key="name">
-          <Content>Robert Paulson</Content>
+          <Cell content="Robert Paulson" />
         </Column>
       </Grid>
     );
@@ -285,11 +285,9 @@ describe('Grid render tests', function(){
   it('Should be possible to return an element from the displayValueGetter', function (){
 
     let grid = render(
-        <Grid objects={data}>
+      <Grid objects={data}>
         <Column key="name">
-          <Content>
-            <span>John Doe</span>
-          </Content>
+          <Cell content={<span>John Doe</span>} />
         </Column>
       </Grid>
     );
@@ -312,7 +310,7 @@ describe('Grid render tests', function(){
       <Grid objects={[{name: "John"}]}>
         <Column key="name" id show={false}/>
         <Column key="nickNames">
-          <Content value={["Dude", "Johnny"]} />
+          <Cell content={["Dude", "Johnny"]} />
         </Column>
       </Grid>
     );
@@ -325,7 +323,7 @@ describe('Grid render tests', function(){
     let grid = render(
       <Grid objects={[{nickNames: ["Dude", "Johnny"]}]}>
         <Column key="nickNames">
-          <Content component={({value})=>value.join(" or ")} />
+          <Cell content={({value})=>value.join(" or ")} />
         </Column>
       </Grid>
     );
@@ -349,12 +347,12 @@ describe('Grid render tests', function(){
     }
 
     let grid = render(
-      <Grid objects={[{name: "John Doe"}]} columns={{
-        name: {
-          order: 0,
-          displayValueGetter: Renderer
-        }
-        }} config={{}}/>
+      <Grid objects={[{name: "John Doe"}]}>
+        <Column key="name">
+          <Cell content={Renderer} />
+        </Column>
+      </Grid>
+
     );
 
     expect(grid.find("td").html()).be.equal('<span class="custom">John Doe</span>');
@@ -386,12 +384,13 @@ describe('Grid render tests', function(){
       }
       
       render(){
-        return <Grid objects={[{name: "John Doe"}]} columns={{
-          name: {
-            order: 0,
-            displayValueGetter: this.createRenderer
-          }
-          }} config={{}}/>;
+        return (
+          <Grid objects={[{name: "John Doe"}]}>
+            <Column key="name">
+              <Cell content={this.createRenderer} />
+            </Column>
+          </Grid>
+        );
       }
       
     }
@@ -405,7 +404,11 @@ describe('Grid render tests', function(){
   
   it('Should not jump to the first page if the props don\'t change', function (){
     let people = [{"name": "John"}, {"name": "Jack"}];
-    let instance = mount(<Grid objects={people} columns={{}} config={{paging: 1}} />);
+    let instance = mount(
+        <Grid objects={people}>
+          <Pager rowsPerPage={1} />
+        </Grid>
+    );
 
     expect(instance.find("td").first().text()).be.equal("John");
     let liWithLinkToPage2 = instance.find("li").at(2);
@@ -445,7 +448,11 @@ describe('Grid render tests', function(){
   });
 
   it('Should jump to the last page if current page exceeds number of available pages', ()=>{
-    let grid = mount(<Grid objects={[{"name":"John"}, {"name":"Jack"}]} config={{paging:1}} />);
+    let grid = mount(
+      <Grid objects={[{"name":"John"}, {"name":"Jack"}]}>
+        <Pager rowsPerPage={1} />
+      </Grid>
+    );
     expect(grid.find("tbody").children().length).be.equal(1);
     expect(grid.find("td").first().text()).be.equal("John");
     expect(grid.find("li").length).be.equal(4);
@@ -463,7 +470,7 @@ describe('Grid render tests', function(){
   });
   
   it('Should not jump to a negative page number when receiving an empty objects prop', ()=>{
-    let grid = mount(<Grid objects={[]} config={{}} />);
+    let grid = mount(<Grid objects={[]} />);
     expect(grid.state().skip).to.equal(0);
     // trigger componentWillReceiveProps
     grid.setProps({objects: []});
@@ -477,13 +484,17 @@ describe('Grid render tests', function(){
 
   it('Should throw an error when specifying a number < 1 for paging', ()=>{
     expect(function(){
-      render(<Grid objects={data} config={{paging:0}} />)
+      render(
+        <Grid objects={data}>
+  		  <Pager rowsPerPage={0} />
+  		</Grid>
+      );
     }).to.throw(/Invalid value for config.paging/);
   });
     
   it('Should render "true" or "false" for boolean columns', function(){
     let grid = render(
-      <Grid objects={[{value: true}, {value: false}]} columns={{}} config={{}}/>
+      <Grid objects={[{value: true}, {value: false}]} />
     );
 
     expect(grid.find("td").eq(0).html()).be.equal('true');
