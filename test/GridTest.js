@@ -1,6 +1,7 @@
 import React          from 'react';
 import console        from 'console';
 import { Grid } from '../Ardagryd';
+import { Column } from '../lib/Column';
 import { expect } from 'chai'
 import { mount, render } from 'enzyme'
 
@@ -208,8 +209,8 @@ describe('Grid render tests', function(){
 
     let grid = render(
       <Grid objects={data}>
-        <Column key="name" show={false} />
-        <Column key="id" show={false} />
+        <Column name="name" show={false} />
+        <Column name="id" show={false} />
       </Grid>
     );
 
