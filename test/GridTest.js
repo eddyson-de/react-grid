@@ -223,7 +223,7 @@ describe('Grid render tests', function(){
     expect(instance.find("tbody").children().length).be.equal(0);
 
     instance.setProps({objects:data, children:[
-      <Column key="name" />"
+      <Column key="name" />
     ]});
     
     expect(instance.find("tbody tr").length).be.equal(8);
@@ -300,7 +300,7 @@ describe('Grid render tests', function(){
   it('Should render an array value', function (){
 
     let grid = render(
-      <Grid objects={[{nickNames: ["Dude", "Johnny"]}]}>
+      <Grid objects={[{nickNames: ["Dude", "Johnny"]}]}/>
     );
 
     expect(grid.find("td").html()).be.equal("<ul><li><span>Dude</span></li><li><span>Johnny</span></li></ul>");
@@ -310,7 +310,7 @@ describe('Grid render tests', function(){
 
     let grid = render(
       <Grid objects={[{name: "John"}]}>
-        <Column key="name" id show={false}>
+        <Column key="name" id show={false}/>
         <Column key="nickNames">
           <Content value={["Dude", "Johnny"]} />
         </Column>
