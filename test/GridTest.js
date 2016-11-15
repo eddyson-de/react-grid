@@ -492,7 +492,7 @@ describe('Grid render tests', function(){
   		  <Pager rowsPerPage={0} />
   		</Grid>
       );
-    }).to.throw(/Invalid value for config.paging/);
+    }).to.throw(/Invalid prop value for "rowsPerPage"/);
   });
     
   it('Should render "true" or "false" for boolean columns', function(){
