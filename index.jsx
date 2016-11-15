@@ -20,11 +20,8 @@ export class App extends React.Component {
 		return (
 
       <div>
-          <Grid objects={data}>
-              <Column name="id" show={false} />
-              <Column label="Edit" name="edit" hideTools sortable={false}>
-                <Cell content={({value, object, columns}) => <a href={"#"}> EDIT ROW</a>} />
-              </Column>
+          <Grid objects={data} showColumnsWithoutConfig={false}>
+              <Column name="name" />
           </Grid>
       </div>
 		);

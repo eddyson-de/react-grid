@@ -220,7 +220,6 @@ describe('Grid render tests', function(){
   });
 
   it('Should react to changing properties', function (){
-
     let instance = mount(<Grid objects={[]} showColumnsWithoutConfig={false} />);
 
     expect(instance.find("tbody").children().length).be.equal(0);
