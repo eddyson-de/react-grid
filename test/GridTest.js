@@ -2,7 +2,7 @@ import React          from 'react';
 import console        from 'console';
 import { Grid } from '../Ardagryd';
 import  Column  from '../lib/Column';
-import { Pager } from '../lib/Pager';
+import  Pager  from '../lib/Pager';
 import { Cell } from '../lib/GridCell';
 import { expect } from 'chai'
 import { mount, render } from 'enzyme'
