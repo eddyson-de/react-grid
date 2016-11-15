@@ -290,7 +290,7 @@ describe('Grid render tests', function(){
     let grid = render(
       <Grid objects={data}>
         <Column name="name">
-          <Cell content={<span>John Doe</span>} />
+          <Cell content={<span>"John Doe"</span>} />
         </Column>
       </Grid>
     );
