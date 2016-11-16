@@ -1,6 +1,7 @@
 import { expect } from 'chai'
 import { Grid } from '../Ardagryd'
 import Column from '../lib/Column'
+import Cell from '../lib/GridCell'
 import { mount, render } from 'enzyme'
 import React from 'react';
 
@@ -291,7 +292,9 @@ describe('Grid filter tests', function () {
         let grid = mount(
             <Grid objects={[{name: "Foo"}]}
                   filter={[{columnName: "name", expression: "Bar"}]}>
-              <Column name="name" content={({value}) => "Bar"} />
+              <Column name="name">
+                <Cell content={({value}) => "Bar"} />
+              </Column>
             </Grid>
         );
         expect(grid.find("tbody").children().length).be.equal(1);
