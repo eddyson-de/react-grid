@@ -1,5 +1,6 @@
 import { expect } from 'chai'
 import { Grid } from '../Ardagryd'
+import Column from '../lib/Column'
 import { mount, render } from 'enzyme'
 import React from 'react';
 
@@ -176,7 +177,7 @@ describe('Grid filter tests', function () {
     it('Filter object should filter grid to 2 rows', function () {
         
         let grid = render(
-            <Grid objects={data} filter={{columnName: "name", expression: "ie"}} columns={{}} config={{}}/>
+            <Grid objects={data} filter={{columnName: "name", expression: "ie"}} config={{}}/>
         );
         
         expect(grid.find("tbody").children().length).be.equal(2);
@@ -185,7 +186,7 @@ describe('Grid filter tests', function () {
     it('Array of filter object(s) should filter grid to 2 rows', function () {
 
         let grid = render(
-            <Grid objects={data} filter={[{columnName: "name", expression: "ie"}]} columns={{}} config={{}}/>
+            <Grid objects={data} filter={[{columnName: "name", expression: "ie"}]} config={{}}/>
         );
 
         expect(grid.find("tbody").children().length).be.equal(2);
@@ -194,7 +195,7 @@ describe('Grid filter tests', function () {
     it('Component should react to filter change via Filter input element', function(done) {
 
       let grid = mount(
-          <Grid objects={data} columns={{}} config={{}}/>
+          <Grid objects={data} config={{}}/>
       );
       grid.find('input').first().simulate('change', {target: {value: 'ie'}});
       setTimeout(function () {
@@ -279,9 +280,12 @@ describe('Grid filter tests', function () {
     });
     
     it('Should use displayValueGetter for default filter function', () => {
-        let grid = mount(<Grid objects={[{name: "Foo"}]}
-                               columns={{name: {displayValueGetter: ({value}) => "Bar"}}}
-                               filter={[{columnName: "name", expression: "Bar"}]}     />);
+        let grid = mount(
+            <Grid objects={[{name: "Foo"}]}
+                  filter={[{columnName: "name", expression: "Bar"}]}>
+              <Column name="name" content={({value}) => "Bar"} />
+            </Grid>
+        );
         expect(grid.find("tbody").children().length).be.equal(1);
     });
 });
