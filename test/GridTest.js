@@ -4,6 +4,7 @@ import { Grid } from '../Ardagryd';
 import  Column  from '../lib/Column';
 import  Pager  from '../lib/Pager';
 import { Cell } from '../lib/GridCell';
+import { Row } from '../lib/GridRow';
 import chai, { expect } from 'chai'
 import { mount, render } from 'enzyme'
 import chaiEnzyme from 'chai-enzyme'
@@ -563,4 +564,18 @@ describe('Grid render tests', function(){
     expect(grid.find("td").eq(2)).to.have.style('color', 'red');
   });
 
+  it('Can use a custom component for all grid rows', function(){
+    let grid = render(
+      <Grid objects={[{value: true}, {value: false}]}>
+        <Row component={({object, children})=>{
+          const className = object.value ? 'yes' : 'no';
+          return <tr className={className}>{children}</tr>;
+        }} />
+      </Grid>
+    );
+
+    expect(grid.find("tbody tr").eq(0)).to.have.className('yes');
+    expect(grid.find("tbody tr").eq(1)).to.have.className('no');
+  });
+  
 });
