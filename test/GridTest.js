@@ -4,8 +4,11 @@ import { Grid } from '../Ardagryd';
 import  Column  from '../lib/Column';
 import  Pager  from '../lib/Pager';
 import { Cell } from '../lib/GridCell';
-import { expect } from 'chai'
+import chai, { expect } from 'chai'
 import { mount, render } from 'enzyme'
+import chaiEnzyme from 'chai-enzyme'
+
+chai.use(chaiEnzyme())
 
 let data = [{
   "name": "Nike Floder",
@@ -526,6 +529,38 @@ describe('Grid render tests', function(){
     expect(grid.find("td").eq(0).html()).be.equal('true');
     // use index 2 for the second row because if the generated ID column
     expect(grid.find("td").eq(2).html()).be.equal('false');
+  });
+  
+  it('Can use a custom cell component for a specific column', function(){
+    let grid = render(
+      <Grid objects={[{value: true}, {value: false}]}>
+        <Column name="value">
+          <Cell component={({value, children})=>{
+            const color = value ? 'green' : 'red';
+            return <td style={{color: color}}>{children}</td>;
+          }} />
+        </Column>
+      </Grid>
+    );
+
+    expect(grid.find("td").eq(0)).to.have.style('color', 'green');
+    // use index 2 for the second row because if the generated ID column
+    expect(grid.find("td").eq(2)).to.have.style('color', 'red');
+  });
+  
+  it('Can use a custom component for all grid cells', function(){
+    let grid = render(
+      <Grid objects={[{value: true}, {value: false}]}>
+        <Cell component={({value, children})=>{
+          const color = value ? 'green' : 'red';
+          return <td style={{color: color}}>{children}</td>;
+        }} />
+      </Grid>
+    );
+
+    expect(grid.find("td").eq(0)).to.have.style('color', 'green');
+    // use index 2 for the second row because if the generated ID column
+    expect(grid.find("td").eq(2)).to.have.style('color', 'red');
   });
 
 });
