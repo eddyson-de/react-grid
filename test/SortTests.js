@@ -1,5 +1,6 @@
 import { expect } from 'chai'
 import { Grid }  from '../Ardagryd'
+import Column from '../lib/Column'
 import { mount, render } from 'enzyme'
 import React from 'react';
 
@@ -57,12 +58,16 @@ describe("Sorting tests",() => {
 
 
     it("Click on name column sort button should sort by name property in ascending order.", ()=> {
-        let grid  = mount(<Grid
+        let grid  = mount(
+          <Grid
             objects={[
                 {name: "B", nr: 1},
                 {name: "C", nr: 2},
                 {name: "A", nr: 3}]}
-            sort={{columnName: "nr", order: "asc"}} columns={{id: {show:false}}}/>);
+            sort={{columnName: "nr", order: "asc"}} >
+            <Column name="id" show={false} />
+          </Grid>
+        );
 
         expect(grid.find("tbody tr").at(0).find("td").at(0).text()).to.equal("B");
         expect(grid.find("tbody tr").at(1).find("td").at(0).text()).to.equal("C");
@@ -76,12 +81,16 @@ describe("Sorting tests",() => {
     });
 
     it("Click on name column sort button should sort by name property in ascending order. another click should toggle to descending order.", ()=> {
-        let grid  = mount(<Grid
+        let grid  = mount(
+          <Grid
             objects={[
                 {name: "B", nr: 1},
                 {name: "C", nr: 2},
                 {name: "A", nr: 3}]}
-            sort={{columnName: "nr", order: "asc"}} columns={{id: {show:false}}}/>);
+            sort={{columnName: "nr", order: "asc"}}>
+            <Column name="id" show={false} />
+          </Grid>
+        );
 
         expect(grid.find("tbody tr").at(0).find("td").at(0).text()).to.equal("B");
         expect(grid.find("tbody tr").at(1).find("td").at(0).text()).to.equal("C");
@@ -102,12 +111,16 @@ describe("Sorting tests",() => {
 
 
     it("Sort props should not override internal state if not changed", ()=> {
-        let grid  = mount(<Grid
+        let grid  = mount(
+          <Grid
             objects={[
                 {name: "B", nr: 1},
                 {name: "C", nr: 2},
                 {name: "A", nr: 3}]}
-            sort={{columnName: "nr", order: "asc"}} columns={{id: {show:false}}}/>);
+            sort={{columnName: "nr", order: "asc"}}>
+            <Column name="id" show={false} />
+          </Grid>
+        );
 
         expect(grid.find("tbody tr").at(0).find("td").at(0).text()).to.equal("B");
         expect(grid.find("tbody tr").at(1).find("td").at(0).text()).to.equal("C");
@@ -127,12 +140,16 @@ describe("Sorting tests",() => {
     });
 
     it("Sort props should override internal state if changed", ()=> {
-        let grid  = mount(<Grid
+        let grid  = mount(
+          <Grid
             objects={[
                 {name: "B", nr: 1},
                 {name: "C", nr: 2},
                 {name: "A", nr: 3}]}
-            sort={{columnName: "nr", order: "asc"}} columns={{id: {show:false}}}/>);
+            sort={{columnName: "nr", order: "asc"}}>
+            <Column name="id" show={false} />
+          </Grid>
+        );
 
         expect(grid.find("tbody tr").at(0).find("td").at(0).text()).to.equal("B");
         expect(grid.find("tbody tr").at(1).find("td").at(0).text()).to.equal("C");
@@ -171,10 +188,13 @@ describe("Sorting tests",() => {
     });
 
     it("Should use custom sortValueGetter", () => {
-        let grid = mount(<Grid objects={[
-        {name: "Z"},
-        {name: "A"}
-        ]} columns={{id: {show: false}}}/>);
+        let grid = mount(
+          <Grid objects={[
+            {name: "Z"},
+            {name: "A"}]}>
+            <Column name="id" show={false} />
+          </Grid>
+        );
 
         expect(grid.find("tbody tr").find("td").first().text()).to.equal("Z");
         expect(grid.find("tbody tr").find("td").last().text()).to.equal("A");
