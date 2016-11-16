@@ -421,10 +421,10 @@ describe('Grid render tests', function(){
     let linkToPage2 = liWithLinkToPage2.find("a");
     linkToPage2.simulate('click');
     expect(instance.find("td").first().text()).be.equal("Jack");
-    expect(liWithLinkToPage2.hasClass("active")).be.true;
+    expect(liWithLinkToPage2).to.have.className("active");
     instance.setProps({objects: people});
     expect(instance.find("td").first().text()).be.equal("Jack");
-    expect(liWithLinkToPage2.hasClass("active")).be.true;
+    expect(liWithLinkToPage2).to.have.className("active");
   });
 
   it('Should order columns with order 0 before columns with order 1', function (){
@@ -464,12 +464,12 @@ describe('Grid render tests', function(){
     expect(grid.find("li").length).be.equal(4);
     let liWithLinkToPage1 = grid.find("li").at(1);
     let linkToPage1 = liWithLinkToPage1.find("a");
-    expect(liWithLinkToPage1.hasClass("active")).be.true;
+    expect(liWithLinkToPage1).to.have.className("active");
     let liWithLinkToPage2 = grid.find("li").at(2);
     let linkToPage2 = liWithLinkToPage2.find("a");
     linkToPage2.simulate('click');
     expect(grid.find("td").first().text()).be.equal("Jack");
-    expect(liWithLinkToPage2.hasClass("active")).be.true;
+    expect(liWithLinkToPage2).to.have.className("active");
     grid.setProps({objects: [{"name":"John"}]});
     expect(grid.find("li").length).be.equal(0); // no pager because only 1 item mathches the filter
     expect(grid.find("td").first().text()).be.equal("John");
@@ -485,18 +485,18 @@ describe('Grid render tests', function(){
     expect(grid.find("td").first().text()).be.equal("John");
     expect(grid.find("li").length).be.equal(5);
     let liWithLinkToPage1 = grid.find("li").at(1);
-    expect(liWithLinkToPage1.hasClass("active")).be.true;
+    expect(liWithLinkToPage1).to.have.className("active");
     let liWithLinkToPage3 = grid.find("li").at(3);
     let linkToPage3 = liWithLinkToPage3.find("a");
     linkToPage3.simulate('click');
     expect(grid.find("td").first().text()).be.equal("Jeff");
-    expect(liWithLinkToPage3.hasClass("active")).be.true;
+    expect(liWithLinkToPage3).to.have.className("active");
     grid.setProps({objects: [{"name":"John"}, {"name":"Jack"}]});
     expect(grid.find("li").length).be.equal(4); // one item less than before
     expect(grid.find("td").first().text()).be.equal("Jack");
     let liWithLinkToPage2 = grid.find("li").at(2);
     let linkToPage2 = liWithLinkToPage2.find("a");
-    expect(liWithLinkToPage2.hasClass("active")).be.true;
+    expect(liWithLinkToPage2).to.have.className("active");
   });
   
   it('Should not jump to a negative page number when receiving an empty objects prop', ()=>{
