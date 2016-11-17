@@ -215,8 +215,8 @@ describe('Grid render tests', function(){
 
     let grid = render(
       <Grid objects={data}>
-        <Column name="name" show={false} />
-        <Column name="id" show={false} />
+        <Column name="name" hide />
+        <Column name="id" hide />
       </Grid>
     );
 
@@ -314,7 +314,7 @@ describe('Grid render tests', function(){
 
     let grid = render(
       <Grid objects={[{name: "John"}]}>
-        <Column name="name" id show={false}/>
+        <Column name="name" id hide/>
         <Column name="nickNames">
           <Cell content={["Dude", "Johnny"]} />
         </Column>

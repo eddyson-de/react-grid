@@ -65,7 +65,7 @@ describe("Sorting tests",() => {
                 {name: "C", nr: 2},
                 {name: "A", nr: 3}]}
             sort={{columnName: "nr", order: "asc"}} >
-            <Column name="id" show={false} />
+            <Column name="id" hide />
           </Grid>
         );
 
@@ -88,7 +88,7 @@ describe("Sorting tests",() => {
                 {name: "C", nr: 2},
                 {name: "A", nr: 3}]}
             sort={{columnName: "nr", order: "asc"}}>
-            <Column name="id" show={false} />
+            <Column name="id" hide />
           </Grid>
         );
 
@@ -118,7 +118,7 @@ describe("Sorting tests",() => {
                 {name: "C", nr: 2},
                 {name: "A", nr: 3}]}
             sort={{columnName: "nr", order: "asc"}}>
-            <Column name="id" show={false} />
+            <Column name="id" hide />
           </Grid>
         );
 
@@ -147,7 +147,7 @@ describe("Sorting tests",() => {
                 {name: "C", nr: 2},
                 {name: "A", nr: 3}]}
             sort={{columnName: "nr", order: "asc"}}>
-            <Column name="id" show={false} />
+            <Column name="id" hide />
           </Grid>
         );
 
@@ -192,7 +192,7 @@ describe("Sorting tests",() => {
           <Grid objects={[
             {name: "Z"},
             {name: "A"}]}>
-            <Column name="id" show={false} />
+            <Column name="id" hide />
           </Grid>
         );
 
