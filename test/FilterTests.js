@@ -2,6 +2,7 @@ import { expect } from 'chai'
 import { Grid } from '../Ardagryd'
 import Column from '../lib/Column'
 import Cell from '../lib/GridCell'
+import Filter from '../lib/Filter'
 import { mount, render } from 'enzyme'
 import React from 'react';
 
@@ -248,7 +249,11 @@ describe('Grid filter tests', function () {
        let grid = mount(<Grid objects={[{name: "a"}, {name: "b"}]} filter={[{columnName: "name", expression: "a"}]} />);
         expect(grid.find("tbody").children().length).be.equal(1);
 
-        grid.setProps({columns:{name:{filterFunction: ({value}) => true}}});
+        grid.setProps({children:
+            <Column name="name" >
+                <Filter match={({value, expression}) => true}/>
+            </Column>
+        });
 
         expect(grid.find("tbody").children().length).be.equal(2);
     });
