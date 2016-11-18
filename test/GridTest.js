@@ -444,7 +444,11 @@ describe('Grid render tests', function(){
   });
   
   it('Should be possible to hide the tools for a column', ()=>{
-    let grid = render(<Grid objects={[{a: "foo", b: "bar"}]} columns={{b:{hideTools:true}, id:{show:false}}} />);
+    let grid = render(
+        <Grid objects={[{a: "foo", b: "bar"}]}>
+            <Column name="b" hideTools={true}/>
+            <Column name="id" hide/>
+        </Grid>);
      expect(grid.find("input").length).be.equal(1);
   });
 
