@@ -207,8 +207,12 @@ describe("Sorting tests",() => {
         expect(grid.find("tbody tr").find("td").last().text()).to.equal("Z");
         expect(grid.find("th button span").first().html()).to.equal('<span class="glyphicon glyphicon-sort-by-attributes"></span>');
 
-        grid.setProps({columns: {id: {show: false},
-                        name: {sortValueGetter: ({value}) => value == "Z" ? "A" : "Z"}}});
+        grid.setProps({
+            children:
+                [
+                    <Column name="id" hide/>,
+                    <Column name="name" sortValueGetter={({value}) => value == "Z" ? "A" : "Z" }/>
+                ]});
 
         expect(grid.find("tbody tr").find("td").first().text()).to.equal("Z");
         expect(grid.find("tbody tr").find("td").last().text()).to.equal("A");
