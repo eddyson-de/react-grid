@@ -582,4 +582,20 @@ describe('Grid render tests', function(){
     expect(grid.find("tbody tr").eq(1)).to.have.className('no');
   });
   
+  it('Globally configured cell component is used if column config is specified without a component', function(){
+    let grid = render(
+      <Grid objects={[{value: true}, {value: false}]}>
+        <Column name="value">
+          <Cell content="foo" />
+        </Column>
+        <Cell component={({value, children})=>{
+          const color = value ? 'green' : 'red';
+          return <td style={{color: color}}>{children}</td>;
+        }} />
+      </Grid>
+    );
+
+    expect(grid.find("td").eq(0)).to.have.style('color', 'green');
+  });
+  
 });
