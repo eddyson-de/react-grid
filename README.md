@@ -3,6 +3,8 @@
 
 # react-grid
 Customizable data grid for React.js
+
+[![Image of Grid](https://cloud.githubusercontent.com/assets/5182212/20663384/9d9c547c-b557-11e6-806b-d7f6dd4c7549.png)](https://jsfiddle.net/dhfsk/2q1vh796/)
 ### Example
 
 [Basic example on JSFiddle](https://jsfiddle.net/dhfsk/2q1vh796/)
