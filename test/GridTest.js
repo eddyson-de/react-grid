@@ -598,4 +598,11 @@ describe('Grid render tests', function(){
     expect(grid.find("td").eq(0)).to.have.style('color', 'green');
   });
   
+  it('Should ignore null values', ()=> {
+      let data = [{name: "a"}, {name: null}];
+      let grid = render(
+          <Grid objects={data} />
+      );
+      expect(grid.find("tbody").children().length).to.be.equal(2);
+  });
 });

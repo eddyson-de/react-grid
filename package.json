@@ -1,6 +1,6 @@
 {
   "name": "eddyson-react-grid",
-  "version": "1.0.0-alpha-3",
+  "version": "1.0.0-alpha-6",
   "description": "Redux Compatible React Grid Component",
   "main": "dist/Ardagryd.js",
   "files": [
@@ -63,7 +63,7 @@
     "enzyme": "2.6.0",
     "chai": "3.5.0",
     "chai-enzyme": "0.6.0",
-    "eslint": "3.11.0",
+    "eslint": "3.11.1",
     "eslint-plugin-react": "6.7.1",
     "react-addons-test-utils": "^15.1.0"
   }
