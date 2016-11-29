@@ -453,8 +453,15 @@ describe('Grid render tests', function(){
   });
 
   it('Should be possible to disable paging by passing false', ()=>{
-    let grid = render(<Grid objects={data} config={{paging:false}} />);
-    expect(grid.find("tbody").children().length).be.equal(8);
+    const copies = data.map(item => {
+      // currently, we add an id property to every object. remove it so we don't end up with duplicate ids
+      delete item.id;
+      return Object.assign({}, item);
+    });
+    let dataDuplicated = data.concat(copies);
+
+    let grid = render(<Grid objects={dataDuplicated} config={{paging:false}} />);
+    expect(grid.find("tbody").children().length).be.equal(16);
   });
 
   it('Should jump to the last page if current page exceeds number of available pages', ()=>{
