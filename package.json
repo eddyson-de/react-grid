@@ -64,6 +64,6 @@
     "chai": "3.5.0",
     "eslint": "3.13.0",
     "eslint-plugin-react": "6.9.0",
-    "react-addons-test-utils": "^15.1.0"
+    "react-addons-test-utils": "^15.4.2"
   }
 }
