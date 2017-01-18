@@ -304,4 +304,16 @@ describe('Grid filter tests', function () {
         );
         expect(grid.find("tbody").children().length).be.equal(1);
     });
+    
+    it('Should use content for default filter function on computed columns.', () => {
+        let grid = mount(
+            <Grid objects={[{name: "Foo"}]}
+                  filter={[{columnName: "nickname", expression: "0"}]}>
+                <Column name="nickname" label="Nickname">
+                    <Cell content={({object}) => "F00"} />
+                </Column>
+            </Grid>
+        );
+        expect(grid.find("tbody").children().length).be.equal(1);
+    });
 });
