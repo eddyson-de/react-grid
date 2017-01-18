@@ -1,29 +1,61 @@
 require("./node_modules/bootstrap/dist/css/bootstrap.min.css");
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Grid} from './Ardagryd';
+import GridBuilder from './lib/GridBuilder';
 import data from './testData';
-import Column from './lib/Column';
-import Cell from './lib/GridCell';
+
+class Column extends React.Component {
+    constructor(props){
+        super(props);
+    }
+    
+    componentWillMount(){
+        this.context.updateConfig({name: this.props.name, content: this.props.content, component: this.props.component});
+    }
+    
+    render(){
+        return null;
+    }
+}
+
+Column.contextTypes = {
+  config: React.PropTypes.array,
+  updateConfig: React.PropTypes.func
+};
+
+class Row extends React.Component {
+    constructor(props){
+        super(props);
+    }
+    
+    componentWillMount(){
+        this.context.updateRow(this.props.component);
+    }
+    
+    render(){
+        return null;
+    }
+}
+
+Row.contextTypes = {
+    updateRow: React.PropTypes.func
+};
+
 
 
 export class App extends React.Component {
 
-
-
-	render() {
-
-    let externalData = {getThis: "External data"};
-
-
-    var config = {showToolbar: true, paging: 10};
+    render() {
 		return (
-
-      <div>
-          <Grid objects={data} showColumnsWithoutConfig={false}>
-              <Column name="name" />
-          </Grid>
-      </div>
+          <GridBuilder objects={data}>
+              <Column name="name"
+                      component={({children}) => <td style={{color: "red"}}>{children}</td>}
+                      content={({value}) => value.toLowerCase()}
+              />
+              <Column name="username" someParam="foo"/>
+              <Column name="email" someParam="foo"/>
+              <Column name="address" someParam="foo"/>
+          </GridBuilder>
 		);
 	}
 }
