@@ -3,25 +3,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import GridBuilder from './lib/GridBuilder';
 import data from './testData';
-
-class Column extends React.Component {
-    constructor(props){
-        super(props);
-    }
-    
-    componentWillMount(){
-        this.context.updateConfig({name: this.props.name, content: this.props.content, component: this.props.component});
-    }
-    
-    render(){
-        return null;
-    }
-}
-
-Column.contextTypes = {
-  config: React.PropTypes.array,
-  updateConfig: React.PropTypes.func
-};
+import Cell from './lib/Cell';
+import Column from './lib/Column';
 
 class Row extends React.Component {
     constructor(props){
@@ -48,10 +31,10 @@ export class App extends React.Component {
     render() {
 		return (
           <GridBuilder objects={data}>
-              <Column name="name"
-                      component={({children}) => <td style={{color: "red"}}>{children}</td>}
-                      content={({value}) => value.toLowerCase()}
-              />
+              <Column name="name">
+                  <Cell component={({children}) => <td style={{color: "red"}}>{children}</td>}
+                        content={({value}) => value.toLowerCase()} />
+              </Column>
               <Column name="username" someParam="foo"/>
               <Column name="email" someParam="foo"/>
               <Column name="address" someParam="foo"/>
