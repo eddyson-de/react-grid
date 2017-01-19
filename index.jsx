@@ -31,7 +31,7 @@ export class App extends React.Component {
     render() {
 		return (
           <GridBuilder objects={data}>
-              <Column name="name">
+              <Column name="name" hide>
                   <Cell component={({children}) => <td style={{color: "red"}}>{children}</td>}
                         content={({value}) => value.toLowerCase()} />
               </Column>

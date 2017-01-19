@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { Grid }  from '../Ardagryd'
+import { GridBuilder as Grid }  from '../lib/GridBuilder'
 import Column from '../lib/Column'
 import { mount, render } from 'enzyme'
 import React from 'react';
