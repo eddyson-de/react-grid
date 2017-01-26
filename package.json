@@ -16,7 +16,7 @@
     "dev": "webpack -p --config webpack.dev-server.config.js && webpack-dev-server --config webpack.dev-server.config.js --progress --profile --colors --hot",
     "test": "BABEL_ENV=test mocha --compilers js:babel-core/register --recursive --require ./test/setup.js",
     "testw": "BABEL_ENV=test mocha --compilers js:babel-core/register --recursive --watch --require ./test/setup.js",
-    "cover": "babel-node node_modules/istanbul/lib/cli cover node_modules/mocha/bin/_mocha -- --recursive --require ./test/setup.js",
+    "cover": "BABEL_ENV=test babel-node node_modules/istanbul/lib/cli cover node_modules/mocha/bin/_mocha -- --recursive --require ./test/setup.js",
     "eslint": "eslint Ardagryd.js lib"
   },
   "keywords": [
