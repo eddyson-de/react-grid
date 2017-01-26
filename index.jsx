@@ -2,7 +2,9 @@ require("./node_modules/bootstrap/dist/css/bootstrap.min.css");
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Grid} from './Ardagryd';
-import data from './testData'
+import data from './testData';
+import Column from './lib/Column';
+import Cell from './lib/GridCell';
 
 
 export class App extends React.Component {
@@ -15,21 +17,12 @@ export class App extends React.Component {
 
 
     var config = {showToolbar: true, paging: 10};
-    var columns = {
-
-      edit: {
-        label: "Edit",
-        hideTools: true,
-        sortable: false,
-        displayValueGetter: ({value, object, columns}) => <a href={"#"}> EDIT ROW</a>
-      },
-      id: {show: false}
-    };
-
 		return (
 
       <div>
-        <Grid objects={data} columns={columns} config={config} />
+          <Grid objects={data} showColumnsWithoutConfig={false}>
+              <Column name="name" />
+          </Grid>
       </div>
 		);
 	}

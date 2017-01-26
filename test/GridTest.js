@@ -1,8 +1,15 @@
 import React          from 'react';
 import console        from 'console';
 import { Grid } from '../Ardagryd';
-import { expect } from 'chai'
+import  Column  from '../lib/Column';
+import  Pager  from '../lib/Pager';
+import { Cell } from '../lib/GridCell';
+import { Row } from '../lib/GridRow';
+import chai, { expect } from 'chai'
 import { mount, render } from 'enzyme'
+import chaiEnzyme from 'chai-enzyme'
+
+chai.use(chaiEnzyme())
 
 let data = [{
   "name": "Nike Floder",
@@ -178,10 +185,7 @@ describe('Grid render tests', function(){
 
   it('Should render Grid with 8 rows', function(){
     let grid = render(
-      <Grid objects={data} columns={{
-      name: {
-        displayValueGetter: ({value, object, columns}) => <span>{value}</span>
-      }}} config={{}}/>
+      <Grid objects={data} />
     );
 
     expect(grid.find("tbody").children().length).be.equal(8);
@@ -190,9 +194,7 @@ describe('Grid render tests', function(){
   it('Should have 8 columns by default', function (){
 
     let grid = render(
-      <Grid objects={data} columns={{
-      name: {
-      }}} config={{}}/>
+      <Grid objects={data} />
     );
 
     expect(grid.find("tbody").children().length).be.equal(8);
@@ -201,9 +203,9 @@ describe('Grid render tests', function(){
   it('Should render the correct number of pages', function (){
 
     let grid = render(
-      <Grid objects={data} columns={{
-      name: {
-      }}} config={{paging: 3}}/>
+      <Grid objects={data}>
+        <Pager rowsPerPage={3} />
+      </Grid>
     );
 
     expect(grid.find("li").length).be.equal(5); // 3 pages + back/forward links
@@ -212,23 +214,24 @@ describe('Grid render tests', function(){
   it('Should hide 2 columns', function (){
 
     let grid = render(
-      <Grid objects={data} columns={{
-      name: {
-        show: false
-      },
-      id:{show: false}}} config={{}}/>
+      <Grid objects={data}>
+        <Column name="name" hide />
+        <Column name="id" hide />
+      </Grid>
     );
 
     expect(grid.find("tbody tr").first().children().length).be.equal(6);
   });
 
   it('Should react to changing properties', function (){
-
-    let instance = mount(<Grid objects={[]} columns={{}} config={{showColumnsWithoutConfig: false}} />);
+    let instance = mount(<Grid objects={[]} showColumnsWithoutConfig={false} />);
 
     expect(instance.find("tbody").children().length).be.equal(0);
 
-    instance.setProps({objects:data, columns:{name: { show: true }}});
+    instance.setProps({objects:data, children:[
+      <Column name="name" />
+    ]});
+    
     expect(instance.find("tbody tr").length).be.equal(8);
     expect(instance.find("tbody tr").at(0).find("td").length).be.equal(1);
 
@@ -237,27 +240,11 @@ describe('Grid render tests', function(){
   it('Should be possible to override the cell renderer per column', function (){
 
     let grid = render(
-      <Grid objects={data} columns={{
-        name: {
-          order: 0,
-          cellRenderer: ({object: {name, email}})=><a href={`mailto:${email}`}>{name}</a>
-        }
-        }} config={{}}/>
-    );
-
-    expect(grid.find("td").html()).be.equal('<a href="mailto:Emilian20@yahoo.com">Nike Floder</a>');
-  });
-  
-  it('Should use the cell renderer also if displayValueGetter returns null', function (){
-
-    let grid = render(
-      <Grid objects={data} columns={{
-        name: {
-          order: 0,
-          displayValueGetter: ()=>null,
-          cellRenderer: ({object: {name, email}})=><a href={`mailto:${email}`}>{name}</a>
-        }
-        }} config={{}}/>
+      <Grid objects={data}>
+        <Column name="name">
+          <Cell content={({object: {name, email}})=><a href={`mailto:${email}`}>{name}</a>} />
+        </Column>
+      </Grid>
     );
 
     expect(grid.find("td").html()).be.equal('<a href="mailto:Emilian20@yahoo.com">Nike Floder</a>');
@@ -266,12 +253,11 @@ describe('Grid render tests', function(){
   it('Should be possible to override the displayValueGetter per column', function (){
 
     let grid = render(
-      <Grid objects={data} columns={{
-        name: {
-          order: 0,
-          displayValueGetter: ({object})=>"John Doe"
-        }
-        }} config={{}}/>
+      <Grid objects={data}>
+        <Column name="name">
+          <Cell content="John Doe" />
+        </Column>
+      </Grid>
     );
 
     expect(grid.find("td").html()).be.equal("John Doe");
@@ -280,13 +266,9 @@ describe('Grid render tests', function(){
   it('Should be possible to override global displayValueGetter', function (){
 
     let grid = render(
-      <Grid objects={data} columns={{
-        name: {
-          order: 0
-        }
-        }} config={{
-          displayValueGetter: ({object})=>"This is the name"
-        }}/>
+      <Grid objects={data}>
+        <Cell content="This is the name" />
+      </Grid>
     );
 
     expect(grid.find("td").html()).be.equal("This is the name");
@@ -295,29 +277,25 @@ describe('Grid render tests', function(){
   it('Should be possible to override the global displayValueGetter with a per-column configuration', function (){
 
     let grid = render(
-      <Grid objects={data} columns={{
-        name: {
-          order: 0,
-          displayValueGetter: ({object})=>"Robert Paulson"
-        }
-        }} config={{
-          displayValueGetter: ({object})=>"This is the name"
-        }}/>
+      <Grid objects={data}>
+        <Cell content="This is the name" />
+        <Column name="name">
+          <Cell content="Robert Paulson" />
+        </Column>
+      </Grid>
     );
 
     expect(grid.find("td").html()).be.equal("Robert Paulson");
   });
   
-  //TODO this is deprecated!
   it('Should be possible to return an element from the displayValueGetter', function (){
 
     let grid = render(
-      <Grid objects={data} columns={{
-        name: {
-          order: 0,
-          displayValueGetter: ({object})=><span>"John Doe"</span>
-        }
-        }} config={{}}/>
+      <Grid objects={data}>
+        <Column name="name">
+          <Cell content={<span>"John Doe"</span>} />
+        </Column>
+      </Grid>
     );
 
     expect(grid.find("td").html()).be.equal('<span>&quot;John Doe&quot;</span>');
@@ -326,10 +304,7 @@ describe('Grid render tests', function(){
   it('Should render an array value', function (){
 
     let grid = render(
-      <Grid objects={[{nickNames: ["Dude", "Johnny"]}]} columns={{
-        nickNames: {
-          order: 0}
-        }} config={{}}/>
+      <Grid objects={[{nickNames: ["Dude", "Johnny"]}]}/>
     );
 
     expect(grid.find("td").html()).be.equal("<ul><li><span>Dude</span></li><li><span>Johnny</span></li></ul>");
@@ -338,16 +313,12 @@ describe('Grid render tests', function(){
   it('Can dynamically add an array-typed column', function (){
 
     let grid = render(
-      <Grid objects={[{name: "John"}]} columns={{
-        nickNames: {
-          displayValueGetter: ({object})=>["Dude", "Johnny"],
-          order: 0
-        },
-        name: {
-          id: true,
-          show: false
-        }
-        }} config={{}}/>
+      <Grid objects={[{name: "John"}]}>
+        <Column name="name" id hide/>
+        <Column name="nickNames">
+          <Cell content={["Dude", "Johnny"]} />
+        </Column>
+      </Grid>
     );
 
     expect(grid.find("td").html()).be.equal("<ul><li><span>Dude</span></li><li><span>Johnny</span></li></ul>");
@@ -356,12 +327,11 @@ describe('Grid render tests', function(){
   it('Can override the displayValueGetter for an array-typed column', function (){
 
     let grid = render(
-      <Grid objects={[{nickNames: ["Dude", "Johnny"]}]} columns={{
-        nickNames: {
-          order: 0,
-          displayValueGetter:  ({value})=>value.join(" or ")
-        }
-        }} config={{}}/>
+      <Grid objects={[{nickNames: ["Dude", "Johnny"]}]}>
+        <Column name="nickNames">
+          <Cell content={({value})=>value.join(" or ")} />
+        </Column>
+      </Grid>
     );
 
     expect(grid.find("td").html()).be.equal("Dude or Johnny");
@@ -383,12 +353,12 @@ describe('Grid render tests', function(){
     }
 
     let grid = render(
-      <Grid objects={[{name: "John Doe"}]} columns={{
-        name: {
-          order: 0,
-          displayValueGetter: Renderer
-        }
-        }} config={{}}/>
+      <Grid objects={[{name: "John Doe"}]}>
+        <Column name="name">
+          <Cell content={Renderer} />
+        </Column>
+      </Grid>
+
     );
 
     expect(grid.find("td").html()).be.equal('<span class="custom">John Doe</span>');
@@ -420,12 +390,13 @@ describe('Grid render tests', function(){
       }
       
       render(){
-        return <Grid objects={[{name: "John Doe"}]} columns={{
-          name: {
-            order: 0,
-            displayValueGetter: this.createRenderer
-          }
-          }} config={{}}/>;
+        return (
+          <Grid objects={[{name: "John Doe"}]}>
+            <Column name="name">
+              <Cell content={this.createRenderer} />
+            </Column>
+          </Grid>
+        );
       }
       
     }
@@ -439,17 +410,21 @@ describe('Grid render tests', function(){
   
   it('Should not jump to the first page if the props don\'t change', function (){
     let people = [{"name": "John"}, {"name": "Jack"}];
-    let instance = mount(<Grid objects={people} columns={{}} config={{paging: 1}} />);
+    let instance = mount(
+        <Grid objects={people}>
+          <Pager rowsPerPage={1} />
+        </Grid>
+    );
 
     expect(instance.find("td").first().text()).be.equal("John");
     let liWithLinkToPage2 = instance.find("li").at(2);
     let linkToPage2 = liWithLinkToPage2.find("a");
     linkToPage2.simulate('click');
     expect(instance.find("td").first().text()).be.equal("Jack");
-    expect(liWithLinkToPage2.hasClass("active")).be.true;
+    expect(liWithLinkToPage2).to.have.className("active");
     instance.setProps({objects: people});
-    expect(liWithLinkToPage2.hasClass("active")).be.true;
     expect(instance.find("td").first().text()).be.equal("Jack");
+    expect(liWithLinkToPage2).to.have.className("active");
   });
 
   it('Should order columns with order 0 before columns with order 1', function (){
@@ -469,35 +444,74 @@ describe('Grid render tests', function(){
   });
   
   it('Should be possible to hide the tools for a column', ()=>{
-    let grid = render(<Grid objects={[{a: "foo", b: "bar"}]} columns={{b:{hideTools:true}, id:{show:false}}} />);
+    let grid = render(
+        <Grid objects={[{a: "foo", b: "bar"}]}>
+            <Column name="b" hideTools={true}/>
+            <Column name="id" hide/>
+        </Grid>);
      expect(grid.find("input").length).be.equal(1);
   });
 
   it('Should be possible to disable paging by passing false', ()=>{
-    let grid = render(<Grid objects={data} config={{paging:false}} />);
-    expect(grid.find("tbody").children().length).be.equal(8);
+    const copies = data.map(item => {
+      // currently, we add an id property to every object. remove it so we don't end up with duplicate ids
+      delete item.id;
+      return Object.assign({}, item);
+    });
+    let dataDuplicated = data.concat(copies);
+
+    let grid = render(<Grid objects={dataDuplicated} config={{paging:false}} />);
+    expect(grid.find("tbody").children().length).be.equal(16);
   });
 
   it('Should jump to the last page if current page exceeds number of available pages', ()=>{
-    let grid = mount(<Grid objects={[{"name":"John"}, {"name":"Jack"}]} config={{paging:1}} />);
+    let grid = mount(
+      <Grid objects={[{"name":"John"}, {"name":"Jack"}]}>
+        <Pager rowsPerPage={1} />
+      </Grid>
+    );
     expect(grid.find("tbody").children().length).be.equal(1);
     expect(grid.find("td").first().text()).be.equal("John");
     expect(grid.find("li").length).be.equal(4);
     let liWithLinkToPage1 = grid.find("li").at(1);
     let linkToPage1 = liWithLinkToPage1.find("a");
-    expect(liWithLinkToPage1.hasClass("active")).be.true;
+    expect(liWithLinkToPage1).to.have.className("active");
     let liWithLinkToPage2 = grid.find("li").at(2);
     let linkToPage2 = liWithLinkToPage2.find("a");
     linkToPage2.simulate('click');
     expect(grid.find("td").first().text()).be.equal("Jack");
-    expect(liWithLinkToPage2.hasClass("active")).be.true;
+    expect(liWithLinkToPage2).to.have.className("active");
     grid.setProps({objects: [{"name":"John"}]});
     expect(grid.find("li").length).be.equal(0); // no pager because only 1 item mathches the filter
     expect(grid.find("td").first().text()).be.equal("John");
   });
   
+  it('Should jump to the last page if current page exceeds number of available pages and there is more than one page', ()=>{
+    let grid = mount(
+      <Grid objects={[{"name":"John"}, {"name":"Jack"}, {"name":"Jeff"}]}>
+        <Pager rowsPerPage={1} />
+      </Grid>
+    );
+    expect(grid.find("tbody").children().length).be.equal(1);
+    expect(grid.find("td").first().text()).be.equal("John");
+    expect(grid.find("li").length).be.equal(5);
+    let liWithLinkToPage1 = grid.find("li").at(1);
+    expect(liWithLinkToPage1).to.have.className("active");
+    let liWithLinkToPage3 = grid.find("li").at(3);
+    let linkToPage3 = liWithLinkToPage3.find("a");
+    linkToPage3.simulate('click');
+    expect(grid.find("td").first().text()).be.equal("Jeff");
+    expect(liWithLinkToPage3).to.have.className("active");
+    grid.setProps({objects: [{"name":"John"}, {"name":"Jack"}]});
+    expect(grid.find("li").length).be.equal(4); // one item less than before
+    expect(grid.find("td").first().text()).be.equal("Jack");
+    let liWithLinkToPage2 = grid.find("li").at(2);
+    let linkToPage2 = liWithLinkToPage2.find("a");
+    expect(liWithLinkToPage2).to.have.className("active");
+  });
+  
   it('Should not jump to a negative page number when receiving an empty objects prop', ()=>{
-    let grid = mount(<Grid objects={[]} config={{}} />);
+    let grid = mount(<Grid objects={[]} />);
     expect(grid.state().skip).to.equal(0);
     // trigger componentWillReceiveProps
     grid.setProps({objects: []});
@@ -511,18 +525,116 @@ describe('Grid render tests', function(){
 
   it('Should throw an error when specifying a number < 1 for paging', ()=>{
     expect(function(){
-      render(<Grid objects={data} config={{paging:0}} />)
-    }).to.throw(/Invalid value for config.paging/);
+      render(
+        <Grid objects={data}>
+  		  <Pager rowsPerPage={0} />
+  		</Grid>
+      );
+    }).to.throw(/Invalid prop value for "rowsPerPage"/);
   });
     
   it('Should render "true" or "false" for boolean columns', function(){
     let grid = render(
-      <Grid objects={[{value: true}, {value: false}]} columns={{}} config={{}}/>
+      <Grid objects={[{value: true}, {value: false}]} />
     );
 
     expect(grid.find("td").eq(0).html()).be.equal('true');
     // use index 2 for the second row because if the generated ID column
     expect(grid.find("td").eq(2).html()).be.equal('false');
   });
+  
+  it('Can use a custom cell component for a specific column', function(){
+    let grid = render(
+      <Grid objects={[{value: true}, {value: false}]}>
+        <Column name="value">
+          <Cell component={({value, children})=>{
+            const color = value ? 'green' : 'red';
+            return <td style={{color: color}}>{children}</td>;
+          }} />
+        </Column>
+      </Grid>
+    );
 
+    expect(grid.find("td").eq(0)).to.have.style('color', 'green');
+    // use index 2 for the second row because if the generated ID column
+    expect(grid.find("td").eq(2)).to.have.style('color', 'red');
+  });
+  
+  it('Can use a custom component for all grid cells', function(){
+    let grid = render(
+      <Grid objects={[{value: true}, {value: false}]}>
+        <Cell component={({value, children})=>{
+          const color = value ? 'green' : 'red';
+          return <td style={{color: color}}>{children}</td>;
+        }} />
+      </Grid>
+    );
+
+    expect(grid.find("td").eq(0)).to.have.style('color', 'green');
+    // use index 2 for the second row because if the generated ID column
+    expect(grid.find("td").eq(2)).to.have.style('color', 'red');
+  });
+
+  it('Can use a custom component for all grid rows', function(){
+    let grid = render(
+      <Grid objects={[{value: true}, {value: false}]}>
+        <Row component={({object, children})=>{
+          const className = object.value ? 'yes' : 'no';
+          return <tr className={className}>{children}</tr>;
+        }} />
+      </Grid>
+    );
+
+    expect(grid.find("tbody tr").eq(0)).to.have.className('yes');
+    expect(grid.find("tbody tr").eq(1)).to.have.className('no');
+  });
+  
+  it('Globally configured cell component is used if column config is specified without a component', function(){
+    let grid = render(
+      <Grid objects={[{value: true}, {value: false}]}>
+        <Column name="value">
+          <Cell content="foo" />
+        </Column>
+        <Cell component={({value, children})=>{
+          const color = value ? 'green' : 'red';
+          return <td style={{color: color}}>{children}</td>;
+        }} />
+      </Grid>
+    );
+
+    expect(grid.find("td").eq(0)).to.have.style('color', 'green');
+  });
+  
+  it('Should ignore null values', ()=> {
+      let data = [{name: "a"}, {name: null}];
+      let grid = render(
+          <Grid objects={data} />
+      );
+      expect(grid.find("tbody").children().length).to.be.equal(2);
+  });
+    
+    it('Should should order columns based on order of <Column /> Components', ()=> {
+        let data = [{name: "a", age: "1"}, {name: "b", age: "2" }];
+        let grid = render(
+            <Grid objects={data}>
+                <Column name="age" />
+                <Column name="name" />
+            </Grid>
+        );
+        expect(grid.find("th").eq(0).text()).to.be.equal("age");
+        expect(grid.find("th").eq(1).text()).to.be.equal("name");
+        
+    });
+    it('Should should order columns based on order of <Column /> Components', ()=> {
+        let data = [{name: "a", age: "1"}, {name: "b", age: "2" }];
+        let grid = render(
+            <Grid objects={data}>
+                <Column name="name" />
+                <Column name="age" />
+            </Grid>
+        );
+        expect(grid.find("th").eq(0).text()).to.be.equal("name");
+        expect(grid.find("th").eq(1).text()).to.be.equal("age");
+        
+    });
 });
