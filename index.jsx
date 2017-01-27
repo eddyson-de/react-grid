@@ -1,7 +1,7 @@
 require("./node_modules/bootstrap/dist/css/bootstrap.min.css");
 import React from 'react';
 import ReactDOM from 'react-dom';
-import GridBuilder from './lib/GridBuilder';
+import { GridBuilder as Grid } from './lib/GridBuilder';
 import data from './testData';
 import Cell from './lib/Cell';
 import Column from './lib/Column';
@@ -28,9 +28,9 @@ Row.contextTypes = {
 
 export class App extends React.Component {
 
-    render() {
+    /*render() {
 		return (
-          <GridBuilder objects={data}>
+          <Grid objects={data}>
               <Column name="name" hide>
                   <Cell component={({children}) => <td style={{color: "red"}}>{children}</td>}
                         content={({value}) => value.toLowerCase()} />
@@ -38,9 +38,15 @@ export class App extends React.Component {
               <Column name="username" someParam="foo"/>
               <Column name="email" someParam="foo"/>
               <Column name="address" someParam="foo"/>
-          </GridBuilder>
+          </Grid>
 		);
-	}
+	}*/
+    render() {
+        return (
+            <Grid objects={data} />
+            
+        );
+    }
 }
 
 
