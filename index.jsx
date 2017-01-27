@@ -1,7 +1,7 @@
 require("./node_modules/bootstrap/dist/css/bootstrap.min.css");
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { GridBuilder as Grid } from './lib/GridBuilder';
+import Grid from './lib/GridBuilder';
 import data from './testData';
 import Cell from './lib/Cell';
 import Column from './lib/Column';
