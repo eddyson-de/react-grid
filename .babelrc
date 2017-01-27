@@ -1,4 +1,16 @@
 {
-  "presets": ["latest","react"],
-  "plugins": ["transform-class-properties", "syntax-object-rest-spread","transform-object-rest-spread"]
+  "env": {
+    "distribution": {
+      "presets": [['es2015', { "modules": false }], 'react'],
+      "plugins": ["syntax-object-rest-spread","transform-class-properties","transform-object-rest-spread"]
+    },
+    "devserver": {
+      "presets": [['es2015', { "modules": false }], 'react'],
+      "plugins": ["react-hot-loader/babel", "syntax-object-rest-spread","transform-class-properties","transform-object-rest-spread"]
+    },
+    "test": {
+      "presets": ['es2015', 'react'],
+      "plugins": ["syntax-object-rest-spread","transform-class-properties","transform-object-rest-spread"]
+    }
+  }
 }
