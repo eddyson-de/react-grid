@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { GridBuilder as Grid } from '../lib/GridBuilder'
+import Grid  from '../lib/GridBuilder'
 import Column from '../lib/Column'
 import Cell from '../lib/Cell'
 import Filter from '../lib/Filter'

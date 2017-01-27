@@ -1,6 +1,6 @@
 import React          from 'react';
 import console        from 'console';
-import { GridBuilder as Grid } from '../lib/GridBuilder';
+import Grid from '../lib/GridBuilder';
 import  Column  from '../lib/Column';
 import  Pager  from '../lib/Pager';
 import { Cell } from '../lib/Cell';
