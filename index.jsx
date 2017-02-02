@@ -5,48 +5,34 @@ import Grid from './lib/GridBuilder';
 import data from './testData';
 import Cell from './lib/Cell';
 import Column from './lib/Column';
+import Row from './lib/Row'
 
-class Row extends React.Component {
-    constructor(props){
-        super(props);
-    }
-    
-    componentWillMount(){
-        this.context.updateRow(this.props.component);
-    }
-    
-    render(){
-        return null;
-    }
-}
 
-Row.contextTypes = {
-    updateRow: React.PropTypes.func
-};
 
 
 
 export class App extends React.Component {
 
-    /*render() {
+    render() {
 		return (
           <Grid objects={data}>
-              <Column name="name" hide>
+              <Column name="name" >
                   <Cell component={({children}) => <td style={{color: "red"}}>{children}</td>}
                         content={({value}) => value.toLowerCase()} />
               </Column>
               <Column name="username" someParam="foo"/>
               <Column name="email" someParam="foo"/>
-              <Column name="address" someParam="foo"/>
+              <Column name="address" someParam="foo" />
+              
           </Grid>
 		);
-	}*/
-    render() {
+	}
+    /*render() {
         return (
             <Grid objects={data} />
             
         );
-    }
+    }*/
 }
 
 
