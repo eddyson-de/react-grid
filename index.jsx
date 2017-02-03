@@ -6,6 +6,7 @@ import data from './testData';
 import Cell from './lib/Cell';
 import Column from './lib/Column';
 import Row from './lib/Row'
+import {Main, Header} from './lib/GridBuilder';
 
 
 
@@ -21,9 +22,12 @@ export class App extends React.Component {
                         content={({value}) => value.toLowerCase()} />
               </Column>
               <Column name="username" someParam="foo"/>
-              <Column name="email" someParam="foo"/>
+              <Column name="email" someParam="foo" />
               <Column name="address" someParam="foo" />
+              <Main component={({children})=> <table style={{backgroundColor: "green"}}>{children}</table> }>
               
+              
+              </Main>
           </Grid>
 		);
 	}
