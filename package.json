@@ -49,7 +49,7 @@
     "coveralls": "2.11.16",
     "css-loader": "0.26.2",
     "enzyme": "2.7.1",
-    "eslint": "3.16.1",
+    "eslint": "3.17.0",
     "eslint-plugin-react": "6.10.0",
     "faker": "4.1.0",
     "file-loader": "0.10.1",
