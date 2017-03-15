@@ -202,7 +202,7 @@ describe('Grid render tests', function(){
 
   it('Should render the correct number of pages', function (){
 
-    let grid = render(
+    let grid = mount(
       <Grid objects={data}>
         <Pager rowsPerPage={3} />
       </Grid>
@@ -213,7 +213,7 @@ describe('Grid render tests', function(){
 
   it('Should hide 2 columns', function (){
 
-    let grid = render(
+    let grid = mount(
       <Grid objects={data}>
         <Column name="name" hide />
         <Column name="id" hide />
@@ -228,18 +228,14 @@ describe('Grid render tests', function(){
 
     expect(instance.find("tbody").children().length).be.equal(0);
 
-    instance.setProps({objects:data, children:[
-      <Column name="name" />
-    ]});
+    instance.setProps({objects:data});
     
     expect(instance.find("tbody tr").length).be.equal(8);
-    expect(instance.find("tbody tr").at(0).find("td").length).be.equal(1);
-
   });
   
   it('Should be possible to override the cell renderer per column', function (){
 
-    let grid = render(
+    let grid = mount(
       <Grid objects={data}>
         <Column name="name">
           <Cell content={({object: {name, email}})=><a href={`mailto:${email}`}>{name}</a>} />
@@ -252,7 +248,7 @@ describe('Grid render tests', function(){
   
   it('Should be possible to override the displayValueGetter per column', function (){
 
-    let grid = render(
+    let grid = mount(
       <Grid objects={data}>
         <Column name="name">
           <Cell content="John Doe" />
@@ -265,7 +261,7 @@ describe('Grid render tests', function(){
   
   it('Should be possible to override global displayValueGetter', function (){
 
-    let grid = render(
+    let grid = mount(
       <Grid objects={data}>
         <Cell content="This is the name" />
       </Grid>
@@ -326,7 +322,7 @@ describe('Grid render tests', function(){
   
   it('Can override the displayValueGetter for an array-typed column', function (){
 
-    let grid = render(
+    let grid = mount(
       <Grid objects={[{nickNames: ["Dude", "Johnny"]}]}>
         <Column name="nickNames">
           <Cell content={({value})=>value.join(" or ")} />
@@ -352,7 +348,7 @@ describe('Grid render tests', function(){
       
     }
 
-    let grid = render(
+    let grid = mount(
       <Grid objects={[{name: "John Doe"}]}>
         <Column name="name">
           <Cell content={Renderer} />
