@@ -14,8 +14,8 @@
   "scripts": {
     "prepublish": "eslint Ardagryd.js lib && webpack && webpack -p",
     "dev": "webpack -p --config webpack.dev-server.config.js && webpack-dev-server --config webpack.dev-server.config.js --progress --profile --colors --hot",
-    "test": "BABEL_ENV=test mocha --compilers js:babel-core/register --recursive --require ./test/setup.js",
-    "testw": "BABEL_ENV=test mocha --compilers js:babel-core/register --reporter mochawesome --recursive --watch --require ./test/setup.js",
+    "test": "BABEL_ENV=test node $NODE_DEBUG_OPTION node_modules/mocha/bin/_mocha --compilers js:babel-core/register  --recursive --require ./test/setup.js",
+    "testw": "BABEL_ENV=test node $NODE_DEBUG_OPTION node_modules/mocha/bin/_mocha --compilers js:babel-core/register  --recursive --watch --require ./test/setup.js",
     "cover": "BABEL_ENV=test babel-node node_modules/istanbul/lib/cli cover node_modules/mocha/bin/_mocha -- --recursive --require ./test/setup.js",
     "eslint": "eslint Ardagryd.js lib"
   },
@@ -59,9 +59,9 @@
     "mocha": "3.2.0",
     "mocha-jsdom": "1.1.0",
     "mochawesome": "^2.0.4",
-    "react": "^15.1.0",
-    "react-addons-test-utils": "^15.1.0",
-    "react-dom": "^15.1.0",
+    "react": "^15.4.2",
+    "react-addons-test-utils": "^15.4.2",
+    "react-dom": "^15.4.2",
     "react-hot-loader": "3.0.0-beta.6",
     "style-loader": "0.14.1",
     "url-loader": "0.5.8",
