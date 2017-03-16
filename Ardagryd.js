@@ -17,7 +17,7 @@ export {
     Pager,
     GridRow,
     GridCell,
-    Filter,
+    FilterView,
     
     
 };
