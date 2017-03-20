@@ -24,10 +24,7 @@ export class App extends React.Component {
               <Column name="username" someParam="foo"/>
               <Column name="email" someParam="foo" />
               <Column name="address" someParam="foo" />
-              <Main component={({children})=> <table style={{backgroundColor: "green"}}>{children}</table> }>
-              
-              
-              </Main>
+              <Column name="id" id hide />
           </Grid>
 		);
 	}
