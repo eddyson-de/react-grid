@@ -12,7 +12,7 @@ module.exports = {
       Ardagryd: './Ardagryd.js'
     },
     output: {
-      path: path.join(__dirname, 'dist''),
+      path: path.join(__dirname, 'dist'),
       library: 'Ardagryd',
       filename: optimizeMinimize ? '[name].min.js' : '[name].js',
       libraryTarget: "umd"
