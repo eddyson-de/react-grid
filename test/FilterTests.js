@@ -1,5 +1,8 @@
 import { expect } from 'chai'
 import { Grid } from '../Ardagryd'
+import Column from '../lib/Column'
+import Cell from '../lib/GridCell'
+import Filter from '../lib/Filter'
 import { mount, render } from 'enzyme'
 import React from 'react';
 
@@ -176,7 +179,7 @@ describe('Grid filter tests', function () {
     it('Filter object should filter grid to 2 rows', function () {
         
         let grid = render(
-            <Grid objects={data} filter={{columnName: "name", expression: "ie"}} columns={{}} config={{}}/>
+            <Grid objects={data} filter={{columnName: "name", expression: "ie"}} config={{}}/>
         );
         
         expect(grid.find("tbody").children().length).be.equal(2);
@@ -185,7 +188,7 @@ describe('Grid filter tests', function () {
     it('Array of filter object(s) should filter grid to 2 rows', function () {
 
         let grid = render(
-            <Grid objects={data} filter={[{columnName: "name", expression: "ie"}]} columns={{}} config={{}}/>
+            <Grid objects={data} filter={[{columnName: "name", expression: "ie"}]} config={{}}/>
         );
 
         expect(grid.find("tbody").children().length).be.equal(2);
@@ -194,7 +197,7 @@ describe('Grid filter tests', function () {
     it('Component should react to filter change via Filter input element', function(done) {
 
       let grid = mount(
-          <Grid objects={data} columns={{}} config={{}}/>
+          <Grid objects={data} config={{}}/>
       );
       grid.find('input').first().simulate('change', {target: {value: 'ie'}});
       setTimeout(function () {
@@ -246,7 +249,11 @@ describe('Grid filter tests', function () {
        let grid = mount(<Grid objects={[{name: "a"}, {name: "b"}]} filter={[{columnName: "name", expression: "a"}]} />);
         expect(grid.find("tbody").children().length).be.equal(1);
 
-        grid.setProps({columns:{name:{filterFunction: ({value}) => true}}});
+        grid.setProps({children:
+            <Column name="name" >
+                <Filter match={({value, expression}) => true}/>
+            </Column>
+        });
 
         expect(grid.find("tbody").children().length).be.equal(2);
     });
@@ -287,9 +294,26 @@ describe('Grid filter tests', function () {
     });
     
     it('Should use displayValueGetter for default filter function', () => {
-        let grid = mount(<Grid objects={[{name: "Foo"}]}
-                               columns={{name: {displayValueGetter: ({value}) => "Bar"}}}
-                               filter={[{columnName: "name", expression: "Bar"}]}     />);
+        let grid = mount(
+            <Grid objects={[{name: "Foo"}]}
+                  filter={[{columnName: "name", expression: "Bar"}]}>
+              <Column name="name">
+                <Cell content={({value}) => "Bar"} />
+              </Column>
+            </Grid>
+        );
+        expect(grid.find("tbody").children().length).be.equal(1);
+    });
+    
+    it('Should use content for default filter function on computed columns.', () => {
+        let grid = mount(
+            <Grid objects={[{name: "Foo"}]}
+                  filter={[{columnName: "nickname", expression: "0"}]}>
+                <Column name="nickname" label="Nickname">
+                    <Cell content={({object}) => "F00"} />
+                </Column>
+            </Grid>
+        );
         expect(grid.find("tbody").children().length).be.equal(1);
     });
 });

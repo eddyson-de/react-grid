@@ -1,6 +1,6 @@
 {
   "name": "eddyson-react-grid",
-  "version": "0.8.6",
+  "version": "1.0.0-alpha-9",
   "description": "Redux Compatible React Grid Component",
   "main": "dist/Ardagryd.js",
   "files": [
@@ -46,6 +46,7 @@
     "babel-preset-react": "6.24.1",
     "bootstrap": "3.3.7",
     "chai": "3.5.0",
+    "chai-enzyme": "0.6.0",
     "coveralls": "2.13.0",
     "css-loader": "0.28.0",
     "enzyme": "2.8.0",
