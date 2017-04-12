@@ -28,6 +28,7 @@
   "author": "eddyson GmbH",
   "license": "MIT",
   "dependencies": {
+    "prop-types": "^15.5.7",
     "react-bootstrap": "0.30.8",
     "react-prop-types": "0.4.0"
   },
