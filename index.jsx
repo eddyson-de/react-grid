@@ -18,8 +18,7 @@ export class App extends React.Component {
 		return (
           <Grid objects={data}>
               <Column name="name" >
-                  <Cell component={({children}) => <td style={{color: "red"}}>{children}</td>}
-                        content={({value}) => value.toLowerCase()} />
+                  <Cell content="foo" />
               </Column>
               <Column name="username" someParam="foo"/>
               <Column name="email" someParam="foo" />

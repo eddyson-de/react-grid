@@ -238,7 +238,7 @@ describe('Grid render tests', function(){
     let grid = mount(
       <Grid objects={data}>
         <Column name="name">
-          <Cell content={({object: {name, email}})=><a href={`mailto:${email}`}>{name}</a>} />
+          <Cell content={({object})=><a href={`mailto:${object.email}`}>{object.name}</a>} />
         </Column>
       </Grid>
     );
@@ -247,7 +247,7 @@ describe('Grid render tests', function(){
   });
   
   it('Should be possible to override the displayValueGetter per column', function (){
-
+      const data = [{name: "Jane"}];
     let grid = mount(
       <Grid objects={data}>
         <Column name="name">
@@ -267,12 +267,12 @@ describe('Grid render tests', function(){
       </Grid>
     );
 
-    expect(grid.find("td").html()).be.equal("This is the name");
+    expect(grid.find("td").first().html()).be.equal("This is the name");
   });
   
   it('Should be possible to override the global displayValueGetter with a per-column configuration', function (){
 
-    let grid = render(
+    let grid = mount(
       <Grid objects={data}>
         <Cell content="This is the name" />
         <Column name="name">
@@ -281,29 +281,31 @@ describe('Grid render tests', function(){
       </Grid>
     );
 
-    expect(grid.find("td").html()).be.equal("Robert Paulson");
+    expect(grid.find("td").first().html()).be.equal("Robert Paulson");
   });
   
   it('Should be possible to return an element from the displayValueGetter', function (){
 
-    let grid = render(
-      <Grid objects={data}>
+    let grid = mount(
+      <Grid objects={[{name: "Mike"}]}>
         <Column name="name">
-          <Cell content={<span>"John Doe"</span>} />
+            <Cell content={<span>"John Doe"</span>} >
+                <span>foo</span>
+            </Cell>
         </Column>
       </Grid>
     );
 
-    expect(grid.find("td").html()).be.equal('<span>&quot;John Doe&quot;</span>');
+    expect(grid.find("td").first().html()).be.equal('<span>&quot;John Doe&quot;</span>');
   });
   
   it('Should render an array value', function (){
 
-    let grid = render(
+    let grid = mount(
       <Grid objects={[{nickNames: ["Dude", "Johnny"]}]}/>
     );
 
-    expect(grid.find("td").html()).be.equal("<ul><li><span>Dude</span></li><li><span>Johnny</span></li></ul>");
+    expect(grid.find("td").html()).be.equal("<td><ul><li><span>Dude</span></li><li><span>Johnny</span></li></ul></td>");
   });
   
   it('Can dynamically add an array-typed column', function (){
