@@ -67,6 +67,6 @@
     "url-loader": "0.5.8",
     "webpack": "2.3.3",
     "webpack-dev-server": "2.4.2",
-    "yargs": "7.0.2"
+    "yargs": "7.1.0"
   }
 }
