@@ -50,7 +50,7 @@
     "chai-enzyme": "0.6.1",
     "coveralls": "2.13.0",
     "css-loader": "0.28.0",
-    "enzyme": "2.8.1",
+    "enzyme": "2.8.2",
     "eslint": "3.19.0",
     "eslint-plugin-react": "6.10.3",
     "faker": "4.1.0",
