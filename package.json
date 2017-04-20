@@ -29,7 +29,7 @@
   "license": "MIT",
   "dependencies": {
     "prop-types": "^15.5.7",
-    "react-bootstrap": "0.30.8",
+    "react-bootstrap": "0.30.9",
     "react-prop-types": "0.4.0"
   },
   "peerDependencies": {
@@ -50,7 +50,7 @@
     "chai-enzyme": "0.6.1",
     "coveralls": "2.13.0",
     "css-loader": "0.28.0",
-    "enzyme": "2.8.0",
+    "enzyme": "2.8.2",
     "eslint": "3.19.0",
     "eslint-plugin-react": "6.10.3",
     "faker": "4.1.0",
@@ -65,8 +65,8 @@
     "react-hot-loader": "3.0.0-beta.6",
     "style-loader": "0.16.1",
     "url-loader": "0.5.8",
-    "webpack": "2.3.3",
+    "webpack": "2.4.0",
     "webpack-dev-server": "2.4.2",
-    "yargs": "7.0.2"
+    "yargs": "7.1.0"
   }
 }
