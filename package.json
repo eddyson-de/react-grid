@@ -59,7 +59,6 @@
     "jsdom": "9.12.0",
     "mocha": "3.2.0",
     "mocha-jsdom": "1.1.0",
-    "mochawesome": "^2.0.4",
     "react": "^15.4.2",
     "react-addons-test-utils": "^15.4.2",
     "react-dom": "^15.4.2",
