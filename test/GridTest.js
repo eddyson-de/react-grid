@@ -3,7 +3,7 @@ import console        from 'console';
 import Grid from '../lib/GridBuilder';
 import  Column  from '../lib/Column';
 import  Pager  from '../lib/Pager';
-import { Cell } from '../lib/Cell';
+import  Cell from '../lib/Cell';
 import { Row } from '../lib/Row';
 import chai, { expect } from 'chai'
 import { mount, render } from 'enzyme'
