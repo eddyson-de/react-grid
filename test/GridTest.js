@@ -256,7 +256,7 @@ describe('Grid render tests', function(){
       </Grid>
     );
 
-    expect(grid.find("td").html()).be.equal("John Doe");
+    expect(grid.find("td").html()).be.equal("<td>John Doe</td>");
   });
   
   it('Should be possible to override global displayValueGetter', function (){
