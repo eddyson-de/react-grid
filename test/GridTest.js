@@ -243,7 +243,7 @@ describe('Grid render tests', function(){
       </Grid>
     );
 
-    expect(grid.find("td").first().html()).be.equal('<a href="mailto:Emilian20@yahoo.com">Nike Floder</a>');
+    expect(grid.find("td").first().html()).be.equal('<td><a href="mailto:Emilian20@yahoo.com">Nike Floder</a></td>');
   });
   
   it('Should be possible to override the displayValueGetter per column', function (){
