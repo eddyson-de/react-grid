@@ -310,7 +310,7 @@ describe('Grid render tests', function(){
   
   it('Can dynamically add an array-typed column', function (){
 
-    let grid = render(
+    let grid = mount(
       <Grid objects={[{name: "John"}]}>
         <Column name="name" id hide/>
         <Column name="nickNames">
@@ -319,7 +319,7 @@ describe('Grid render tests', function(){
       </Grid>
     );
 
-    expect(grid.find("td").html()).be.equal("<ul><li><span>Dude</span></li><li><span>Johnny</span></li></ul>");
+    expect(grid.find("td").html()).be.equal("<td><ul><li><span>Dude</span></li><li><span>Johnny</span></li></ul></td>");
   });
   
   it('Can override the displayValueGetter for an array-typed column', function (){
