@@ -203,12 +203,10 @@ describe('Grid render tests', function(){
   it('Should render the correct number of pages', function (){
 
     let grid = mount(
-      <Grid objects={data}>
-        <Pager rowsPerPage={3} />
-      </Grid>
+      <Grid objects={data} initialPageSize={3}/>
     );
 
-    expect(grid.find("li").length).be.equal(5); // 3 pages + back/forward links
+    expect(grid.find("input").at(0).prop("max")).be.equal(3);
   });
 
   it('Should hide 2 columns', function (){
