@@ -267,7 +267,7 @@ describe('Grid render tests', function(){
       </Grid>
     );
 
-    expect(grid.find("td").first().html()).be.equal("This is the name");
+    expect(grid.find("td").first().html()).be.equal("<td>This is the name</td>");
   });
   
   it('Should be possible to override the global displayValueGetter with a per-column configuration', function (){
@@ -281,7 +281,7 @@ describe('Grid render tests', function(){
       </Grid>
     );
 
-    expect(grid.find("td").first().html()).be.equal("Robert Paulson");
+    expect(grid.find("td").first().html()).be.equal("<td>Robert Paulson</td>");
   });
   
   it('Should be possible to return an element from the displayValueGetter', function (){
@@ -296,7 +296,7 @@ describe('Grid render tests', function(){
       </Grid>
     );
 
-    expect(grid.find("td").first().html()).be.equal('<span>&quot;John Doe&quot;</span>');
+    expect(grid.find("td").first().html()).be.equal('<td><span>"John Doe"</span></td>');
   });
   
   it('Should render an array value', function (){
@@ -332,7 +332,7 @@ describe('Grid render tests', function(){
       </Grid>
     );
 
-    expect(grid.find("td").html()).be.equal("Dude or Johnny");
+    expect(grid.find("td").html()).be.equal("<td>Dude or Johnny</td>");
   });
 
   
@@ -359,7 +359,7 @@ describe('Grid render tests', function(){
 
     );
 
-    expect(grid.find("td").html()).be.equal('<span class="custom">John Doe</span>');
+    expect(grid.find("td").html()).be.equal('<td><span class="custom">John Doe</span></td>');
   });
   
   it('Can use a bound function as displayValueGetter', function (){
