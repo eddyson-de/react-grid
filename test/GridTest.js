@@ -610,14 +610,14 @@ describe('Grid render tests', function(){
     
     it('Should should order columns based on order of <Column /> Components', ()=> {
         let data = [{name: "a", age: "1"}, {name: "b", age: "2" }];
-        let grid = render(
+        let grid = mount(
             <Grid objects={data}>
                 <Column name="age" />
                 <Column name="name" />
             </Grid>
         );
-        expect(grid.find("th").eq(0).text()).to.be.equal("age");
-        expect(grid.find("th").eq(1).text()).to.be.equal("name");
+        expect(grid.find("th").at(0).text()).to.be.equal("Age");
+        expect(grid.find("th").at(1).text()).to.be.equal("Name");
         
     });
     it('Should should order columns based on order of <Column /> Components', ()=> {
