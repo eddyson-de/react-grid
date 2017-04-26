@@ -199,10 +199,10 @@ describe('Grid filter tests', function () {
       let grid = mount(
           <Grid objects={data} config={{}}/>
       );
-      grid.find('input').first().simulate('change', {target: {value: 'ie'}});
+      grid.find('th input').first().simulate('change', {target: {value: 'ie'}});
       setTimeout(function () {
           expect(grid.find("tbody").children().length).be.equal(2);
-          grid.find('input').first().simulate('change', {target: {value: 'er'}});
+          grid.find('th input').first().simulate('change', {target: {value: 'er'}});
           setTimeout(function () {
               expect(grid.find("tbody").children().length).be.equal(3);
               done();

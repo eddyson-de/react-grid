@@ -447,7 +447,7 @@ describe('Grid render tests', function(){
             <Column name="b" hideTools={true}/>
             <Column name="id" hide/>
         </Grid>);
-     expect(grid.find("input").length).be.equal(1);
+     expect(grid.find("th input").length).be.equal(1);
   });
 
   it('Should be possible to disable paging by passing false', ()=>{
