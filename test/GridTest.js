@@ -541,7 +541,7 @@ describe('Grid render tests', function(){
   });
   
   it('Can use a custom cell component for a specific column', function(){
-    let grid = render(
+    let grid = mount(
       <Grid objects={[{value: true}, {value: false}]}>
         <Column name="value">
           <Cell component={({value, children})=>{
@@ -552,13 +552,12 @@ describe('Grid render tests', function(){
       </Grid>
     );
 
-    expect(grid.find("td").eq(0)).to.have.style('color', 'green');
-    // use index 2 for the second row because if the generated ID column
-    expect(grid.find("td").eq(2)).to.have.style('color', 'red');
+    expect(grid.find("td").at(0)).to.have.style('color', 'green');
+    expect(grid.find("td").at(1)).to.have.style('color', 'red');
   });
   
   it('Can use a custom component for all grid cells', function(){
-    let grid = render(
+    let grid = mount(
       <Grid objects={[{value: true}, {value: false}]}>
         <Cell component={({value, children})=>{
           const color = value ? 'green' : 'red';
@@ -567,9 +566,8 @@ describe('Grid render tests', function(){
       </Grid>
     );
 
-    expect(grid.find("td").eq(0)).to.have.style('color', 'green');
-    // use index 2 for the second row because if the generated ID column
-    expect(grid.find("td").eq(2)).to.have.style('color', 'red');
+    expect(grid.find("td").at(0)).to.have.style('color', 'green');
+    expect(grid.find("td").at(1)).to.have.style('color', 'red');
   });
 
   it('Can use a custom component for all grid rows', function(){
