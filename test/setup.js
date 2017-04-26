@@ -1,10 +1,7 @@
-var jsdom = require('jsdom');
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
 
-global.document = jsdom.jsdom('<!doctype html><html><body></body></html>');
-global.window = document.defaultView;
-Object.keys(document.defaultView).forEach((property) => {
-    if (typeof global[property] === 'undefined') {
-        global[property] = document.defaultView[property];
-    }
-});
+const dom = new JSDOM('<!doctype html><html><body></body></html>');
+global.window = dom.window;
+global.document = window.document;
 global.navigator = {userAgent: 'node.js'};

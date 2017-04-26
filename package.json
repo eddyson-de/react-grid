@@ -1,6 +1,6 @@
 {
   "name": "eddyson-react-grid",
-  "version": "1.0.0-alpha-10",
+  "version": "1.0.0-alpha-11",
   "description": "Redux Compatible React Grid Component",
   "main": "dist/Ardagryd.js",
   "files": [
@@ -29,7 +29,7 @@
   "license": "MIT",
   "dependencies": {
     "prop-types": "^15.5.7",
-    "react-bootstrap": "0.30.9",
+    "react-bootstrap": "0.30.10",
     "react-prop-types": "0.4.0"
   },
   "peerDependencies": {
@@ -38,7 +38,7 @@
   "devDependencies": {
     "babel-cli": "6.24.1",
     "babel-core": "6.24.1",
-    "babel-loader": "6.4.1",
+    "babel-loader": "7.0.0",
     "babel-plugin-syntax-object-rest-spread": "6.13.0",
     "babel-plugin-transform-class-properties": "6.24.1",
     "babel-plugin-transform-es2015-modules-umd": "6.24.1",
@@ -56,8 +56,8 @@
     "faker": "4.1.0",
     "file-loader": "0.11.1",
     "istanbul": "1.1.0-alpha.1",
-    "jsdom": "9.12.0",
-    "mocha": "3.2.0",
+    "jsdom": "10.0.0",
+    "mocha": "3.3.0",
     "mocha-jsdom": "1.1.0",
     "react": "^15.1.0",
     "react-addons-test-utils": "^15.1.0",
@@ -66,7 +66,7 @@
     "style-loader": "0.16.1",
     "url-loader": "0.5.8",
     "webpack": "2.4.0",
-    "webpack-dev-server": "2.4.2",
+    "webpack-dev-server": "2.4.3",
     "yargs": "7.1.0"
   }
 }
