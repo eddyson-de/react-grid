@@ -574,7 +574,7 @@ describe('Grid render tests', function(){
   });
 
   it('Can use a custom component for all grid rows', function(){
-    let grid = render(
+    let grid = mount(
       <Grid objects={[{value: true}, {value: false}]}>
         <Row component={({object, children})=>{
           const className = object.value ? 'yes' : 'no';
@@ -583,8 +583,8 @@ describe('Grid render tests', function(){
       </Grid>
     );
 
-    expect(grid.find("tbody tr").eq(0)).to.have.className('yes');
-    expect(grid.find("tbody tr").eq(1)).to.have.className('no');
+    expect(grid.find("tbody tr").at(0)).to.have.className('yes');
+    expect(grid.find("tbody tr").at(1)).to.have.className('no');
   });
   
   it('Globally configured cell component is used if column config is specified without a component', function(){
