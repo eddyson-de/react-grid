@@ -532,13 +532,12 @@ describe('Grid render tests', function(){
   });
     
   it('Should render "true" or "false" for boolean columns', function(){
-    let grid = render(
+    let grid = mount(
       <Grid objects={[{value: true}, {value: false}]} />
     );
 
-    expect(grid.find("td").eq(0).html()).be.equal('true');
-    // use index 2 for the second row because if the generated ID column
-    expect(grid.find("td").eq(2).html()).be.equal('false');
+    expect(grid.find("td").at(0).html()).be.equal('<td>true</td>');
+    expect(grid.find("td").at(1).html()).be.equal('<td>false</td>');
   });
   
   it('Can use a custom cell component for a specific column', function(){
