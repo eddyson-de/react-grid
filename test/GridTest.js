@@ -587,7 +587,7 @@ describe('Grid render tests', function(){
   });
   
   it('Globally configured cell component is used if column config is specified without a component', function(){
-    let grid = render(
+    let grid = mount(
       <Grid objects={[{value: true}, {value: false}]}>
         <Column name="value">
           <Cell content="foo" />
@@ -599,7 +599,7 @@ describe('Grid render tests', function(){
       </Grid>
     );
 
-    expect(grid.find("td").eq(0)).to.have.style('color', 'green');
+    expect(grid.find("td").at(0)).to.have.style('color', 'green');
   });
   
   it('Should ignore null values', ()=> {
