@@ -399,11 +399,11 @@ describe('Grid render tests', function(){
       
     }
     
-    let grid = render(
+    let grid = mount(
       <Foo />
     );
 
-    expect(grid.find("td").html()).be.equal('<span class="custom">John Doe</span>');
+    expect(grid.find("td").html()).be.equal('<td><span class="custom">John Doe</span></td>');
   });
   
   it('Should not jump to the first page if the props don\'t change', function (){
