@@ -407,20 +407,18 @@ describe('Grid render tests', function(){
   it('Should not jump to the first page if the props don\'t change', function (){
     let people = [{"name": "John"}, {"name": "Jack"}];
     let instance = mount(
-        <Grid objects={people}>
-          <Pager rowsPerPage={1} />
-        </Grid>
+        <Grid objects={people} initialPageSize={1} />
     );
 
     expect(instance.find("td").first().text()).be.equal("John");
-    let liWithLinkToPage2 = instance.find("li").at(2);
-    let linkToPage2 = liWithLinkToPage2.find("a");
-    linkToPage2.simulate('click');
+    let pageNumberInput = instance.find("input").at(0);
+    pageNumberInput.node.value = "2";
+    pageNumberInput.simulate('change', pageNumberInput);
     expect(instance.find("td").first().text()).be.equal("Jack");
-    expect(liWithLinkToPage2).to.have.className("active");
+    expect(pageNumberInput).to.have.value("2");
     instance.setProps({objects: people});
     expect(instance.find("td").first().text()).be.equal("Jack");
-    expect(liWithLinkToPage2).to.have.className("active");
+    expect(pageNumberInput).to.have.value("2");
   });
 
   it('Should order columns with order 0 before columns with order 1', function (){
