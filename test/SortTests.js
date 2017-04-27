@@ -24,7 +24,7 @@ describe("Sorting tests",() => {
             {name: "Baz"},
                 {name: "Foo"},
                 {name: "Bar"}]}
-            sort={"name"}/>);
+            initialSort={"name"}/>);
 
         expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("Bar");
         expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal("Baz");
@@ -36,7 +36,7 @@ describe("Sorting tests",() => {
             objects={[
                 {name: "Foo"},
                 {name: "Bar"}]}
-            sort={{columnName: "name"}}/>);
+            initialSort={{columnName: "name"}}/>);
 
         expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("Bar");
         expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal("Foo");
@@ -49,7 +49,7 @@ describe("Sorting tests",() => {
                 {name: "Foo"},
                 {name: "Bar"},
                 {name: "Baz"}]}
-            sort={{columnName: "name", order: "desc"}}/>);
+            initialSort={{columnName: "name", order: "desc"}}/>);
 
         expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("Foo");
         expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal("Baz");
@@ -64,7 +64,7 @@ describe("Sorting tests",() => {
                 {name: "B", nr: 1},
                 {name: "C", nr: 2},
                 {name: "A", nr: 3}]}
-            sort={{columnName: "nr", order: "asc"}} >
+            initialSort={{columnName: "nr", order: "asc"}} >
             <Column name="id" hide />
           </Grid>
         );
@@ -87,7 +87,7 @@ describe("Sorting tests",() => {
                 {name: "B", nr: 1},
                 {name: "C", nr: 2},
                 {name: "A", nr: 3}]}
-            sort={{columnName: "nr", order: "asc"}}>
+            initialSort={{columnName: "nr", order: "asc"}}>
             <Column name="id" hide />
           </Grid>
         );
@@ -117,7 +117,7 @@ describe("Sorting tests",() => {
                 {name: "B", nr: 1},
                 {name: "C", nr: 2},
                 {name: "A", nr: 3}]}
-            sort={{columnName: "nr", order: "asc"}}>
+            initialSort={{columnName: "nr", order: "asc"}}>
             <Column name="id" hide />
           </Grid>
         );
@@ -146,7 +146,7 @@ describe("Sorting tests",() => {
                 {name: "B", nr: 1},
                 {name: "C", nr: 2},
                 {name: "A", nr: 3}]}
-            sort={{columnName: "nr", order: "asc"}}>
+            initialSort={{columnName: "nr", order: "asc"}}>
             <Column name="id" hide />
           </Grid>
         );
@@ -174,7 +174,7 @@ describe("Sorting tests",() => {
                 {name: "Foo", color: "blue"},
                 {name: "Bar", color: "yellow"},
                 {name: "Baz"}]}
-            sort={"color"}/>);
+            initialSort={"color"}/>);
 
         expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("Baz");
         expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal("Foo");
@@ -226,7 +226,7 @@ describe("Sorting tests",() => {
                 {n: 10},
                 {n: 2},
                 {n: 20}]}
-            sort={{columnName: "n"}}/>);
+            initialSort={{columnName: "n"}}/>);
 
         expect(grid.find("tbody tr").eq(0).find("td").first().text()).to.equal('1');
         expect(grid.find("tbody tr").eq(1).find("td").first().text()).to.equal('2');
