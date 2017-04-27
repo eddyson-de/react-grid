@@ -609,8 +609,8 @@ describe('Grid render tests', function(){
                 <Column name="name" />
             </Grid>
         );
-        expect(grid.find("th").at(0).text()).to.be.equal("Age");
-        expect(grid.find("th").at(1).text()).to.be.equal("Name");
+        expect(grid.find("th").at(0).text()).to.be.equal("Age⇅");
+        expect(grid.find("th").at(1).text()).to.be.equal("Name⇅");
         
     });
     it('Should should order columns based on order of <Column /> Components', ()=> {
@@ -621,8 +621,8 @@ describe('Grid render tests', function(){
                 <Column name="age" />
             </Grid>
         );
-        expect(grid.find("th").at(0).text()).to.be.equal("Name");
-        expect(grid.find("th").at(1).text()).to.be.equal("Age");
+        expect(grid.find("th").at(0).text()).to.be.equal("Name⇅");
+        expect(grid.find("th").at(1).text()).to.be.equal("Age⇅");
         
     });
 });
