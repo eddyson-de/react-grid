@@ -214,7 +214,7 @@ describe("Sorting tests",() => {
                     <Column name="name" sortValueGetter={({value}) => value == "Z" ? "A" : "Z" }/>
                 ]});
 
-        expect(grid.find("tbody tr").find("td").first().text()ö).to.equal("Z");
+        expect(grid.find("tbody tr").find("td").first().text()).to.equal("Z");
         expect(grid.find("tbody tr").find("td").last().text()).to.equal("A");
         expect(grid.find("th").first().html()).to.equal('Name↓');
     });
