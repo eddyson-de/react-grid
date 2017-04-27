@@ -466,6 +466,7 @@ describe('Grid render tests', function(){
     expect(grid.find("tbody").children().length).be.equal(1);
     expect(grid.find("td").first().text()).be.equal("John");
     let pageNumberInput = grid.find("input").at(0);
+    expect(pageNumberInput.prop("max")).be.equal(2);
     expect(pageNumberInput).to.have.value("1");
     
     pageNumberInput.node.value = "2";
@@ -474,6 +475,7 @@ describe('Grid render tests', function(){
     expect(pageNumberInput).to.have.value("2");
 
     grid.setProps({objects: [{"name":"John"}]});
+    expect(pageNumberInput.prop("max")).be.equal(1);
     expect(pageNumberInput).to.have.value("1");
     expect(grid.find("td").first().text()).be.equal("John");
   });
