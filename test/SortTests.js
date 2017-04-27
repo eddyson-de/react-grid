@@ -220,7 +220,7 @@ describe("Sorting tests",() => {
     });
 
     it("Should sort in ascending order when supplied no order value.", ()=> {
-        let grid  = render(<Grid
+        let grid  = mount(<Grid
             objects={[
                 {n: 1},
                 {n: 10},
@@ -228,10 +228,10 @@ describe("Sorting tests",() => {
                 {n: 20}]}
             initialSort={{columnName: "n"}}/>);
 
-        expect(grid.find("tbody tr").eq(0).find("td").first().text()).to.equal('1');
-        expect(grid.find("tbody tr").eq(1).find("td").first().text()).to.equal('2');
-        expect(grid.find("tbody tr").eq(2).find("td").first().text()).to.equal('10');
-        expect(grid.find("tbody tr").eq(3).find("td").first().text()).to.equal('20');
+        expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal('1');
+        expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal('2');
+        expect(grid.find("tbody tr").at(2).find("td").first().text()).to.equal('10');
+        expect(grid.find("tbody tr").at(3).find("td").first().text()).to.equal('20');
     });
 
     it("Should correctly sort by a boolean-valued column.", ()=> {
