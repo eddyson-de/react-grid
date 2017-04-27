@@ -516,14 +516,12 @@ describe('Grid render tests', function(){
     expect(grid.find("tbody").children().length).be.equal(5);
   });
 
-  it('Should throw an error when specifying a number < 1 for paging', ()=>{
+  it('Should throw an error when specifying a number < 1 for initialPageSize', ()=>{
     expect(function(){
       render(
-        <Grid objects={data}>
-  		  <Pager rowsPerPage={0} />
-  		</Grid>
+        <Grid objects={data} initialPageSize={0} />
       );
-    }).to.throw(/Invalid prop value for "rowsPerPage"/);
+    }).to.throw(/Invalid value for "initialPageSize"/);
   });
     
   it('Should render "true" or "false" for boolean columns', function(){
