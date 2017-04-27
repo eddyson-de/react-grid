@@ -461,23 +461,20 @@ describe('Grid render tests', function(){
 
   it('Should jump to the last page if current page exceeds number of available pages', ()=>{
     let grid = mount(
-      <Grid objects={[{"name":"John"}, {"name":"Jack"}]}>
-        <Pager rowsPerPage={1} />
-      </Grid>
+      <Grid objects={[{"name":"John"}, {"name":"Jack"}]} initialPageSize={1} />
     );
     expect(grid.find("tbody").children().length).be.equal(1);
     expect(grid.find("td").first().text()).be.equal("John");
-    expect(grid.find("li").length).be.equal(4);
-    let liWithLinkToPage1 = grid.find("li").at(1);
-    let linkToPage1 = liWithLinkToPage1.find("a");
-    expect(liWithLinkToPage1).to.have.className("active");
-    let liWithLinkToPage2 = grid.find("li").at(2);
-    let linkToPage2 = liWithLinkToPage2.find("a");
-    linkToPage2.simulate('click');
+    let pageNumberInput = grid.find("input").at(0);
+    expect(pageNumberInput).to.have.value("1");
+    
+    pageNumberInput.node.value = "2";
+    pageNumberInput.simulate('change', pageNumberInput);
     expect(grid.find("td").first().text()).be.equal("Jack");
-    expect(liWithLinkToPage2).to.have.className("active");
+    expect(pageNumberInput).to.have.value("2");
+
     grid.setProps({objects: [{"name":"John"}]});
-    expect(grid.find("li").length).be.equal(0); // no pager because only 1 item mathches the filter
+    expect(pageNumberInput).to.have.value("1");
     expect(grid.find("td").first().text()).be.equal("John");
   });
   
