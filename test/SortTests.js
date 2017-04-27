@@ -210,8 +210,8 @@ describe("Sorting tests",() => {
         grid.setProps({
             children:
                 [
-                    <Column name="id" hide/>,
-                    <Column name="name" sortValueGetter={({value}) => value == "Z" ? "A" : "Z" }/>
+                    <Column key="id" name="id" hide/>,
+                    <Column key="name" name="name" sortValueGetter={({value}) => value == "Z" ? "A" : "Z" }/>
                 ]});
 
         expect(grid.find("tbody tr").find("td").first().text()).to.equal("Z");
