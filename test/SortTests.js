@@ -180,7 +180,7 @@ describe("Sorting tests",() => {
         expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal("Foo");
         expect(grid.find("tbody tr").at(2).find("td").first().text()).to.equal("Bar");
 
-        grid.setProps({sort:{columnName: "color", order: "desc"}});
+        grid.setProps({initialSort:{columnName: "color", order: "desc"}});
 
         expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("Bar");
         expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal("Foo");
