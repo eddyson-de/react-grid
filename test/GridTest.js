@@ -5,6 +5,7 @@ import  Column  from '../lib/Column';
 import  Pager  from '../lib/Pager';
 import  Cell from '../lib/Cell';
 import  Row  from '../lib/Row';
+import PagingHandler from "../lib/PagingHandler";
 import chai, { expect } from 'chai'
 import { mount, render } from 'enzyme'
 import chaiEnzyme from 'chai-enzyme'
@@ -505,11 +506,12 @@ describe('Grid render tests', function(){
   });
   
   it('Should not jump to a negative page number when receiving an empty objects prop', ()=>{
-    let grid = mount(<Grid objects={[]} />);
-    expect(grid.state().skip).to.equal(0);
+    const PagedComponent = PagingHandler(()=><div />)
+    let pagingHandler = mount(<PagedComponent objects={[]} />);
+    expect(pagingHandler.state('currentPage')).to.equal(1);
     // trigger componentWillReceiveProps
-    grid.setProps({objects: []});
-    expect(grid.state().skip).to.equal(0);
+    pagingHandler.setProps({objects: []});
+    expect(pagingHandler.state('currentPage')).to.equal(1);
   });
 
   it('Should apply filters if sorting is disabled', ()=>{
