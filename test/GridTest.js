@@ -506,12 +506,12 @@ describe('Grid render tests', function(){
   });
   
   it('Should not jump to a negative page number when receiving an empty objects prop', ()=>{
-    const PagedComponent = PagingHandler(()=><div />)
-    let pagingHandler = mount(<PagedComponent objects={[]} />);
-    expect(pagingHandler.state('currentPage')).to.equal(1);
+    const PagingWrapper = PagingHandler(()=><div />)
+    let pagingWrapper = mount(<PagingWrapper objects={[]} />);
+    expect(pagingWrapper.state('currentPage')).to.equal(1);
     // trigger componentWillReceiveProps
-    pagingHandler.setProps({objects: []});
-    expect(pagingHandler.state('currentPage')).to.equal(1);
+    pagingWrapper.setProps({objects: []});
+    expect(pagingWrapper.state('currentPage')).to.equal(1);
   });
 
   it('Should apply filters if sorting is disabled', ()=>{
