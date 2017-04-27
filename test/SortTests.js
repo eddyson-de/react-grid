@@ -161,7 +161,7 @@ describe("Sorting tests",() => {
         expect(grid.find("tbody tr").at(1).find("td").at(0).text()).to.equal("B");
         expect(grid.find("tbody tr").at(2).find("td").at(0).text()).to.equal("C");
 
-        grid.setProps({sort:{columnName: "name", order: "desc"}});
+        grid.setProps({initialSort:{columnName: "name", order: "desc"}});
 
         expect(grid.find("tbody tr").at(0).find("td").at(0).text()).to.equal("C");
         expect(grid.find("tbody tr").at(1).find("td").at(0).text()).to.equal("B");
