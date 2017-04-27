@@ -480,26 +480,24 @@ describe('Grid render tests', function(){
   
   it('Should jump to the last page if current page exceeds number of available pages and there is more than one page', ()=>{
     let grid = mount(
-      <Grid objects={[{"name":"John"}, {"name":"Jack"}, {"name":"Jeff"}]}>
-        <Pager rowsPerPage={1} />
-      </Grid>
+      <Grid objects={[{"name":"John"}, {"name":"Jack"}, {"name":"Jeff"}]} initialPageSize={1} />
     );
     expect(grid.find("tbody").children().length).be.equal(1);
     expect(grid.find("td").first().text()).be.equal("John");
-    expect(grid.find("li").length).be.equal(5);
-    let liWithLinkToPage1 = grid.find("li").at(1);
-    expect(liWithLinkToPage1).to.have.className("active");
-    let liWithLinkToPage3 = grid.find("li").at(3);
-    let linkToPage3 = liWithLinkToPage3.find("a");
-    linkToPage3.simulate('click');
+    let pageNumberInput = grid.find("input").at(0);
+    expect(pageNumberInput.prop("max")).be.equal(3);
+    expect(pageNumberInput).to.have.value("1");
+
+    pageNumberInput.node.value = "3";
+    pageNumberInput.simulate('change', pageNumberInput);
     expect(grid.find("td").first().text()).be.equal("Jeff");
-    expect(liWithLinkToPage3).to.have.className("active");
+    expect(pageNumberInput).to.have.value("3");
+
     grid.setProps({objects: [{"name":"John"}, {"name":"Jack"}]});
-    expect(grid.find("li").length).be.equal(4); // one item less than before
+    expect(pageNumberInput.prop("max")).be.equal(2);
     expect(grid.find("td").first().text()).be.equal("Jack");
-    let liWithLinkToPage2 = grid.find("li").at(2);
-    let linkToPage2 = liWithLinkToPage2.find("a");
-    expect(liWithLinkToPage2).to.have.className("active");
+    expect(pageNumberInput).to.have.value("2");
+
   });
   
   it('Should not jump to a negative page number when receiving an empty objects prop', ()=>{
