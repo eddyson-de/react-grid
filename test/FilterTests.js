@@ -3,6 +3,7 @@ import Grid  from '../lib/GridBuilder'
 import Column from '../lib/Column'
 import Cell from '../lib/Cell'
 import Filter from '../lib/Filter'
+import FilterCollector from '../lib/FilterCollector'
 import { mount, render } from 'enzyme'
 import React from 'react';
 
@@ -177,11 +178,11 @@ let data = [{
 }];
 describe('Grid filter tests', function () {
     it('Filter object should filter grid to 2 rows', function () {
-        
+
         let grid = render(
             <Grid objects={data} initialFilter={{columnName: "name", expression: "ie"}} config={{}}/>
         );
-        
+
         expect(grid.find("tbody").children().length).be.equal(2);
     });
 
@@ -226,23 +227,24 @@ describe('Grid filter tests', function () {
 
     it('Component should should not overwrite internal filter state if props where not changed', function () {
 
-        let grid = mount(
-            <Grid objects={data} />
-        );
 
-        expect(grid.find("tbody").children().length).be.equal(8);
+        const FilteringWrapper = FilterCollector(()=><div />)
+        let filteringWrapper = mount(<FilteringWrapper objects={[]} />);
+        // trigger componentWillReceiveProps
 
-        grid.setProps({filter: {columnName: "name", expression: "ie"}});
+        expect(filteringWrapper.state('filter')).to.deep.equal([]);
 
-        expect(grid.find("tbody").children().length).be.equal(2);
+        filteringWrapper.setProps({initialFilter: {columnName: "name", expression: "ie"}});
 
-        grid.setState({filter: {columnName: "name", expression: ""}});
+        expect(filteringWrapper.state('filter')).to.deep.equal([{columnName: "name", expression: "ie"}]);
 
-        expect(grid.find("tbody").children().length).be.equal(8);
+        filteringWrapper.node.updateFilter({columnName: "name", expression: ""});
 
-        grid.setProps({filter: {columnName: "name", expression: "ie"}});
+        expect(filteringWrapper.state('filter')).to.deep.equal([{columnName: "name", expression: ""}]);
 
-        expect(grid.find("tbody").children().length).be.equal(8)
+        filteringWrapper.setProps({initialFilter: {columnName: "name", expression: "ie"}});
+
+        expect(filteringWrapper.state('filter')).to.deep.equal([{columnName: "name", expression: ""}]);
     });
 
     it('Should use custom filterFunction', ()=>{
@@ -284,7 +286,7 @@ describe('Grid filter tests', function () {
 
         expect(grid.find("tbody").children().length).be.equal(2);
     });
-        
+
     it('Filter should filter boolean values', ()=>{
         let grid = mount(<Grid objects={[{name: "aa", x: false}, {name: "ab", x: true}, {name: "ccb", x: true}]} />);
         expect(grid.find("tbody").children().length).be.equal(3);
@@ -292,7 +294,7 @@ describe('Grid filter tests', function () {
         grid.setProps({initialFilter: [{columnName: "x", expression: "true"}]});
         expect(grid.find("tbody").children().length).be.equal(2);
     });
-    
+
     it('Should use displayValueGetter for default filter function', () => {
         let grid = mount(
             <Grid objects={[{name: "Foo"}]}
@@ -304,7 +306,7 @@ describe('Grid filter tests', function () {
         );
         expect(grid.find("tbody").children().length).be.equal(1);
     });
-    
+
     it('Should use content for default filter function on computed columns.', () => {
         let grid = mount(
             <Grid objects={[{name: "Foo"}]}
