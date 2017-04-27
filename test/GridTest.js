@@ -423,7 +423,7 @@ describe('Grid render tests', function(){
 
   it('Should order columns with order 0 before columns with order 1', function (){
 
-    let grid = render(
+    let grid = mount(
       <Grid objects={[{"first": "John", "last": "Doe"}]} columns={{
         first: {
           order: 0
@@ -434,7 +434,7 @@ describe('Grid render tests', function(){
         }} config={{}}/>
     );
 
-    expect(grid.find("td").html()).be.equal('John');
+    expect(grid.find("td").at(0).html()).be.equal('<td>John</td>');
   });
   
   it('Should be possible to hide the tools for a column', ()=>{
