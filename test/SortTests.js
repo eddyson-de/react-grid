@@ -241,7 +241,7 @@ describe("Sorting tests",() => {
             {id: 1, val: true},
             {id: 2, val: false},
             {id: 3, val: true}]}
-          sort={"val"}/>);
+          initialSort={"val"}/>);
 
       expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("2");
   });
