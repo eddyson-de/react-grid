@@ -179,7 +179,7 @@ describe('Grid filter tests', function () {
     it('Filter object should filter grid to 2 rows', function () {
         
         let grid = render(
-            <Grid objects={data} filter={{columnName: "name", expression: "ie"}} config={{}}/>
+            <Grid objects={data} initialFilter={{columnName: "name", expression: "ie"}} config={{}}/>
         );
         
         expect(grid.find("tbody").children().length).be.equal(2);
@@ -188,7 +188,7 @@ describe('Grid filter tests', function () {
     it('Array of filter object(s) should filter grid to 2 rows', function () {
 
         let grid = render(
-            <Grid objects={data} filter={[{columnName: "name", expression: "ie"}]} config={{}}/>
+            <Grid objects={data} initialFilter={[{columnName: "name", expression: "ie"}]} config={{}}/>
         );
 
         expect(grid.find("tbody").children().length).be.equal(2);
@@ -219,7 +219,7 @@ describe('Grid filter tests', function () {
 
         expect(grid.find("tbody").children().length).be.equal(8);
 
-        grid.setProps({filter: {columnName: "name", expression: "ie"}});
+        grid.setProps({initialFilter: {columnName: "name", expression: "ie"}});
 
         expect(grid.find("tbody").children().length).be.equal(2);
     });
@@ -246,7 +246,7 @@ describe('Grid filter tests', function () {
     });
 
     it('Should use custom filterFunction', ()=>{
-       let grid = mount(<Grid objects={[{name: "a"}, {name: "b"}]} filter={[{columnName: "name", expression: "a"}]} />);
+       let grid = mount(<Grid objects={[{name: "a"}, {name: "b"}]} initialFilter={[{columnName: "name", expression: "a"}]} />);
         expect(grid.find("tbody").children().length).be.equal(1);
 
         grid.setProps({children:
@@ -259,19 +259,19 @@ describe('Grid filter tests', function () {
     });
 
     it('Should use more than one filter expression', ()=>{
-        let grid = mount(<Grid objects={[{name: "aa", email: "aa@www.com"}, {name: "ab",email:"adsf@adsf.de"}, {name: "ccb",email:"adsf@ajgj.de"}]} filter={[{columnName: "name", expression: "a"}]} />);
+        let grid = mount(<Grid objects={[{name: "aa", email: "aa@www.com"}, {name: "ab",email:"adsf@adsf.de"}, {name: "ccb",email:"adsf@ajgj.de"}]} initialFilter={[{columnName: "name", expression: "a"}]} />);
         expect(grid.find("tbody").children().length).be.equal(2);
 
-        grid.setProps({filter: [{columnName: "name", expression: "a"},{columnName: "email", expression: ".com"}]});
+        grid.setProps({initialFilter: [{columnName: "name", expression: "a"},{columnName: "email", expression: ".com"}]});
 
         expect(grid.find("tbody").children().length).be.equal(1);
     });
 
     it('Filter should not be ignored on missing property', ()=>{
-        let grid = mount(<Grid objects={[{name: "aa", email: "aa@www.com"}, {name: "ab"}, {name: "ccb"}]} filter={[{columnName: "name", expression: "a"}]} />);
+        let grid = mount(<Grid objects={[{name: "aa", email: "aa@www.com"}, {name: "ab"}, {name: "ccb"}]} initialFilter={[{columnName: "name", expression: "a"}]} />);
         expect(grid.find("tbody").children().length).be.equal(2);
 
-        grid.setProps({filter: [{columnName: "name", expression: "a"},{columnName: "email", expression: ".com"}]});
+        grid.setProps({initialFilter: [{columnName: "name", expression: "a"},{columnName: "email", expression: ".com"}]});
 
         expect(grid.find("tbody").children().length).be.equal(1);
     });
@@ -280,7 +280,7 @@ describe('Grid filter tests', function () {
         let grid = mount(<Grid objects={[{name: "aa", age: 2}, {name: "ab", age: 57}, {name: "ccb", age: 7}]} />);
         expect(grid.find("tbody").children().length).be.equal(3);
 
-        grid.setProps({filter: [{columnName: "age", expression: "7"}]});
+        grid.setProps({initialFilter: [{columnName: "age", expression: "7"}]});
 
         expect(grid.find("tbody").children().length).be.equal(2);
     });
@@ -289,14 +289,14 @@ describe('Grid filter tests', function () {
         let grid = mount(<Grid objects={[{name: "aa", x: false}, {name: "ab", x: true}, {name: "ccb", x: true}]} />);
         expect(grid.find("tbody").children().length).be.equal(3);
 
-        grid.setProps({filter: [{columnName: "x", expression: "true"}]});
+        grid.setProps({initialFilter: [{columnName: "x", expression: "true"}]});
         expect(grid.find("tbody").children().length).be.equal(2);
     });
     
     it('Should use displayValueGetter for default filter function', () => {
         let grid = mount(
             <Grid objects={[{name: "Foo"}]}
-                  filter={[{columnName: "name", expression: "Bar"}]}>
+                  initialFilter={[{columnName: "name", expression: "Bar"}]}>
               <Column name="name">
                 <Cell content={({value}) => "Bar"} />
               </Column>
@@ -308,7 +308,7 @@ describe('Grid filter tests', function () {
     it('Should use content for default filter function on computed columns.', () => {
         let grid = mount(
             <Grid objects={[{name: "Foo"}]}
-                  filter={[{columnName: "nickname", expression: "0"}]}>
+                  initialFilter={[{columnName: "nickname", expression: "0"}]}>
                 <Column name="nickname" label="Nickname">
                     <Cell content={({object}) => "F00"} />
                 </Column>
