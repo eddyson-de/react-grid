@@ -512,7 +512,7 @@ describe('Grid render tests', function(){
   });
 
   it('Should apply filters if sorting is disabled', ()=>{
-    let grid = render(<Grid objects={data} config={{paging:false}} filter={{columnName: "name", expression: "a"}}/>);
+    let grid = render(<Grid objects={data} config={{paging:false}} initialFilter={{columnName: "name", expression: "a"}}/>);
     expect(grid.find("tbody").children().length).be.equal(5);
   });
 
