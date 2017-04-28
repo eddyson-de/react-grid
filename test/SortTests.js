@@ -216,7 +216,7 @@ describe("Sorting tests",() => {
 
         expect(grid.find("tbody tr").find("td").first().text()).to.equal("Z");
         expect(grid.find("tbody tr").find("td").last().text()).to.equal("A");
-        expect(grid.find("th").first().html()).to.equal('Name↓');
+        expect(grid.find("th").first().text()).to.equal('Name↓');
     });
 
     it("Should sort in ascending order when supplied no order value.", ()=> {
