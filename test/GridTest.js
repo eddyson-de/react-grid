@@ -445,7 +445,7 @@ describe('Grid render tests', function(){
      expect(grid.find("th input").length).be.equal(1);
   });
 
-  it.only('Should be possible to disable paging by passing false', ()=>{
+  it('Should be possible to disable paging by passing false', ()=>{
     let dataDuplicated = data.concat(data);
 
     let grid = render(<Grid objects={dataDuplicated} config={{paging:false}} />);
