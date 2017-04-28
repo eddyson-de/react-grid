@@ -48,7 +48,7 @@
     "bootstrap": "3.3.7",
     "chai": "3.5.0",
     "chai-enzyme": "0.6.1",
-    "coveralls": "2.13.0",
+    "coveralls": "2.13.1",
     "css-loader": "0.28.0",
     "enzyme": "2.8.2",
     "eslint": "3.19.0",
