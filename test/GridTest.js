@@ -445,13 +445,8 @@ describe('Grid render tests', function(){
      expect(grid.find("th input").length).be.equal(1);
   });
 
-  it('Should be possible to disable paging by passing false', ()=>{
-    const copies = data.map(item => {
-      // currently, we add an id property to every object. remove it so we don't end up with duplicate ids
-      delete item.id;
-      return Object.assign({}, item);
-    });
-    let dataDuplicated = data.concat(copies);
+  it.only('Should be possible to disable paging by passing false', ()=>{
+    let dataDuplicated = data.concat(data);
 
     let grid = render(<Grid objects={dataDuplicated} config={{paging:false}} />);
     expect(grid.find("tbody").children().length).be.equal(16);
