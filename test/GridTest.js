@@ -288,9 +288,7 @@ describe('Grid render tests', function(){
     let grid = mount(
       <Grid objects={[{name: "Mike"}]}>
         <Column name="name">
-            <Cell content={<span>"John Doe"</span>} >
-                <span>foo</span>
-            </Cell>
+            <Cell content={<span>"John Doe"</span>} />
         </Column>
       </Grid>
     );
