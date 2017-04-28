@@ -17,7 +17,7 @@
     "test": "BABEL_ENV=test node $NODE_DEBUG_OPTION node_modules/mocha/bin/_mocha --compilers js:babel-core/register  --recursive --require ./test/setup.js",
     "testw": "BABEL_ENV=test node $NODE_DEBUG_OPTION node_modules/mocha/bin/_mocha --compilers js:babel-core/register  --recursive --watch --require ./test/setup.js",
     "cover": "BABEL_ENV=test babel-node node_modules/istanbul/lib/cli cover node_modules/mocha/bin/_mocha -- --recursive --require ./test/setup.js",
-    "eslint": "eslint Ardagryd.js lib"
+    "eslint": "eslint index.js lib"
   },
   "keywords": [
     "React",
