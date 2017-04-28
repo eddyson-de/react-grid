@@ -437,7 +437,7 @@ describe('Grid render tests', function(){
   });
   
   it('Should be possible to hide the tools for a column', ()=>{
-    let grid = render(
+    let grid = mount(
         <Grid objects={[{a: "foo", b: "bar"}]}>
             <Column name="b" hideTools={true}/>
             <Column name="id" hide/>
