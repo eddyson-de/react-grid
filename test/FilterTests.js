@@ -3,7 +3,7 @@ import Grid  from '../lib/GridBuilder'
 import Column from '../lib/Column'
 import Cell from '../lib/Cell'
 import Filter from '../lib/Filter'
-import FilterCollector from '../lib/FilterCollector'
+import withFilterHandler from '../lib/FilterHandler'
 import { mount, render } from 'enzyme'
 import React from 'react';
 
@@ -228,8 +228,8 @@ describe('Grid filter tests', function () {
     it('Component should should not overwrite internal filter state if props where not changed', function () {
 
 
-        const FilteringWrapper = FilterCollector(()=><div />)
-        let filteringWrapper = mount(<FilteringWrapper objects={[]} />);
+        const WrappedWithFilterHandler = withFilterHandler(()=><div />)
+        let filteringWrapper = mount(<WrappedWithFilterHandler objects={[]} />);
         // trigger componentWillReceiveProps
 
         expect(filteringWrapper.state('filter')).to.deep.equal([]);
