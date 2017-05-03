@@ -607,6 +607,7 @@ describe('Grid render tests', function(){
         expect(grid.find("th").at(1).text()).to.be.equal("Name⇅");
         
     });
+    
     it('Should should order columns based on order of <Column /> Components', ()=> {
         let data = [{name: "a", age: "1"}, {name: "b", age: "2" }];
         let grid = mount(
@@ -619,4 +620,16 @@ describe('Grid render tests', function(){
         expect(grid.find("th").at(1).text()).to.be.equal("Age⇅");
         
     });
+    
+    it('Should be possible to override the column label', ()=> {
+      let data = [{name: "a", age: "1"}, {name: "b", age: "2" }];
+      let grid = mount(
+          <Grid objects={data}>
+              <Column name="name" label="NAME"/>
+          </Grid>
+      );
+      expect(grid.find("th").at(0).text()).to.be.equal("NAME⇅");
+      expect(grid.find("th").at(1).text()).to.be.equal("Age⇅");
+      
+  });
 });
