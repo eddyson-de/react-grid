@@ -9,7 +9,7 @@ import Column from '../lib/Column';
 
 
 
-describe.only('Tests for default column config handling', function(){
+describe('Tests for default column config handling', function(){
     
     it('Should render all 4 unconfigured columns.', function(){
         const data = [
