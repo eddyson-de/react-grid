@@ -5,7 +5,7 @@ import { buildGridWithTemplate } from './lib/GridBuilder';
 import Body from './lib/Body';
 import Row from './lib/Row';
 import Cell from './lib/Cell';
-import HeaderRow from './lib/HeaderRow';
+import HeaderRow, { DefaultHeaderCell } from './lib/HeaderRow';
 import FilterRow from './lib/FilterRow';
 import Column from './lib/Column';
 import Pager from './lib/Pager';
@@ -26,5 +26,6 @@ export {
   Column,
   Pager,
   ASCENDING,
-  DESCENDING
+  DESCENDING,
+  DefaultHeaderCell
 };
