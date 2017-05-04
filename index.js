@@ -10,6 +10,7 @@ import FilterRow from './lib/FilterRow';
 import Column from './lib/Column';
 import Pager from './lib/Pager';
 
+import { ASCENDING, DESCENDING } from './constants';
 
 const DefaultGrid = buildGridWithTemplate(DefaultGridTemplate);
 
@@ -23,5 +24,7 @@ export {
   HeaderRow,
   FilterRow,
   Column,
-  Pager
+  Pager,
+  ASCENDING,
+  DESCENDING
 };
