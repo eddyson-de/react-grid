@@ -642,6 +642,47 @@ describe('Grid render tests', function(){
       );
       expect(grid.find("th").at(0).text()).to.be.equal("NAME⇅");
       expect(grid.find("th").at(1).text()).to.be.equal("Age⇅");
+    });
       
-  });
+    it('Page size should be contollable from the outside.', ()=> {
+      let data = [{name: "a", age: "1"}, {name: "b", age: "2" }];
+      let pageSize=1
+      let grid = mount(
+          <Grid objects={data} pageSize={pageSize} onChangePageSize={value => pageSize=value}/>
+      );
+      expect(grid.find("tbody tr").length).be.equal(1);
+      pageSize = 2;
+      grid = mount(
+          <Grid objects={data} pageSize={pageSize} onChangePageSize={value => pageSize=value}/>
+      );
+      expect(grid.find("tbody tr").length).be.equal(2);
+      let pageSizeInput = grid.find("input").at(1);
+      pageSizeInput.node.value = "1";
+      pageSizeInput.simulate('change', pageSizeInput);
+      expect(grid.find("tbody tr").length).be.equal(1);
+      expect(pageSize).to.be.equal(1);
+
+    });
+      
+    it('Page should be contollable from the outside.', ()=> {
+      
+      let data = [{name: "a", age: "1"}, {name: "b", age: "2" }];
+      let page = 1;
+      let grid = mount(
+          <Grid objects={data} page={page} defaultPageSize={1} onChangePage={value => page=value} />
+      );
+      expect(grid.find("tbody tr td").at(0).text()).to.be.equal("a");
+      page = 2;
+      grid = mount(
+          <Grid objects={data} page={2} defaultPageSize={1} onChangePage={value => page=value} />
+      );
+      expect(grid.find("tbody tr td").at(0).text()).to.be.equal("b");
+      let pageNumberInput = grid.find("input").at(0);
+      pageNumberInput.node.value = "1";
+      pageNumberInput.simulate('change', pageNumberInput);
+      expect(grid.find("tbody tr td").at(0).text()).to.be.equal("a");
+      expect(page).to.be.equal(1);
+
+
+    });
 });
