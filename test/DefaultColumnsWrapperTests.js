@@ -9,7 +9,7 @@ import Column from '../lib/Column';
 
 
 
-describe('Tests for default column config handling', function(){
+describe.only('Tests for default column config handling', function(){
     
     it('Should render all 4 unconfigured columns.', function(){
         const data = [
@@ -20,7 +20,7 @@ describe('Tests for default column config handling', function(){
         );
         
         //we expect 3 columns
-        expect(grid.find("tr").at(0).children().length).be.equal(3);
+        expect(grid.find("tr").at(0).find("th").length).be.equal(3);
     });
     
     it('Should render configured columns first and add default configs after them.', function () {
@@ -34,7 +34,7 @@ describe('Tests for default column config handling', function(){
         );
     
         //we expect 3 columns
-        expect(grid.find("tr").at(0).children().length).be.equal(3);
+        expect(grid.find("tr").at(0).find("th").length).be.equal(3);
         
         //content starts at row 3 because of column header and filter row
         expect(grid.find("tr").at(2).children().at(0).text()).be.equal("BAR1");
@@ -49,7 +49,7 @@ describe('Tests for default column config handling', function(){
         let grid = mount(
             <Grid objects={data} hideColumnsWithoutConfig/>
         );
-        expect(grid.find("tr").at(0).children().length).be.equal(0);
+        expect(grid.find("tr").at(0).find("th").length).be.equal(0);
     });
     
     it('Should only render configured columns when hideColumnsWithoutConfig prop is set.', function () {
@@ -62,8 +62,8 @@ describe('Tests for default column config handling', function(){
             </Grid>
         );
         
-        //we expect 1 columns
-        expect(grid.find("tr").at(0).children().length).be.equal(1);
+        //we expect 1 column
+        expect(grid.find("tr").at(0).find("th").length).be.equal(1);
         
         //content starts at row 3 because of column header and filter row
         expect(grid.find("tr").at(2).children().at(0).text()).be.equal("BAR1");
