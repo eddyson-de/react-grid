@@ -9,7 +9,7 @@ process.env.BABEL_ENV = 'distribution'
 
 module.exports = {
     entry: {
-      Ardagryd: './Ardagryd.js'
+      Ardagryd: './index.js'
     },
     output: {
       path: path.join(__dirname, 'dist'),
