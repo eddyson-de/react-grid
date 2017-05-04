@@ -318,4 +318,16 @@ describe('Grid filter tests', function () {
         );
         expect(grid.find("tbody").children().length).be.equal(1);
     });
+    
+    it('Paging should work together with filtering.', (done) => {
+      let grid = mount(
+          <Grid objects={[{name: "Foo"}, {name: "Bar"}]} defaultPageSize={1}/>
+      );
+      expect(grid.find("input").at(0).prop("max")).be.equal(2);
+      grid.find('th input').first().simulate('change', {target: {value: 'Foo'}});
+      setTimeout(function () {
+          expect(grid.find("input").at(0).prop("max")).be.equal(1);
+          done();
+      }, 500);
+  });
 });
