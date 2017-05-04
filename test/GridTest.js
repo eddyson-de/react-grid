@@ -682,7 +682,33 @@ describe('Grid render tests', function(){
       pageNumberInput.simulate('change', pageNumberInput);
       expect(grid.find("tbody tr td").at(0).text()).to.be.equal("a");
       expect(page).to.be.equal(1);
+    });
+    
+    it("Specifying page without onChangePage makes current page unchangeable.", ()=> {
+      let grid  = mount(
+          <Grid objects={data} page={1} defaultPageSize={1}  />
+      );
 
+      expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("Nike Floder");
+      let pageNumberInput = grid.find("input").at(0);
+      expect(pageNumberInput).to.have.value("1");
+      pageNumberInput.node.value = "2";
+      pageNumberInput.simulate('change', pageNumberInput);
+      expect(pageNumberInput).to.have.value("1");
+      expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("Nike Floder");
+    });
+    
+    it("Specifying pageSize without onChangePageSize makes current page unchangeable.", ()=> {
+      let grid  = mount(
+          <Grid objects={data} pageSize={1}  />
+      );
 
+      expect(grid.find("tbody tr").length).be.equal(1);
+      let pageSizeInput = grid.find("input").at(1);
+      expect(pageSizeInput).to.have.value("1");
+      pageSizeInput.node.value = "2";
+      pageSizeInput.simulate('change', pageSizeInput);
+      expect(pageSizeInput).to.have.value("1");
+      expect(grid.find("tbody tr").length).be.equal(1);
     });
 });
