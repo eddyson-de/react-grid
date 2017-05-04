@@ -329,5 +329,16 @@ describe('Grid filter tests', function () {
           expect(grid.find("input").at(0).prop("max")).be.equal(1);
           done();
       }, 500);
-  });
+    });
+    
+    it('Filter component can be set for a column', ()=>{
+      let grid = mount(
+          <Grid objects={[{name: "aa", x: false}, {name: "ab", x: true}, {name: "ccb", x: true}]}>
+            <Column name="x">
+              <Filter component={(props)=><input type="checkbox" checked={props.query} onChange={e=>props.onChange(e.target.value)} />} />
+            </Column>
+          </Grid>
+      );
+      expect(grid.find("th input").at(0).prop("type")).be.equal("checkbox");
+    });
 });
