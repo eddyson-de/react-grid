@@ -25,7 +25,7 @@ describe("Sorting tests",() => {
             {name: "Baz"},
                 {name: "Foo"},
                 {name: "Bar"}]}
-            initialSort={"name"}/>);
+            defaultSort={"name"}/>);
 
         expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("Bar");
         expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal("Baz");
@@ -37,7 +37,7 @@ describe("Sorting tests",() => {
             objects={[
                 {name: "Foo"},
                 {name: "Bar"}]}
-            initialSort={{columnName: "name"}}/>);
+            defaultSort={{columnName: "name"}}/>);
 
         expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("Bar");
         expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal("Foo");
@@ -50,7 +50,7 @@ describe("Sorting tests",() => {
                 {name: "Foo"},
                 {name: "Bar"},
                 {name: "Baz"}]}
-            initialSort={{columnName: "name", order: "desc"}}/>);
+            defaultSort={{columnName: "name", order: "desc"}}/>);
 
         expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("Foo");
         expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal("Baz");
@@ -65,7 +65,7 @@ describe("Sorting tests",() => {
                 {name: "B", nr: 1},
                 {name: "C", nr: 2},
                 {name: "A", nr: 3}]}
-            initialSort={{columnName: "nr", order: "asc"}} >
+            defaultSort={{columnName: "nr", order: "asc"}} >
             <Column name="id" hide />
           </Grid>
         );
@@ -88,7 +88,7 @@ describe("Sorting tests",() => {
                 {name: "B", nr: 1},
                 {name: "C", nr: 2},
                 {name: "A", nr: 3}]}
-            initialSort={{columnName: "nr", order: "asc"}}>
+            defaultSort={{columnName: "nr", order: "asc"}}>
             <Column name="id" hide />
           </Grid>
         );
@@ -118,7 +118,7 @@ describe("Sorting tests",() => {
                 {name: "B", nr: 1},
                 {name: "C", nr: 2},
                 {name: "A", nr: 3}]}
-            initialSort={{columnName: "nr", order: "asc"}}>
+            defaultSort={{columnName: "nr", order: "asc"}}>
             <Column name="id" hide />
           </Grid>
         );
@@ -147,7 +147,7 @@ describe("Sorting tests",() => {
                 {name: "B", nr: 1},
                 {name: "C", nr: 2},
                 {name: "A", nr: 3}]}
-            initialSort={{columnName: "nr", order: "asc"}}>
+            defaultSort={{columnName: "nr", order: "asc"}}>
             <Column name="id" hide />
           </Grid>
         );
@@ -162,7 +162,7 @@ describe("Sorting tests",() => {
         expect(grid.find("tbody tr").at(1).find("td").at(0).text()).to.equal("B");
         expect(grid.find("tbody tr").at(2).find("td").at(0).text()).to.equal("C");
 
-        grid.setProps({initialSort:{columnName: "name", order: "desc"}});
+        grid.setProps({defaultSort:{columnName: "name", order: "desc"}});
 
         expect(grid.find("tbody tr").at(0).find("td").at(0).text()).to.equal("C");
         expect(grid.find("tbody tr").at(1).find("td").at(0).text()).to.equal("B");
@@ -175,13 +175,13 @@ describe("Sorting tests",() => {
                 {name: "Foo", color: "blue"},
                 {name: "Bar", color: "yellow"},
                 {name: "Baz"}]}
-            initialSort={"color"}/>);
+            defaultSort={"color"}/>);
 
         expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("Baz");
         expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal("Foo");
         expect(grid.find("tbody tr").at(2).find("td").first().text()).to.equal("Bar");
 
-        grid.setProps({initialSort:{columnName: "color", order: "desc"}});
+        grid.setProps({defaultSort:{columnName: "color", order: "desc"}});
 
         expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("Bar");
         expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal("Foo");
@@ -202,7 +202,7 @@ describe("Sorting tests",() => {
 
         expect(grid.find("th").first().text()).to.equal('Name⇅');
 
-        grid.setProps({initialSort: "name"});
+        grid.setProps({defaultSort: "name"});
 
         expect(grid.find("tbody tr").find("td").first().text()).to.equal("A");
         expect(grid.find("tbody tr").find("td").last().text()).to.equal("Z");
@@ -227,7 +227,7 @@ describe("Sorting tests",() => {
                 {n: 10},
                 {n: 2},
                 {n: 20}]}
-            initialSort={{columnName: "n"}}/>);
+            defaultSort={{columnName: "n"}}/>);
 
         expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal('1');
         expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal('2');
@@ -242,7 +242,7 @@ describe("Sorting tests",() => {
             {id: 1, val: true},
             {id: 2, val: false},
             {id: 3, val: true}]}
-          initialSort={"val"}/>);
+          defaultSort={"val"}/>);
 
       expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("2");
     });

@@ -207,7 +207,7 @@ describe('Grid render tests', function(){
   it('Should render the correct number of pages', function (){
 
     let grid = mount(
-      <Grid objects={data} initialPageSize={3}/>
+      <Grid objects={data} defaultPageSize={3}/>
     );
 
     expect(grid.find("input").at(0).prop("max")).be.equal(3);
@@ -409,7 +409,7 @@ describe('Grid render tests', function(){
   it('Should not jump to the first page if the props don\'t change', function (){
     let people = [{"name": "John"}, {"name": "Jack"}];
     let instance = mount(
-        <Grid objects={people} initialPageSize={1} />
+        <Grid objects={people} defaultPageSize={1} />
     );
 
     expect(instance.find("td").first().text()).be.equal("John");
@@ -467,7 +467,7 @@ describe('Grid render tests', function(){
 
   it('Should jump to the last page if current page exceeds number of available pages', ()=>{
     let grid = mount(
-      <Grid objects={[{"name":"John"}, {"name":"Jack"}]} initialPageSize={1} />
+      <Grid objects={[{"name":"John"}, {"name":"Jack"}]} defaultPageSize={1} />
     );
     expect(grid.find("tbody").children().length).be.equal(1);
     expect(grid.find("td").first().text()).be.equal("John");
@@ -488,7 +488,7 @@ describe('Grid render tests', function(){
   
   it('Should jump to the last page if current page exceeds number of available pages and there is more than one page', ()=>{
     let grid = mount(
-      <Grid objects={[{"name":"John"}, {"name":"Jack"}, {"name":"Jeff"}]} initialPageSize={1} />
+      <Grid objects={[{"name":"John"}, {"name":"Jack"}, {"name":"Jeff"}]} defaultPageSize={1} />
     );
     expect(grid.find("tbody").children().length).be.equal(1);
     expect(grid.find("td").first().text()).be.equal("John");
@@ -518,16 +518,16 @@ describe('Grid render tests', function(){
   });
 
   it('Should apply filters if sorting is disabled', ()=>{
-    let grid = render(<Grid objects={data} config={{paging:false}} initialFilter={{columnName: "name", expression: "a"}}/>);
+    let grid = render(<Grid objects={data} config={{paging:false}} defaultFilter={{columnName: "name", expression: "a"}}/>);
     expect(grid.find("tbody").children().length).be.equal(5);
   });
 
-  it('Should throw an error when specifying a number < 1 for initialPageSize', ()=>{
+  it('Should throw an error when specifying a number < 1 for defaultPageSize', ()=>{
     expect(function(){
       render(
-        <Grid objects={data} initialPageSize={0} />
+        <Grid objects={data} defaultPageSize={0} />
       );
-    }).to.throw(/Invalid value for "initialPageSize"/);
+    }).to.throw(/Invalid value for "defaultPageSize"/);
   });
     
   it('Should render "true" or "false" for boolean columns', function(){
