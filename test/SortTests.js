@@ -1,6 +1,7 @@
 import { expect } from 'chai'
 import Grid from '../lib/GridBuilder'
 import Column from '../lib/Column'
+import { ASCENDING } from '../lib/constants'
 import { mount, render } from 'enzyme'
 import React from 'react';
 
@@ -244,5 +245,36 @@ describe("Sorting tests",() => {
           initialSort={"val"}/>);
 
       expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("2");
-  });
+    });
+      
+    it("Sorting should be controllable from the outside.", ()=> {
+      let sort = "val";
+      let grid  = mount(<Grid
+          objects={[
+            {id: 0, val: true},
+            {id: 1, val: true},
+            {id: 2, val: false},
+            {id: 3, val: true}]}
+          sort={"val"} onChangeSort={newSort => sort=newSort}/>);
+
+      expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("2");
+      grid.find("button").first().simulate('click');
+      expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("0");
+      expect(sort).to.deep.equal({ columnName: 'id', order: ASCENDING });
+    });
+      
+    it("Specifying sort without onChangeSort makes sorting unchangeable.", ()=> {
+      let sort = "val";
+      let grid  = mount(<Grid
+          objects={[
+            {id: 0, val: true},
+            {id: 1, val: true},
+            {id: 2, val: false},
+            {id: 3, val: true}]}
+          sort={"val"}/>);
+
+      expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("2");
+      grid.find("button").first().simulate('click');
+      expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("2");
+    });
 });
