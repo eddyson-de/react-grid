@@ -29,7 +29,6 @@
   "license": "MIT",
   "dependencies": {
     "prop-types": "^15.5.7",
-    "react-bootstrap": "0.31.0",
     "react-prop-types": "0.4.0"
   },
   "peerDependencies": {
@@ -45,7 +44,6 @@
     "babel-plugin-transform-object-rest-spread": "6.23.0",
     "babel-preset-es2015": "6.24.1",
     "babel-preset-react": "6.24.1",
-    "bootstrap": "3.3.7",
     "chai": "3.5.0",
     "chai-enzyme": "0.6.1",
     "coveralls": "2.13.1",
