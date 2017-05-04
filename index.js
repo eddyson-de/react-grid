@@ -10,7 +10,7 @@ import FilterRow from './lib/FilterRow';
 import Column from './lib/Column';
 import Pager from './lib/Pager';
 
-import { ASCENDING, DESCENDING } from './constants';
+import { ASCENDING, DESCENDING } from './lib/constants';
 
 const DefaultGrid = buildGridWithTemplate(DefaultGridTemplate);
 
