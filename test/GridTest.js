@@ -245,7 +245,7 @@ describe('Grid render tests', function(){
       </Grid>
     );
 
-    expect(grid.find("td").first().html()).be.equal('<td><a href="mailto:Emilian20@yahoo.com">Nike Floder</a></td>');
+    expect(grid.find("td").first().children().first().html()).be.equal('<a href="mailto:Emilian20@yahoo.com">Nike Floder</a>');
   });
   
   it('Should be possible to override the displayValueGetter per column', function (){
@@ -258,7 +258,7 @@ describe('Grid render tests', function(){
       </Grid>
     );
 
-    expect(grid.find("td").html()).be.equal("<td>John Doe</td>");
+    expect(grid.find("td").text()).be.equal("John Doe");
   });
   
   it('Should be possible to override global displayValueGetter', function (){
@@ -269,7 +269,7 @@ describe('Grid render tests', function(){
       </Grid>
     );
 
-    expect(grid.find("td").first().html()).be.equal("<td>This is the name</td>");
+    expect(grid.find("td").first().text()).be.equal("This is the name");
   });
   
   it('Should be possible to override the global displayValueGetter with a per-column configuration', function (){
@@ -283,7 +283,7 @@ describe('Grid render tests', function(){
       </Grid>
     );
 
-    expect(grid.find("td").first().html()).be.equal("<td>Robert Paulson</td>");
+    expect(grid.find("td").first().text()).be.equal("Robert Paulson");
   });
   
   it('Should be possible to return an element from the displayValueGetter', function (){
@@ -296,7 +296,7 @@ describe('Grid render tests', function(){
       </Grid>
     );
 
-    expect(grid.find("td").first().html()).be.equal('<td><span>"John Doe"</span></td>');
+    expect(grid.find("td").first().children().first().html()).be.equal('<span>"John Doe"</span>');
   });
   
   it('Should render an array value', function (){
@@ -305,7 +305,7 @@ describe('Grid render tests', function(){
       <Grid objects={[{nickNames: ["Dude", "Johnny"]}]}/>
     );
 
-    expect(grid.find("td").html()).be.equal("<td><ul><li><span>Dude</span></li><li><span>Johnny</span></li></ul></td>");
+    expect(grid.find("td").children().first().html()).be.equal("<ul><li><span>Dude</span></li><li><span>Johnny</span></li></ul>");
   });
   
   it('Can dynamically add an array-typed column', function (){
@@ -319,7 +319,7 @@ describe('Grid render tests', function(){
       </Grid>
     );
 
-    expect(grid.find("td").html()).be.equal("<td><ul><li><span>Dude</span></li><li><span>Johnny</span></li></ul></td>");
+    expect(grid.find("td").children().first().html()).be.equal("<ul><li><span>Dude</span></li><li><span>Johnny</span></li></ul>");
   });
   
   it('Can override the displayValueGetter for an array-typed column', function (){
@@ -332,7 +332,7 @@ describe('Grid render tests', function(){
       </Grid>
     );
 
-    expect(grid.find("td").html()).be.equal("<td>Dude or Johnny</td>");
+    expect(grid.find("td").text()).be.equal("Dude or Johnny");
   });
 
   
@@ -359,7 +359,7 @@ describe('Grid render tests', function(){
 
     );
 
-    expect(grid.find("td").html()).be.equal('<td><span class="custom">John Doe</span></td>');
+    expect(grid.find("td").children().first().html()).be.equal('<span class="custom">John Doe</span>');
   });
   
   it('Can use a bound function as displayValueGetter', function (){
@@ -403,7 +403,7 @@ describe('Grid render tests', function(){
       <Foo />
     );
 
-    expect(grid.find("td").html()).be.equal('<td><span class="custom">John Doe</span></td>');
+    expect(grid.find("td").children().first().html()).be.equal('<span class="custom">John Doe</span>');
   });
   
   it('Should not jump to the first page if the props don\'t change', function (){
@@ -436,7 +436,7 @@ describe('Grid render tests', function(){
         }} config={{}}/>
     );
 
-    expect(grid.find("td").at(0).html()).be.equal('<td>John</td>');
+    expect(grid.find("td").at(0).text()).be.equal('John');
   });
   
   it('Should be possible to hide the tools for a column', ()=>{
@@ -535,8 +535,8 @@ describe('Grid render tests', function(){
       <Grid objects={[{value: true}, {value: false}]} />
     );
 
-    expect(grid.find("td").at(0).html()).be.equal('<td>true</td>');
-    expect(grid.find("td").at(1).html()).be.equal('<td>false</td>');
+    expect(grid.find("td").at(0).text()).be.equal('true');
+    expect(grid.find("td").at(1).text()).be.equal('false');
   });
   
   it('Can use a custom cell component for a specific column', function(){
