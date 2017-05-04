@@ -5,6 +5,9 @@ import  Column  from '../lib/Column';
 import  Pager  from '../lib/Pager';
 import  Cell from '../lib/Cell';
 import  Row  from '../lib/Row';
+import  Body  from '../lib/Body';
+import  HeaderRow  from '../lib/HeaderRow';
+import { buildGridWithTemplate } from '../lib/GridBuilder';
 import PagingHandler from "../lib/PagingHandler";
 import chai, { expect } from 'chai'
 import { mount, render } from 'enzyme'
@@ -445,11 +448,20 @@ describe('Grid render tests', function(){
      expect(grid.find("th input").length).be.equal(1);
   });
 
-  // TODO: see https://github.com/eddyson-de/react-grid/issues/347
-  xit('Should be possible to disable paging by passing false', ()=>{
+  it('Should be possible to disable paging by not specifying a pager in the template', ()=>{
     let dataDuplicated = data.concat(data);
+    const GridTemplate = () =>
+    <div>
+        <table>
+            <thead>
+            <HeaderRow />
+            </thead>
+            <Body/>
+        </table>
+    </div>;
+    let Grid = buildGridWithTemplate(GridTemplate)
 
-    let grid = render(<Grid objects={dataDuplicated} config={{paging:false}} />);
+    let grid = render(<Grid objects={dataDuplicated} />);
     expect(grid.find("tbody").children().length).be.equal(16);
   });
 
