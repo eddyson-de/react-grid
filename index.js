@@ -1,5 +1,5 @@
 import ConfigCollector from './lib/ConfigCollector';
-import DefaultGridTemplate from './lib/DefaultGridTemplate';
+import DefaultGridTemplate from './lib/templates/DefaultGridTemplate';
 import { buildGridWithTemplate } from './lib/GridBuilder';
 
 import Body from './lib/Body';
