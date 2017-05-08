@@ -51,7 +51,7 @@
     "css-loader": "0.28.1",
     "enzyme": "2.8.2",
     "eslint": "3.19.0",
-    "eslint-plugin-react": "6.10.3",
+    "eslint-plugin-react": "7.0.0",
     "faker": "4.1.0",
     "file-loader": "0.11.1",
     "istanbul": "1.1.0-alpha.1",
@@ -70,7 +70,7 @@
     "rollup-plugin-uglify": "^1.0.2",
     "style-loader": "0.17.0",
     "url-loader": "0.5.8",
-    "webpack": "2.5.0",
+    "webpack": "2.5.1",
     "webpack-dev-server": "2.4.5",
     "yargs": "8.0.1"
   }
