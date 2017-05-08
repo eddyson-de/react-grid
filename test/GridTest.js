@@ -711,4 +711,20 @@ describe('Grid render tests', function(){
       expect(pageSizeInput).to.have.value("1");
       expect(grid.find("tbody tr").length).be.equal(1);
     });
+    
+    it.only("Should be possible to override Cell via a child of Body inside a template",()=> {
+        const data = [{foo: "bar"}];
+        const MyGrid = buildGridWithTemplate(() =>
+            <table>
+                <Body>
+                    <Cell component={({children})=><td style={{color: "red"}}>{children}</td>} />
+                </Body>
+            </table>
+        );
+        
+        let grid = mount(
+          <MyGrid objects={data}/>
+      );
+        expect(grid.find("tbody tr td")).to.have.style("color","red");
+    });
 });
