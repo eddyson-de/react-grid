@@ -1,7 +1,7 @@
 {
   "env": {
     "distribution": {
-      "presets": ['es2015-rollup', 'react'],
+      "presets": [['es2015', { "modules": false }], 'react'],
       "plugins": ["syntax-object-rest-spread","transform-class-properties","transform-object-rest-spread"]
     },
     "devserver": {

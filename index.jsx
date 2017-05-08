@@ -1,39 +1,31 @@
+require("./node_modules/bootstrap/dist/css/bootstrap.min.css");
 import React from 'react';
-import Body from './lib/Body';
 import ReactDOM from 'react-dom';
-import Grid from './lib/GridBuilder';
+import {Grid} from './Ardagryd';
 import data from './testData';
-import Cell from './lib/Cell';
 import Column from './lib/Column';
-import Row from './lib/Row'
-import { buildGridWithTemplate } from './lib/GridBuilder';
-
-
-
+import Cell from './lib/GridCell';
 
 
 export class App extends React.Component {
 
-    render() {
+
+
+	render() {
+
+    let externalData = {getThis: "External data"};
+
+
+    var config = {showToolbar: true, paging: 10};
 		return (
-          <Grid objects={data}>
-              <Row component={({children})=><tr style={{color: "red"}}>{children}</tr>}/>
-              <Column name="name" >
-                  <Cell content="foo" />
-              </Column>
-              <Column name="username" someParam="foo"/>
-              <Column name="email" someParam="foo" />
-              <Column name="address" someParam="foo" />
-              <Column name="id" id hide />
+
+      <div>
+          <Grid objects={data} showColumnsWithoutConfig={false}>
+              <Column name="name" />
           </Grid>
+      </div>
 		);
 	}
-    /*render() {
-        return (
-            <Grid objects={data} />
-            
-        );
-    }*/
 }
 
 
