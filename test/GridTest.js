@@ -758,4 +758,49 @@ describe('Grid render tests', function(){
         
         expect(instance.find("th").first().text()).be.equal("NAME⇅");
     });
+        
+    xit('Should properly add and remove columns', function (){
+      let instance = mount(
+          <Grid objects={[{num: "1", en: "one"},{num: "2", en: "two"},{num: "3", en: "three"}]} hideColumnsWithoutConfig>
+              <Column name="num" sortable={false}/>
+          </Grid>
+      
+      );
+      
+      expect(instance.find('tr').at(0).find("th").length).be.equal(1);
+
+      expect(instance.find('tr').at(0).find("th").first().text()).be.equal("Num");
+      expect(instance.find('td').at(0).text()).be.equal("1");
+      
+      instance.setProps({children:[ <Column name="num" sortable={false}/>,  <Column name="en" sortable={false}/>]});
+      
+      expect(instance.find('tr').first().find("th").length).be.equal(2);
+      
+      expect(instance.find('tr').at(0).find("th").at(0).text()).be.equal("Num");
+      expect(instance.find('td').at(0).text()).be.equal("1");
+
+      expect(instance.find('tr').at(0).find("th").at(1).text()).be.equal("En");
+      expect(instance.find('td').at(1).text()).be.equal("one");
+
+      instance.setProps({children:[ <Column name="en" sortable={false}/> , <Column name="num" sortable={false}/>]});
+      
+      expect(instance.find('tr').at(0).find("th").length).be.equal(2);
+      
+      expect(instance.find('tr').at(0).find("th").at(0).text()).be.equal("En");
+      expect(instance.find('td').at(0).text()).be.equal("one");
+      
+      expect(instance.find('tr').at(0).find("th").at(1).text()).be.equal("Num");
+      expect(instance.find('td').at(1).text()).be.equal("1");
+
+      
+      instance.setProps({children:[ <Column name="en" sortable={false}/>]});
+      
+      expect(instance.find('tr').first().find("th").length).be.equal(1);
+      
+      expect(instance.find('tr').at(0).find("th").at(0).text()).be.equal("En");
+      expect(instance.find('td').at(0).text()).be.equal("one");
+
+
+      
+  });
 });
