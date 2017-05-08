@@ -727,5 +727,19 @@ describe('Grid render tests', function(){
       
       expect(instance.find("th").length).be.equal(2);
     });
-    
+
+    it('Should be possible to change a column\'s label', function (){
+      let instance = mount(
+          <Grid objects={data} hideColumnsWithoutConfig>
+            <Column name="name" label="name" />
+          </Grid>
+      
+      );
+
+      expect(instance.find("th").first().text()).be.equal("name⇅");
+
+      instance.setProps({children:[<Column name="name" label="NAME" />]});
+      
+      expect(instance.find("th").first().text()).be.equal("NAME⇅");
+    });
 });
