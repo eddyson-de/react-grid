@@ -712,7 +712,7 @@ describe('Grid render tests', function(){
       expect(grid.find("tbody tr").length).be.equal(1);
     });
     
-    it.only("Should be possible to override Cell via a child of Body inside a template",()=> {
+    it("Should be possible to override Cell via a child of Body inside a template",()=> {
         const data = [{foo: "bar"}];
         const MyGrid = buildGridWithTemplate(() =>
             <table>
@@ -726,5 +726,36 @@ describe('Grid render tests', function(){
           <MyGrid objects={data}/>
       );
         expect(grid.find("tbody tr td")).to.have.style("color","red");
+    });
+    
+    it('Should properly remove columns', function (){
+        let instance = mount(
+            <Grid objects={data} hideColumnsWithoutConfig>
+                <Column name="name" />
+                <Column name="username" />
+            </Grid>
+        
+        );
+        
+        expect(instance.find("th").length).be.equal(4);
+        
+        instance.setProps({children:[<Column name="name" />]});
+        
+        expect(instance.find("th").length).be.equal(2);
+    });
+    
+    it('Should be possible to change a column\'s label', function (){
+        let instance = mount(
+            <Grid objects={data} hideColumnsWithoutConfig>
+                <Column name="name" label="name" />
+            </Grid>
+        
+        );
+        
+        expect(instance.find("th").first().text()).be.equal("name⇅");
+        
+        instance.setProps({children:[<Column name="name" label="NAME" />]});
+        
+        expect(instance.find("th").first().text()).be.equal("NAME⇅");
     });
 });
