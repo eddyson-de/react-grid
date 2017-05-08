@@ -711,4 +711,21 @@ describe('Grid render tests', function(){
       expect(pageSizeInput).to.have.value("1");
       expect(grid.find("tbody tr").length).be.equal(1);
     });
+      
+    it('Should properly remove columns', function (){
+      let instance = mount(
+          <Grid objects={data} hideColumnsWithoutConfig>
+            <Column name="name" />
+            <Column name="username" />
+          </Grid>
+      
+      );
+
+      expect(instance.find("th").length).be.equal(4);
+
+      instance.setProps({children:[<Column name="name" />]});
+      
+      expect(instance.find("th").length).be.equal(2);
+    });
+    
 });
