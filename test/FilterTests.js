@@ -1,8 +1,9 @@
 import { expect } from 'chai'
-import { Grid } from '../Ardagryd'
+import Grid  from '../lib/GridBuilder'
 import Column from '../lib/Column'
-import Cell from '../lib/GridCell'
+import Cell from '../lib/Cell'
 import Filter from '../lib/Filter'
+import withFilterHandler from '../lib/FilterHandler'
 import { mount, render } from 'enzyme'
 import React from 'react';
 
@@ -177,18 +178,18 @@ let data = [{
 }];
 describe('Grid filter tests', function () {
     it('Filter object should filter grid to 2 rows', function () {
-        
+
         let grid = render(
-            <Grid objects={data} filter={{columnName: "name", expression: "ie"}} config={{}}/>
+            <Grid objects={data} defaultFilter={{columnName: "name", expression: "ie"}} config={{}}/>
         );
-        
+
         expect(grid.find("tbody").children().length).be.equal(2);
     });
 
     it('Array of filter object(s) should filter grid to 2 rows', function () {
 
         let grid = render(
-            <Grid objects={data} filter={[{columnName: "name", expression: "ie"}]} config={{}}/>
+            <Grid objects={data} defaultFilter={[{columnName: "name", expression: "ie"}]} config={{}}/>
         );
 
         expect(grid.find("tbody").children().length).be.equal(2);
@@ -199,10 +200,10 @@ describe('Grid filter tests', function () {
       let grid = mount(
           <Grid objects={data} config={{}}/>
       );
-      grid.find('input').first().simulate('change', {target: {value: 'ie'}});
+      grid.find('th input').first().simulate('change', {target: {value: 'ie'}});
       setTimeout(function () {
           expect(grid.find("tbody").children().length).be.equal(2);
-          grid.find('input').first().simulate('change', {target: {value: 'er'}});
+          grid.find('th input').first().simulate('change', {target: {value: 'er'}});
           setTimeout(function () {
               expect(grid.find("tbody").children().length).be.equal(3);
               done();
@@ -219,34 +220,35 @@ describe('Grid filter tests', function () {
 
         expect(grid.find("tbody").children().length).be.equal(8);
 
-        grid.setProps({filter: {columnName: "name", expression: "ie"}});
+        grid.setProps({defaultFilter: {columnName: "name", expression: "ie"}});
 
         expect(grid.find("tbody").children().length).be.equal(2);
     });
 
     it('Component should should not overwrite internal filter state if props where not changed', function () {
 
-        let grid = mount(
-            <Grid objects={data} />
-        );
 
-        expect(grid.find("tbody").children().length).be.equal(8);
+        const WrappedWithFilterHandler = withFilterHandler(()=><div />)
+        let filteringWrapper = mount(<WrappedWithFilterHandler objects={[]} />);
+        // trigger componentWillReceiveProps
 
-        grid.setProps({filter: {columnName: "name", expression: "ie"}});
+        expect(filteringWrapper.state('filter')).to.deep.equal([]);
 
-        expect(grid.find("tbody").children().length).be.equal(2);
+        filteringWrapper.setProps({defaultFilter: {columnName: "name", expression: "ie"}});
 
-        grid.setState({filter: {columnName: "name", expression: ""}});
+        expect(filteringWrapper.state('filter')).to.deep.equal([{columnName: "name", expression: "ie"}]);
 
-        expect(grid.find("tbody").children().length).be.equal(8);
+        filteringWrapper.node.updateFilter({columnName: "name", expression: ""});
 
-        grid.setProps({filter: {columnName: "name", expression: "ie"}});
+        expect(filteringWrapper.state('filter')).to.deep.equal([{columnName: "name", expression: ""}]);
 
-        expect(grid.find("tbody").children().length).be.equal(8)
+        filteringWrapper.setProps({defaultFilter: {columnName: "name", expression: "ie"}});
+
+        expect(filteringWrapper.state('filter')).to.deep.equal([{columnName: "name", expression: ""}]);
     });
 
     it('Should use custom filterFunction', ()=>{
-       let grid = mount(<Grid objects={[{name: "a"}, {name: "b"}]} filter={[{columnName: "name", expression: "a"}]} />);
+       let grid = mount(<Grid objects={[{name: "a"}, {name: "b"}]} defaultFilter={[{columnName: "name", expression: "a"}]} />);
         expect(grid.find("tbody").children().length).be.equal(1);
 
         grid.setProps({children:
@@ -259,19 +261,19 @@ describe('Grid filter tests', function () {
     });
 
     it('Should use more than one filter expression', ()=>{
-        let grid = mount(<Grid objects={[{name: "aa", email: "aa@www.com"}, {name: "ab",email:"adsf@adsf.de"}, {name: "ccb",email:"adsf@ajgj.de"}]} filter={[{columnName: "name", expression: "a"}]} />);
+        let grid = mount(<Grid objects={[{name: "aa", email: "aa@www.com"}, {name: "ab",email:"adsf@adsf.de"}, {name: "ccb",email:"adsf@ajgj.de"}]} defaultFilter={[{columnName: "name", expression: "a"}]} />);
         expect(grid.find("tbody").children().length).be.equal(2);
 
-        grid.setProps({filter: [{columnName: "name", expression: "a"},{columnName: "email", expression: ".com"}]});
+        grid.setProps({defaultFilter: [{columnName: "name", expression: "a"},{columnName: "email", expression: ".com"}]});
 
         expect(grid.find("tbody").children().length).be.equal(1);
     });
 
     it('Filter should not be ignored on missing property', ()=>{
-        let grid = mount(<Grid objects={[{name: "aa", email: "aa@www.com"}, {name: "ab"}, {name: "ccb"}]} filter={[{columnName: "name", expression: "a"}]} />);
+        let grid = mount(<Grid objects={[{name: "aa", email: "aa@www.com"}, {name: "ab"}, {name: "ccb"}]} defaultFilter={[{columnName: "name", expression: "a"}]} />);
         expect(grid.find("tbody").children().length).be.equal(2);
 
-        grid.setProps({filter: [{columnName: "name", expression: "a"},{columnName: "email", expression: ".com"}]});
+        grid.setProps({defaultFilter: [{columnName: "name", expression: "a"},{columnName: "email", expression: ".com"}]});
 
         expect(grid.find("tbody").children().length).be.equal(1);
     });
@@ -280,23 +282,23 @@ describe('Grid filter tests', function () {
         let grid = mount(<Grid objects={[{name: "aa", age: 2}, {name: "ab", age: 57}, {name: "ccb", age: 7}]} />);
         expect(grid.find("tbody").children().length).be.equal(3);
 
-        grid.setProps({filter: [{columnName: "age", expression: "7"}]});
+        grid.setProps({defaultFilter: [{columnName: "age", expression: "7"}]});
 
         expect(grid.find("tbody").children().length).be.equal(2);
     });
-        
+
     it('Filter should filter boolean values', ()=>{
         let grid = mount(<Grid objects={[{name: "aa", x: false}, {name: "ab", x: true}, {name: "ccb", x: true}]} />);
         expect(grid.find("tbody").children().length).be.equal(3);
 
-        grid.setProps({filter: [{columnName: "x", expression: "true"}]});
+        grid.setProps({defaultFilter: [{columnName: "x", expression: "true"}]});
         expect(grid.find("tbody").children().length).be.equal(2);
     });
-    
+
     it('Should use displayValueGetter for default filter function', () => {
         let grid = mount(
             <Grid objects={[{name: "Foo"}]}
-                  filter={[{columnName: "name", expression: "Bar"}]}>
+                  defaultFilter={[{columnName: "name", expression: "Bar"}]}>
               <Column name="name">
                 <Cell content={({value}) => "Bar"} />
               </Column>
@@ -304,16 +306,39 @@ describe('Grid filter tests', function () {
         );
         expect(grid.find("tbody").children().length).be.equal(1);
     });
-    
+
     it('Should use content for default filter function on computed columns.', () => {
         let grid = mount(
             <Grid objects={[{name: "Foo"}]}
-                  filter={[{columnName: "nickname", expression: "0"}]}>
+                  defaultFilter={[{columnName: "nickname", expression: "0"}]}>
                 <Column name="nickname" label="Nickname">
                     <Cell content={({object}) => "F00"} />
                 </Column>
             </Grid>
         );
         expect(grid.find("tbody").children().length).be.equal(1);
+    });
+    
+    it('Paging should work together with filtering.', (done) => {
+      let grid = mount(
+          <Grid objects={[{name: "Foo"}, {name: "Bar"}]} defaultPageSize={1}/>
+      );
+      expect(grid.find("input").at(0).prop("max")).be.equal(2);
+      grid.find('th input').first().simulate('change', {target: {value: 'Foo'}});
+      setTimeout(function () {
+          expect(grid.find("input").at(0).prop("max")).be.equal(1);
+          done();
+      }, 500);
+    });
+    
+    it('Filter component can be set for a column', ()=>{
+      let grid = mount(
+          <Grid objects={[{name: "aa", x: false}, {name: "ab", x: true}, {name: "ccb", x: true}]}>
+            <Column name="x">
+              <Filter component={(props)=><input type="checkbox" checked={props.query} onChange={e=>props.onChange(e.target.value)} />} />
+            </Column>
+          </Grid>
+      );
+      expect(grid.find("th input").at(0).prop("type")).be.equal("checkbox");
     });
 });

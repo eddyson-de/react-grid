@@ -1,6 +1,7 @@
 import { expect } from 'chai'
-import { Grid }  from '../Ardagryd'
+import Grid from '../lib/GridBuilder'
 import Column from '../lib/Column'
+import { ASCENDING } from '../lib/constants'
 import { mount, render } from 'enzyme'
 import React from 'react';
 
@@ -24,7 +25,7 @@ describe("Sorting tests",() => {
             {name: "Baz"},
                 {name: "Foo"},
                 {name: "Bar"}]}
-            sort={"name"}/>);
+            defaultSort={"name"}/>);
 
         expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("Bar");
         expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal("Baz");
@@ -36,7 +37,7 @@ describe("Sorting tests",() => {
             objects={[
                 {name: "Foo"},
                 {name: "Bar"}]}
-            sort={{columnName: "name"}}/>);
+            defaultSort={{columnName: "name"}}/>);
 
         expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("Bar");
         expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal("Foo");
@@ -49,7 +50,7 @@ describe("Sorting tests",() => {
                 {name: "Foo"},
                 {name: "Bar"},
                 {name: "Baz"}]}
-            sort={{columnName: "name", order: "desc"}}/>);
+            defaultSort={{columnName: "name", order: "desc"}}/>);
 
         expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("Foo");
         expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal("Baz");
@@ -64,7 +65,7 @@ describe("Sorting tests",() => {
                 {name: "B", nr: 1},
                 {name: "C", nr: 2},
                 {name: "A", nr: 3}]}
-            sort={{columnName: "nr", order: "asc"}} >
+            defaultSort={{columnName: "nr", order: "asc"}} >
             <Column name="id" hide />
           </Grid>
         );
@@ -87,7 +88,7 @@ describe("Sorting tests",() => {
                 {name: "B", nr: 1},
                 {name: "C", nr: 2},
                 {name: "A", nr: 3}]}
-            sort={{columnName: "nr", order: "asc"}}>
+            defaultSort={{columnName: "nr", order: "asc"}}>
             <Column name="id" hide />
           </Grid>
         );
@@ -117,7 +118,7 @@ describe("Sorting tests",() => {
                 {name: "B", nr: 1},
                 {name: "C", nr: 2},
                 {name: "A", nr: 3}]}
-            sort={{columnName: "nr", order: "asc"}}>
+            defaultSort={{columnName: "nr", order: "asc"}}>
             <Column name="id" hide />
           </Grid>
         );
@@ -146,7 +147,7 @@ describe("Sorting tests",() => {
                 {name: "B", nr: 1},
                 {name: "C", nr: 2},
                 {name: "A", nr: 3}]}
-            sort={{columnName: "nr", order: "asc"}}>
+            defaultSort={{columnName: "nr", order: "asc"}}>
             <Column name="id" hide />
           </Grid>
         );
@@ -161,7 +162,7 @@ describe("Sorting tests",() => {
         expect(grid.find("tbody tr").at(1).find("td").at(0).text()).to.equal("B");
         expect(grid.find("tbody tr").at(2).find("td").at(0).text()).to.equal("C");
 
-        grid.setProps({sort:{columnName: "name", order: "desc"}});
+        grid.setProps({defaultSort:{columnName: "name", order: "desc"}});
 
         expect(grid.find("tbody tr").at(0).find("td").at(0).text()).to.equal("C");
         expect(grid.find("tbody tr").at(1).find("td").at(0).text()).to.equal("B");
@@ -174,13 +175,13 @@ describe("Sorting tests",() => {
                 {name: "Foo", color: "blue"},
                 {name: "Bar", color: "yellow"},
                 {name: "Baz"}]}
-            sort={"color"}/>);
+            defaultSort={"color"}/>);
 
         expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("Baz");
         expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal("Foo");
         expect(grid.find("tbody tr").at(2).find("td").first().text()).to.equal("Bar");
 
-        grid.setProps({sort:{columnName: "color", order: "desc"}});
+        grid.setProps({defaultSort:{columnName: "color", order: "desc"}});
 
         expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("Bar");
         expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal("Foo");
@@ -199,39 +200,39 @@ describe("Sorting tests",() => {
         expect(grid.find("tbody tr").find("td").first().text()).to.equal("Z");
         expect(grid.find("tbody tr").find("td").last().text()).to.equal("A");
 
-        expect(grid.find("th button span").first().html()).to.equal('<span class="glyphicon glyphicon-sort"></span>');
+        expect(grid.find("th").first().text()).to.equal('Name⇅');
 
-        grid.setProps({sort: "name"});
+        grid.setProps({defaultSort: "name"});
 
         expect(grid.find("tbody tr").find("td").first().text()).to.equal("A");
         expect(grid.find("tbody tr").find("td").last().text()).to.equal("Z");
-        expect(grid.find("th button span").first().html()).to.equal('<span class="glyphicon glyphicon-sort-by-attributes"></span>');
+        expect(grid.find("th").first().text()).to.equal('Name↓');
 
         grid.setProps({
             children:
                 [
-                    <Column name="id" hide/>,
-                    <Column name="name" sortValueGetter={({value}) => value == "Z" ? "A" : "Z" }/>
+                    <Column key="id" name="id" hide/>,
+                    <Column key="name" name="name" sortValueGetter={({value}) => value == "Z" ? "A" : "Z" }/>
                 ]});
 
         expect(grid.find("tbody tr").find("td").first().text()).to.equal("Z");
         expect(grid.find("tbody tr").find("td").last().text()).to.equal("A");
-        expect(grid.find("th button span").first().html()).to.equal('<span class="glyphicon glyphicon-sort-by-attributes"></span>');
+        expect(grid.find("th").first().text()).to.equal('Name↓');
     });
 
     it("Should sort in ascending order when supplied no order value.", ()=> {
-        let grid  = render(<Grid
+        let grid  = mount(<Grid
             objects={[
                 {n: 1},
                 {n: 10},
                 {n: 2},
                 {n: 20}]}
-            sort={{columnName: "n"}}/>);
+            defaultSort={{columnName: "n"}}/>);
 
-        expect(grid.find("tbody tr").eq(0).find("td").first().text()).to.equal('1');
-        expect(grid.find("tbody tr").eq(1).find("td").first().text()).to.equal('2');
-        expect(grid.find("tbody tr").eq(2).find("td").first().text()).to.equal('10');
-        expect(grid.find("tbody tr").eq(3).find("td").first().text()).to.equal('20');
+        expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal('1');
+        expect(grid.find("tbody tr").at(1).find("td").first().text()).to.equal('2');
+        expect(grid.find("tbody tr").at(2).find("td").first().text()).to.equal('10');
+        expect(grid.find("tbody tr").at(3).find("td").first().text()).to.equal('20');
     });
 
     it("Should correctly sort by a boolean-valued column.", ()=> {
@@ -241,8 +242,39 @@ describe("Sorting tests",() => {
             {id: 1, val: true},
             {id: 2, val: false},
             {id: 3, val: true}]}
+          defaultSort={"val"}/>);
+
+      expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("2");
+    });
+      
+    it("Sorting should be controllable from the outside.", ()=> {
+      let sort = "val";
+      let grid  = mount(<Grid
+          objects={[
+            {id: 0, val: true},
+            {id: 1, val: true},
+            {id: 2, val: false},
+            {id: 3, val: true}]}
+          sort={"val"} onChangeSort={newSort => sort=newSort}/>);
+
+      expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("2");
+      grid.find("button").first().simulate('click');
+      expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("0");
+      expect(sort).to.deep.equal({ columnName: 'id', order: ASCENDING });
+    });
+      
+    it("Specifying sort without onChangeSort makes sorting unchangeable.", ()=> {
+      let sort = "val";
+      let grid  = mount(<Grid
+          objects={[
+            {id: 0, val: true},
+            {id: 1, val: true},
+            {id: 2, val: false},
+            {id: 3, val: true}]}
           sort={"val"}/>);
 
       expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("2");
-  });
+      grid.find("button").first().simulate('click');
+      expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("2");
+    });
 });
