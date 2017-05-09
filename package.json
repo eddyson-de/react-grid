@@ -12,7 +12,7 @@
   ],
   "repository": "https://github.com/eddyson-de/react-grid",
   "scripts": {
-    "prepublish": "rollup -c && NODE_ENV=production rollup -c",
+    "prepublish": "eslint index.js lib && rollup -c && NODE_ENV=production rollup -c",
     "dev": "webpack -p --config webpack.dev-server.config.js && webpack-dev-server --config webpack.dev-server.config.js --progress --profile --colors --hot",
     "test": "BABEL_ENV=test node $NODE_DEBUG_OPTION node_modules/mocha/bin/_mocha --compilers js:babel-core/register  --recursive --require ./test/setup.js",
     "testw": "BABEL_ENV=test node $NODE_DEBUG_OPTION node_modules/mocha/bin/_mocha --compilers js:babel-core/register  --recursive --watch --require ./test/setup.js",
@@ -64,7 +64,6 @@
     "react-hot-loader": "3.0.0-beta.6",
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1",
-    "rollup-plugin-eslint": "^3.0.0",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-replace": "^1.1.1",
     "rollup-plugin-uglify": "^1.0.2",
