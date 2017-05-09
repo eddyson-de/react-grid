@@ -759,7 +759,7 @@ describe('Grid render tests', function(){
         expect(instance.find("th").first().text()).be.equal("NAME⇅");
     });
         
-    xit('Should properly add and remove columns', function (){
+    it('Should properly add and remove columns', function (){
       let instance = mount(
           <Grid objects={[{num: "1", en: "one"},{num: "2", en: "two"},{num: "3", en: "three"}]} hideColumnsWithoutConfig>
               <Column name="num" sortable={false}/>
