@@ -759,7 +759,7 @@ describe('Grid render tests', function(){
         expect(instance.find("th").first().text()).be.equal("NAME⇅");
     });
         
-    it('Should properly add and remove columns', function (){
+    it.only('Should properly add and remove columns (without keys)', function (){
       let instance = mount(
           <Grid objects={[{num: "1", en: "one"},{num: "2", en: "two"},{num: "3", en: "three"}]} hideColumnsWithoutConfig>
               <Column name="num" sortable={false}/>
@@ -799,8 +799,49 @@ describe('Grid render tests', function(){
       
       expect(instance.find('tr').at(0).find("th").at(0).text()).be.equal("En");
       expect(instance.find('td').at(0).text()).be.equal("one");
+      
+    });
+      
+    it.only('Should properly add and remove columns (with keys)', function (){
+      let instance = mount(
+          <Grid objects={[{num: "1", en: "one"},{num: "2", en: "two"},{num: "3", en: "three"}]} hideColumnsWithoutConfig>
+              <Column key="num" name="num" sortable={false}/>
+          </Grid>
+      
+      );
+      
+      expect(instance.find('tr').at(0).find("th").length).be.equal(1);
 
+      expect(instance.find('tr').at(0).find("th").first().text()).be.equal("Num");
+      expect(instance.find('td').at(0).text()).be.equal("1");
+      
+      instance.setProps({children:[ <Column key="num" name="num" sortable={false}/>,  <Column key="en" name="en" sortable={false}/>]});
+      
+      expect(instance.find('tr').first().find("th").length).be.equal(2);
+      
+      expect(instance.find('tr').at(0).find("th").at(0).text()).be.equal("Num");
+      expect(instance.find('td').at(0).text()).be.equal("1");
+
+      expect(instance.find('tr').at(0).find("th").at(1).text()).be.equal("En");
+      expect(instance.find('td').at(1).text()).be.equal("one");
+
+      instance.setProps({children:[ <Column key="en" name="en" sortable={false}/> , <Column key="num" name="num" sortable={false}/>]});
+      
+      expect(instance.find('tr').at(0).find("th").length).be.equal(2);
+      
+      expect(instance.find('tr').at(0).find("th").at(0).text()).be.equal("En");
+      expect(instance.find('td').at(0).text()).be.equal("one");
+      
+      expect(instance.find('tr').at(0).find("th").at(1).text()).be.equal("Num");
+      expect(instance.find('td').at(1).text()).be.equal("1");
 
       
-  });
+      instance.setProps({children:[ <Column key="en" name="en" sortable={false}/>]});
+      
+      expect(instance.find('tr').first().find("th").length).be.equal(1);
+      
+      expect(instance.find('tr').at(0).find("th").at(0).text()).be.equal("En");
+      expect(instance.find('td').at(0).text()).be.equal("one");
+      
+    });
 });
