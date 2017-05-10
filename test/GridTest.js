@@ -202,7 +202,7 @@ describe('Grid render tests', function(){
 
     expect(grid.html()).be.equal('<div></div>');
   });
-
+  
   it('Should have 8 columns by default', function (){
 
     let grid = render(
@@ -233,6 +233,21 @@ describe('Grid render tests', function(){
     expect(grid.find("tbody tr").first().children().length).be.equal(6);
   });
 
+  it('Should render a message if there is no data', function(){
+    let grid = mount(
+      <Grid objects={[]}>
+        <Column name="foo" />
+        <Column name="bar" />
+      </Grid>
+    );
+
+    expect(grid.find("tbody tr").length).be.equal(1);
+    const td = grid.find("tbody tr td").first()
+    expect(td.prop('colSpan')).be.equal(2);
+    expect(td.text()).be.equal('There is no data to display');
+  });
+
+  
   it('Should react to changing properties', function (){
     let instance = mount(<Grid objects={[]} showColumnsWithoutConfig={false} />);
 
