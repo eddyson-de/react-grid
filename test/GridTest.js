@@ -509,7 +509,7 @@ describe('Grid render tests', function(){
     </div>;
     let Grid = buildGridWithTemplate(GridTemplate)
 
-    let grid = render(<Grid objects={dataDuplicated} />);
+    let grid = mount(<Grid objects={dataDuplicated} />);
     expect(grid.find("tbody").children().length).be.equal(16);
   });
 
