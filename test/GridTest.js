@@ -220,6 +220,31 @@ describe('Grid render tests', function(){
 
     expect(grid.find("input").at(0).prop("max")).be.equal(3);
   });
+  
+  it('Should only render the items on the current page', function (){
+
+    const GridTemplate = (props) => {
+      expect(props.objects.length).to.be.equal(3);
+      
+      return (
+        <div>
+            <Pager />
+            <table>
+                <thead>
+                <HeaderRow />
+                </thead>
+                <Body/>
+            </table>
+        </div>
+      );
+    };
+    let Grid = buildGridWithTemplate(GridTemplate)
+    
+    let grid = mount(
+      <Grid objects={data} defaultPageSize={3}/>
+    );
+
+  });
 
   it('Should hide 2 columns', function (){
 
