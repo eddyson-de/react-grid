@@ -194,6 +194,14 @@ describe('Grid render tests', function(){
 
     expect(grid.find("tbody").children().length).be.equal(8);
   });
+  
+  it('Should not render anything if there are no columns', function(){
+    let grid = render(
+      <Grid objects={[]} />
+    );
+
+    expect(grid.html()).be.equal('<div></div>');
+  });
 
   it('Should have 8 columns by default', function (){
 
