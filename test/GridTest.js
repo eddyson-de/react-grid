@@ -277,6 +277,9 @@ describe('Grid render tests', function(){
     let instance = mount(<Grid objects={[]} hideColumnsWithoutConfig />);
 
     expect(instance.find("tbody").children().length).be.equal(0);
+    instance.setProps({objects:data, children:[
+      <Column name="name" />
+    ]});
 
     instance.setProps({objects:data});
     
