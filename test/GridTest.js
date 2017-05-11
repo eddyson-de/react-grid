@@ -536,6 +536,37 @@ describe('Grid render tests', function(){
     let grid = mount(<Grid objects={dataDuplicated} />);
     expect(grid.find("tbody").children().length).be.equal(16);
   });
+    
+  it('Should be possible to use an impure component for the rows', ()=>{
+      
+      let isFirst = true;
+      
+      const rowComponent = (props)=>{
+          // impure!
+          if (isFirst){
+            isFirst = false;
+            return <tr className="first">{props.children}</tr>
+          } else {
+            return <tr>{props.children}</tr>
+          }
+      }
+    
+      let grid = mount(
+          <Grid objects={data} >
+            <Column name="name" id />
+            <Row component={rowComponent} />
+          </Grid>
+      );
+      expect(grid.find("tbody tr").at(0)).to.have.className('first');
+      expect(grid.find("tbody tr").at(1)).to.not.have.className('first');
+
+      isFirst = true;
+      grid.find("button").first().simulate('click');
+      
+      expect(grid.find("tbody tr").at(0)).to.have.className('first');
+      expect(grid.find("tbody tr").at(1)).to.not.have.className('first');
+      
+  });
 
   it('Should jump to the last page if current page exceeds number of available pages', ()=>{
     let grid = mount(
