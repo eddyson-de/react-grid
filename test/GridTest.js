@@ -195,13 +195,25 @@ describe('Grid render tests', function(){
     expect(grid.find("tbody").children().length).be.equal(8);
   });
   
-  it('Should not render anything if there are no columns', function(){
+  it('Should not render anything if there are no columns and no objects', function(){
     let grid = render(
       <Grid objects={[]} />
     );
 
+   
     expect(grid.html()).be.equal('<div></div>');
+
   });
+  
+  xit('Should not render anything if there are objects but no columns', function(){
+    let grid = render(
+      <Grid objects={data} hideColumnsWithoutConfig/>
+    );
+    //TODO what should be rendered here?
+    expect(grid.html()).be.equal('<div></div>');
+
+  });
+
   
   it('Should have 8 columns by default', function (){
 
@@ -240,8 +252,17 @@ describe('Grid render tests', function(){
     };
     let Grid = buildGridWithTemplate(GridTemplate)
     
-    let grid = mount(
+
+    mount(
       <Grid objects={data} defaultPageSize={3}/>
+    );
+
+    mount(
+        <Grid objects={[]} defaultPageSize={3}/>
+    );
+
+    mount(
+        <Grid objects={data} defaultPageSize={3} hideColumnsWithoutConfig />
     );
 
   });
