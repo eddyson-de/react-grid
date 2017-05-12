@@ -307,6 +307,28 @@ describe('Grid render tests', function(){
     expect(instance.find("tbody tr").length).be.equal(8);
   });
   
+  it.only('should react to changing cell content', function (){
+    
+    class App extends React.Component {
+      
+      render(){
+        return (
+          <Grid objects={data}>
+            <Cell content={this.props.cellContent} />
+          </Grid>    
+        );
+      }
+    }
+    
+    let app = mount (
+        <App cellContent={"This is the name"} />
+    );
+
+    expect(app.find("td").first().text()).be.equal("This is the name");
+    app.setProps({cellContent: "This is the tomato"});
+    expect(app.find("td").first().text()).be.equal("This is the tomato");
+  });
+  
   it('Should be possible to override the cell renderer per column', function (){
 
     let grid = mount(
