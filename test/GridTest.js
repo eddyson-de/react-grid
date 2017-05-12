@@ -307,7 +307,7 @@ describe('Grid render tests', function(){
     expect(instance.find("tbody tr").length).be.equal(8);
   });
   
-  it.only('should react to changing cell content', function (){
+  it('should react to changing cell content', function (){
     
     class App extends React.Component {
       
