@@ -10,6 +10,7 @@ import DefaultHeaderCell from './lib/DefaultHeaderCell';
 import FilterRow from './lib/FilterRow';
 import Column from './lib/Column';
 import Pager from './lib/Pager';
+import Filter from './lib/Filter';
 
 import { ASCENDING, DESCENDING } from './lib/constants';
 
@@ -24,6 +25,7 @@ export {
   Cell,
   HeaderRow,
   FilterRow,
+  Filter,
   Column,
   Pager,
   ASCENDING,
