@@ -56,7 +56,7 @@
     "file-loader": "0.11.1",
     "istanbul": "1.1.0-alpha.1",
     "jsdom": "10.1.0",
-    "mocha": "3.3.0",
+    "mocha": "3.4.1",
     "mocha-jsdom": "1.1.0",
     "react": "^15.1.0",
     "react-addons-test-utils": "^15.1.0",
