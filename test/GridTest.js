@@ -339,6 +339,7 @@ describe('Grid render tests', function(){
             <Column name="name">
               <Cell content={this.props.cellContent} />
             </Column>
+            <Column name="username" />
           </Grid>    
         );
       }
@@ -348,8 +349,10 @@ describe('Grid render tests', function(){
         <App cellContent={"This is the name"} />
     );
 
+    expect(app.find("th").first().text()).be.equal("Name⇅");
     expect(app.find("td").first().text()).be.equal("This is the name");
     app.setProps({cellContent: "This is the tomato"});
+    expect(app.find("th").first().text()).be.equal("Name⇅");
     expect(app.find("td").first().text()).be.equal("This is the tomato");
   });
   
@@ -377,6 +380,23 @@ describe('Grid render tests', function(){
     );
 
     expect(grid.find("td").text()).be.equal("John Doe");
+  });
+  
+  it('Should keep the column order intact if cell content is configured ', function (){
+    const data = [{name: "Jane"}];
+    let grid = mount(
+      <Grid objects={data}>
+        <Column name="username" />
+        <Column name="name">
+          <Cell content="John Doe" />
+        </Column>
+        <Column name="phone" />  
+      </Grid>
+    );
+  
+    expect(grid.find("th").at(0).text()).be.equal("Username⇅");
+    expect(grid.find("th").at(1).text()).be.equal("Name⇅");
+    expect(grid.find("th").at(2).text()).be.equal("Phone⇅");
   });
   
   it('Should be possible to override global displayValueGetter', function (){
