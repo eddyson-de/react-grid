@@ -24,6 +24,8 @@ import CodeExample from './CodeExample';
 
 import BasicExample from './examples/BasicExample';
 import BasicExampleCode from '!!raw-loader!./examples/BasicExample';
+import TemplateExample from './examples/TemplateExample';
+import TemplateExampleCode from '!!raw-loader!./examples/TemplateExample';
 
 injectTapEventPlugin();
 
@@ -52,7 +54,8 @@ class DocumentationApp extends React.Component {
     
     render(){
         const routes = [
-            {name: 'Basic Example', path: '/', main: ()=><BasicExample data={this.state.data}/>, code: BasicExampleCode},
+            {name: 'Basic Example', path: '/', exact: true, main: ()=><BasicExample data={this.state.data}/>, code: BasicExampleCode},
+            {name: 'Custom Template Example', path: '/template', main: ()=><TemplateExample data={this.state.data}/>, code: TemplateExampleCode}
         ];
         const {rest} = this.props;
         const {menuOpen} = this.state;
@@ -77,7 +80,7 @@ class DocumentationApp extends React.Component {
                           </div>
                           <div style={{gridArea: menuOpen ? '2 / 2 / 2 / 2' : '2 / 1 / 2 / 2', marginLeft: '50px', overflow: "wrap"}}>
                               {routes.map(route =>
-                                  <Route key={route.name} path={route.path} render={()=>
+                                  <Route key={route.name} exact={route.exact} path={route.path} render={()=>
                                       <Paper zDepth={2}>
                                           <CodeExample>{route.code}</CodeExample>
                                       </Paper>
@@ -87,7 +90,7 @@ class DocumentationApp extends React.Component {
                           </div>
                           <div style={{gridArea: menuOpen ? '2 / 3 / 2 / 4' : '2 / 2 / 2 / 3', marginLeft: '50px'}}>
                               {routes.map(route =>
-                              <Route key={route.name} path='/' render={()=> {
+                              <Route key={route.name} exact={route.exact} path='/' render={()=> {
                                   const Example = route.main;
                                   return(<Example/>);
                               }}/>)}
