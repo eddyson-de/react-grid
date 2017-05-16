@@ -19,10 +19,12 @@
     "cover": "BABEL_ENV=test babel-node node_modules/istanbul/lib/cli cover node_modules/mocha/bin/_mocha -- --recursive --require ./test/setup.js",
     "eslint": "eslint index.js lib",
     "documentation-build": "BABEL_ENV=distribution webpack -p --config webpack.documentation.config.js",
-    "documentation-dev": "BABEL_ENV=devserver webpack-dev-server --config webpack.documentation.config.js --progress --profile --colors --hot"
+    "documentation-dev": "BABEL_ENV=devserver webpack-dev-server --config webpack.documentation.config.js --progress --profile --colors --hot",
+    "check-for-only-in-tests": "! grep \\\\.only test/*"
   },
   "pre-commit": [
-    "eslint"
+    "eslint",
+    "check-for-only-in-tests"
   ],
   "keywords": [
     "React",
