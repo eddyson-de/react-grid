@@ -390,10 +390,13 @@ describe('Grid render tests', function(){
         <Column name="name">
           <Cell content="John Doe" />
         </Column>
+        <Column name="phone" />  
       </Grid>
     );
   
-    expect(grid.find("th").first().text()).be.equal("Username⇅");
+    expect(grid.find("th").at(0).text()).be.equal("Username⇅");
+    expect(grid.find("th").at(1).text()).be.equal("Name⇅");
+    expect(grid.find("th").at(2).text()).be.equal("Phone⇅");
   });
   
   it('Should be possible to override global displayValueGetter', function (){
