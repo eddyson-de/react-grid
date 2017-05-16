@@ -339,6 +339,7 @@ describe('Grid render tests', function(){
             <Column name="name">
               <Cell content={this.props.cellContent} />
             </Column>
+            <Column name="username" />
           </Grid>    
         );
       }
@@ -348,8 +349,10 @@ describe('Grid render tests', function(){
         <App cellContent={"This is the name"} />
     );
 
+    expect(app.find("th").first().text()).be.equal("Name⇅");
     expect(app.find("td").first().text()).be.equal("This is the name");
     app.setProps({cellContent: "This is the tomato"});
+    expect(app.find("th").first().text()).be.equal("Name⇅");
     expect(app.find("td").first().text()).be.equal("This is the tomato");
   });
   
