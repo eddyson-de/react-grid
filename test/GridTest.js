@@ -382,6 +382,20 @@ describe('Grid render tests', function(){
     expect(grid.find("td").text()).be.equal("John Doe");
   });
   
+  it('Should keep the column order intact if cell content is configured ', function (){
+    const data = [{name: "Jane"}];
+    let grid = mount(
+      <Grid objects={data}>
+        <Column name="username" />
+        <Column name="name">
+          <Cell content="John Doe" />
+        </Column>
+      </Grid>
+    );
+  
+    expect(grid.find("th").first().text()).be.equal("Username⇅");
+  });
+  
   it('Should be possible to override global displayValueGetter', function (){
 
     let grid = mount(
