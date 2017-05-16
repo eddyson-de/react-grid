@@ -21,6 +21,9 @@
     "documentation-build": "BABEL_ENV=distribution webpack -p --config webpack.documentation.config.js",
     "documentation-dev": "BABEL_ENV=devserver webpack-dev-server --config webpack.documentation.config.js --progress --profile --colors --hot"
   },
+  "pre-commit": [
+    "eslint"
+  ],
   "keywords": [
     "React",
     "Grid",
@@ -62,6 +65,7 @@
     "material-ui": "^0.18.0",
     "mocha": "3.4.1",
     "mocha-jsdom": "1.1.0",
+    "pre-commit": "^1.2.2",
     "prismjs": "^1.6.0",
     "raw-loader": "^0.5.1",
     "react": "^15.1.0",
