@@ -1,13 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { MuiThemeProvider, withStyles, createStyleSheet } from 'material-ui/styles';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Drawer from 'material-ui/Drawer';
-import MenuItem from 'material-ui/MenuItem';
+import MenuItem from 'material-ui/Menu/MenuItem';
+import MenuIcon from 'material-ui-icons/Menu';
 import AppBar from 'material-ui/AppBar';
+import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import faker from 'faker';
+import Button from 'material-ui/Button';
+import Typography from 'material-ui/Typography';
+import Toolbar from 'material-ui/Toolbar';
+import IconButton from 'material-ui/IconButton';
 import Paper from 'material-ui/Paper';
-import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {
     BrowserRouter as Router,
     Route,
@@ -29,6 +34,17 @@ import TemplateExampleCode from '!!raw-loader!./examples/TemplateExample';
 
 injectTapEventPlugin();
 
+const styleSheet = createStyleSheet('UndockedDrawer', () => ({
+    list: {
+        width: 250,
+        flex: 'initial',
+    },
+    listFull: {
+        width: 'auto',
+        flex: 'initial',
+    },
+}));
+
 class DocumentationApp extends React.Component {
     constructor(props){
         super(props);
@@ -39,11 +55,7 @@ class DocumentationApp extends React.Component {
         this.toggleMenu = this.toggleMenu.bind(this);
     }
     componentWillMount(){
-      fetch('https://api.github.com/repos/facebook/react/contributors')
-          .then((response) => response.json())
-          .then((json)=>{
-            this.setState({data: json});
-          });
+      this.setState({data: [...Array(8)].map(()=> faker.helpers.createCard())});
     }
     
     toggleMenu(){
@@ -54,34 +66,53 @@ class DocumentationApp extends React.Component {
     
     render(){
         const routes = [
-            {name: 'Basic Example', path: '/', exact: true, main: ()=><BasicExample data={this.state.data}/>, code: BasicExampleCode},
-            {name: 'Custom Template Example', path: '/template', main: ()=><TemplateExample data={this.state.data}/>, code: TemplateExampleCode}
+            //{name: 'Basic Example', path: '/basic', exact: true, main: ()=><BasicExample data={this.state.data}/>, code: BasicExampleCode},
+            {name: 'Custom Template Example', path: '/', main: ()=><TemplateExample data={this.state.data}/>, code: TemplateExampleCode}
         ];
         const {rest} = this.props;
         const {menuOpen} = this.state;
         return(
             <Router>
-              <MuiThemeProvider theme={getMuiTheme(baseTheme)}>
+              <MuiThemeProvider>
                   <div>
-                      <Drawer open={this.state.menuOpen}>
-                          <AppBar title="react-grid" onLeftIconButtonTouchTap={this.toggleMenu} />
-                          {routes.map(route =>
-                              <MenuItem key={route.name} containerElement={<Link to={route.path} />} primaryText={route.name}/>
-                          )}
+                      <AppBar>
+                          <Toolbar>
+                              <IconButton contrast onTouchTap={this.toggleMenu}  >
+                                  <MenuIcon />
+                              </IconButton>
+                              <Typography type="title" colorInherit>
+                                  react-grid documentation
+                              </Typography>
+                              {routes.map(route =>
+                                  <Route key={route.name} exact={route.exact} path={route.path} render={()=>
+                                      <Typography style={{marginLeft: "50px"}} type="subheading" colorInherit>
+                                          {route.name}
+                                      </Typography>
+                                  }/>
+                              )}
+                          </Toolbar>
+                      </AppBar>
+                      <Drawer docked={true} open={this.state.menuOpen} onRequestClose={this.toggleMenu}
+                              onClick={this.toggleMenu}>
+                          <List>
+                              {routes.map(route =>
+                                  <ListItem button component={Link} key={route.name} to={route.path} ><ListItemText primary={route.name} /></ListItem>
+                              )}
+                          </List>
                       </Drawer>
-                      
+    
                       <div style={{
                           display: 'grid', 
                           gridTemplateRows: '100px 1fr 50px',
                           gridTemplateColumns: menuOpen ? '280px 0.5fr 0.5fr' : '0.4fr 0.6fr',
                       }}>
                           <div style={{gridArea: '1 / 1 / 1 / 5'}}>
-                              <AppBar title={menuOpen ? null : 'react-grid documentation'} showMenuIconButton={!menuOpen} onLeftIconButtonTouchTap={this.toggleMenu}/>
+                              
                           </div>
                           <div style={{gridArea: menuOpen ? '2 / 2 / 2 / 2' : '2 / 1 / 2 / 2', marginLeft: '50px', overflow: "wrap"}}>
                               {routes.map(route =>
                                   <Route key={route.name} exact={route.exact} path={route.path} render={()=>
-                                      <Paper zDepth={2}>
+                                      <Paper elevation={2}>
                                           <CodeExample>{route.code}</CodeExample>
                                       </Paper>
         
@@ -92,7 +123,8 @@ class DocumentationApp extends React.Component {
                               {routes.map(route =>
                               <Route key={route.name} exact={route.exact} path='/' render={()=> {
                                   const Example = route.main;
-                                  return(<Example/>);
+                                  return(
+                                      <Paper elevation={2}><Example/></Paper>);
                               }}/>)}
                           </div>
                           

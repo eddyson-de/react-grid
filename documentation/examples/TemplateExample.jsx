@@ -1,78 +1,73 @@
 import React from 'react';
 
-//Grid imports needed for template creation and column configuration
+//Grid imports needed for template creation
+//and column configuration
 import {
-    DefaultGrid as Grid,
-    Column,
-    Cell,
-    buildGridWithTemplate,
-    FilterRow,
-    HeaderRow,
-    Row,
-    Body
+    Column,Cell,buildGridWithTemplate,FilterRow,
+    HeaderRow,Row,Body,ASCENDING,DESCENDING
 } from '../../dist/Ardagryd';
 
 //Custom components for template creation
-import Table from 'material-ui/Table';
-import TableHeader from 'material-ui/Table/TableHeader';
-import TableRow from 'material-ui/Table/TableRow';
-import TableBody from 'material-ui/Table/TableBody';
-import muiThemeable from 'material-ui/styles/muiThemeable';
+import Table, {
+    TableHead,
+    TableRow,
+    TableBody,
+    TableCell,
+    TableSortLabel
+} from 'material-ui/Table';
+import EmailIcon from 'material-ui-icons/Email';
+import SvgIcon from 'material-ui/SvgIcon'
+const newDirection = (current) =>
+    current === ASCENDING ? DESCENDING : ASCENDING;
 
-const Foo = () =>
-    <TableBody>
+//Custom table header cell definition to enable sorting
+const CustomTableHeader = ({label,
+                            columnName,
+                            updateSort,
+                            sortable,
+                            sort}) =>
+    <TableCell>
+        <TableSortLabel
+            active={sortable}
+            onClick={()=> updateSort(columnName, newDirection(sort))}
+            direction={sort === ASCENDING ? "asc" :"desc" }>
+            {label}
+        </TableSortLabel>
+    </TableCell>;
 
-    </TableBody>;
-
-const CustomTemplateGrid = muiThemeable()(buildGridWithTemplate(({muiTheme})=>
-    <div>
-         {/*Setting the `tr`-component globally*/}
-        <table style={muiTheme.table}>
-            <thead style={muiTheme.tableHeader}>
-                <HeaderRow/>
-            </thead>
-            <Body />
-
-        </table>
-    </div>
-));
-
-
-const TemplateExample = ({data}) => {
-    return(
-<CustomTemplateGrid objects={data}
-      hideColumnsWithoutConfig >
-    <Column name='id'
-            id
-            hide/>
-    <Column name='login'
-            label={'Login name'} />
-    <Column name='avatar_url'
-            label={'Avatar'}
-            hideTools
-            sortable={false} >
-        <Cell content={({value}) =>
-            <img src={value}
-                 width={'50px'}
-                 height={'50px'}/>} />
+//Build a Grid with your template for custom layout.
+//Use your desired styling solution or frontend framework
+//at this point
+const CustomTemplateGrid = buildGridWithTemplate(()=>
+        <Table>
+            <TableHead>
+                <HeaderRow component={TableRow}>
+                    <Cell component={CustomTableHeader} />
+                </HeaderRow>
+                <FilterRow component={TableRow}/>
+            </TableHead>
+            <Body component={TableBody} />
+        </Table>
+);
+//Hand your object array down to the Grid and configure
+//the individual columns
+export default ({data}) =>
+<CustomTemplateGrid objects={data} hideColumnsWithoutConfig>
+    {/*Global table row configuration*/}
+    <Row component={TableRow}/>
+    {/*Global table cell configuration*/}
+    <Cell component={TableCell}/>
+    {/*Custom column configuration and order*/}
+    <Column name='id' id hide/>
+    <Column name="username" label={"Nickname"}/>
+    <Column name="phone"/>
+    <Column name="email" sortable={false} 
+            hideTools 
+            label="Send Mail">
+        <Cell content={({value})=>
+            <a href={`mailto:${value}`}>
+                <EmailIcon/>
+            </a>    
+        }/>
     </Column>
-    <Column name='contributions'
-            label={'Contributions'}
-            hideTools />
-    <Column name='html_url'
-            label='Profile'
-            sortable={false}
-            hideTools >
-        <Cell content={({value}) =>
-            <a href={value}
-               style={{
-                   fontSize: '1.5em',
-                   textDecoration:'none'}}>
-                ⇗
-            </a>}/>
-    </Column>
-</CustomTemplateGrid>
-    );
-};
- 
-export default TemplateExample;
+</CustomTemplateGrid>;
