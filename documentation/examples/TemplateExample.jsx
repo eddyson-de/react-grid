@@ -58,8 +58,7 @@ export default ({data}) =>
     {/*Global table cell configuration*/}
     <Cell component={TableCell}/>
     {/*Custom column configuration and order*/}
-    <Column name='id' id hide/>
-    <Column name="username" label={"Nickname"}/>
+    <Column name="username" id label={"Nickname"}/>
     <Column name="phone"/>
     <Column name="email" sortable={false} 
             hideTools 
