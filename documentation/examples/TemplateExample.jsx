@@ -28,7 +28,8 @@ const CustomTableHeader = ({label,
                             sort}) =>
     <TableCell>
         <TableSortLabel
-            active={sortable}
+            disabled={!sortable}
+            active={sort !== undefined}
             onClick={()=> updateSort(columnName, newDirection(sort))}
             direction={sort === ASCENDING ? "asc" :"desc" }>
             {label}
