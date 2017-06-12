@@ -17,18 +17,18 @@ import { ASCENDING, DESCENDING } from './lib/constants';
 const DefaultGrid = buildGridWithTemplate(DefaultGridTemplate);
 
 export {
-  ConfigCollector,
-  buildGridWithTemplate,
-  DefaultGrid,
-  Body,
-  Row,
-  Cell,
-  HeaderRow,
-  FilterRow,
-  Filter,
-  Column,
-  Pager,
-  ASCENDING,
-  DESCENDING,
-  DefaultHeaderCell
+    ConfigCollector,
+    buildGridWithTemplate,
+    DefaultGrid,
+    Body,
+    Row,
+    Cell,
+    HeaderRow,
+    FilterRow,
+    Filter,
+    Column,
+    Pager,
+    ASCENDING,
+    DESCENDING,
+    DefaultHeaderCell
 };
