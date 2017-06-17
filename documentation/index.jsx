@@ -21,6 +21,7 @@ import {
 
 import withWidth from 'material-ui/utils/withWidth';
 import { isWidthDown, isWidthUp } from 'material-ui/utils/withWidth';
+import DocumentationDrawer from './DocumentationDrawer';
 
 import {
     DefaultGrid as Grid,
@@ -42,7 +43,7 @@ class DocumentationApp extends React.Component {
         super(props);
         this.state = {
             data: [],
-            menuOpen: false
+            menuOpen: true
         };
         this.toggleMenu = this.toggleMenu.bind(this);
     }
@@ -72,27 +73,20 @@ class DocumentationApp extends React.Component {
                               <IconButton contrast onTouchTap={this.toggleMenu}  >
                                   <MenuIcon />
                               </IconButton>
-                              <Typography type="title" colorInherit>
+                              {!wide && <Typography  type="title" colorInherit>
                                   react-grid documentation
-                              </Typography>
+                              </Typography>}
                               {routes.map(route =>
                                   <Route key={route.name} exact={route.exact} path={route.path} render={()=>
-                                      <Typography style={{marginLeft: "50px"}} type="subheading" colorInherit>
+                                      <Typography style={{marginLeft: wide ? "300px": "50px"}} type="subheading" colorInherit>
                                           {route.name}
                                       </Typography>
                                   }/>
                               )}
                           </Toolbar>
                       </AppBar>
-                      <Drawer docked={wide} open={wide ? true : menuOpen} onRequestClose={this.toggleMenu}
-                              onClick={this.toggleMenu}>
-                          <List>
-                              {routes.map(route =>
-                                  <ListItem button component={Link} key={route.name} to={route.path} ><ListItemText primary={route.name} /></ListItem>
-                              )}
-                          </List>
-                      </Drawer>
-    
+                      <DocumentationDrawer routes={routes} docked={wide} open={wide ? true : menuOpen} onRequestClose={this.toggleMenu}
+                              toggleMenu={this.toggleMenu} />
                       <div style={{
                           display: 'flex',
                           flexWrap: "wrap",
