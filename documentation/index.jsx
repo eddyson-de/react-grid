@@ -19,6 +19,9 @@ import {
     Link
 } from 'react-router-dom';
 
+import withWidth from 'material-ui/utils/withWidth';
+import { isWidthDown, isWidthUp } from 'material-ui/utils/withWidth';
+
 import {
     DefaultGrid as Grid,
     Column,
@@ -33,17 +36,6 @@ import TemplateExample from './examples/TemplateExample';
 import TemplateExampleCode from '!!raw-loader!./examples/TemplateExample';
 
 injectTapEventPlugin();
-
-const styleSheet = createStyleSheet('UndockedDrawer', () => ({
-    list: {
-        width: 250,
-        flex: 'initial',
-    },
-    listFull: {
-        width: 'auto',
-        flex: 'initial',
-    },
-}));
 
 class DocumentationApp extends React.Component {
     constructor(props){
@@ -69,11 +61,11 @@ class DocumentationApp extends React.Component {
             //{name: 'Basic Example', path: '/basic', exact: true, main: ()=><BasicExample data={this.state.data}/>, code: BasicExampleCode},
             {name: 'Custom Template Example', path: '/', main: ()=><TemplateExample data={this.state.data}/>, code: TemplateExampleCode}
         ];
-        const {rest} = this.props;
+        const {width} = this.props;
         const {menuOpen} = this.state;
+        const wide = isWidthUp("lg", width);
         return(
             <Router>
-              <MuiThemeProvider>
                   <div>
                       <AppBar>
                           <Toolbar>
@@ -92,7 +84,7 @@ class DocumentationApp extends React.Component {
                               )}
                           </Toolbar>
                       </AppBar>
-                      <Drawer docked={true} open={this.state.menuOpen} onRequestClose={this.toggleMenu}
+                      <Drawer docked={wide} open={wide ? true : menuOpen} onRequestClose={this.toggleMenu}
                               onClick={this.toggleMenu}>
                           <List>
                               {routes.map(route =>
@@ -102,14 +94,13 @@ class DocumentationApp extends React.Component {
                       </Drawer>
     
                       <div style={{
-                          display: 'grid', 
-                          gridTemplateRows: '100px 1fr 50px',
-                          gridTemplateColumns: menuOpen ? '280px 0.5fr 0.5fr' : '0.4fr 0.6fr',
+                          display: 'flex',
+                          flexWrap: "wrap",
+                          paddingLeft: wide ? "250px" : null,
+                          paddingRight: wide ? "250px" : null
                       }}>
-                          <div style={{gridArea: '1 / 1 / 1 / 5'}}>
-                              
-                          </div>
-                          <div style={{gridArea: menuOpen ? '2 / 2 / 2 / 2' : '2 / 1 / 2 / 2', marginLeft: '50px', overflow: "wrap"}}>
+
+                          <div style={{marginTop: "50px", flex: "1", minWidth: wide ? "700px": "90%",maxWidth:"800px",  overflow: "scroll", padding: "50px", marginLeft: "auto",marginRight: "auto"}}>
                               {routes.map(route =>
                                   <Route key={route.name} exact={route.exact} path={route.path} render={()=>
                                       <Paper elevation={2}>
@@ -119,7 +110,7 @@ class DocumentationApp extends React.Component {
                                   }/>
                               )}
                           </div>
-                          <div style={{gridArea: menuOpen ? '2 / 3 / 2 / 4' : '2 / 2 / 2 / 3', marginLeft: '50px'}}>
+                          <div style={{flex: "1", padding: "50px", maxWidth: "800px", marginLeft: "auto", marginRight: "auto", marginTop:"60px"}}>
                               {routes.map(route =>
                               <Route key={route.name} exact={route.exact} path='/' render={()=> {
                                   const Example = route.main;
@@ -130,12 +121,13 @@ class DocumentationApp extends React.Component {
                           
                       </div>
                   </div>
-              </MuiThemeProvider>
             </Router>);
     }
 }
-
-ReactDOM.render(
-    <DocumentationApp />,
+const AppWithWidth = withWidth()(DocumentationApp);
+ReactDOM.render(<MuiThemeProvider>
+        <AppWithWidth />
+    </MuiThemeProvider>
+    ,
     document.getElementById('documentationApp')
 );
