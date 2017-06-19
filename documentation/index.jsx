@@ -59,14 +59,14 @@ class DocumentationApp extends React.Component {
     
     render(){
         const routes = [
-            //{name: 'Basic Example', path: '/basic', exact: true, main: ()=><BasicExample data={this.state.data}/>, code: BasicExampleCode},
-            {name: 'Custom Template Example', path: '/', main: ()=><TemplateExample data={this.state.data}/>, code: TemplateExampleCode}
+            {name: 'Basic Example', path: '/', exact: true, main: ()=><BasicExample data={this.state.data}/>, code: BasicExampleCode},
+            {name: 'Custom Template Example', path: '/', exact: true, main: ()=><TemplateExample data={this.state.data}/>, code: TemplateExampleCode}
         ];
         const {width} = this.props;
         const {menuOpen} = this.state;
         const wide = isWidthUp("lg", width);
         return(
-            <Router>
+            <Router basename="/react-grid">
                   <div>
                       <AppBar>
                           <Toolbar>
