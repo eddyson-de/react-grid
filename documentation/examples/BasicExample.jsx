@@ -8,35 +8,20 @@ import {
 const BasicExample = ({data}) => {
     return(
 <Grid objects={data}
-      hideColumnsWithoutConfig >
-    <Column name='id'
+      hideColumnsWithoutConfig>
+    <Column name='username' id />
+    <Column name='email'
             id
-            hide/>
-    <Column name='login'
-            label={'Login name'} />
-    <Column name='avatar_url'
-            label={'Avatar'}
+            label={"E-Mail"} />
+    <Column name='avatar'
             hideTools
             sortable={false} >
-        <Cell content={({value}) =>
-            <img src={value}
+        <Cell content={({object}) =>
+            <img src={'http://lorempixel.com/100/100/people'}
+                 title={object.name}
                  width={'50px'}
-                 height={'50px'}/>} />
-    </Column>
-    <Column name='contributions'
-            label={'Contributions'}
-            hideTools />
-    <Column name='html_url'
-            label='Profile'
-            sortable={false}
-            hideTools >
-        <Cell content={({value}) =>
-            <a href={value}
-               style={{
-                   fontSize: '1.5em',
-                   textDecoration:'none'}}>
-                ⇗
-            </a>}/>
+                 height={'50px'} />}
+        />
     </Column>
 </Grid>        
     );
