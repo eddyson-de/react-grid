@@ -9,13 +9,13 @@ Customizable data grid for React.js
 [![Image of Grid](https://cloud.githubusercontent.com/assets/5182212/20663384/9d9c547c-b557-11e6-806b-d7f6dd4c7549.png)](https://jsfiddle.net/dhfsk/2q1vh796/)
 ### Examples
 
-[Documentation and examples for v1.x](https://github.com/eddyson-de/react-grid)
+[Documentation and examples for v1.x](https://eddyson-de.github.io/react-grid)
 
 ### Usage
 
 We are approaching our 1.0-release and are currently improving the documentation. 
 You can test the new API with the current beta release from [NPM](https://www.npmjs.com/package/eddyson-react-grid).
-See the [Documentation](https://github.com/eddyson-de/react-grid) for usage information. 
+See the [Documentation](https://eddyson-de.github.io/react-grid) for usage information. 
 
 ### Develop / test
 
