@@ -12,13 +12,13 @@ const BasicExample = ({data}) => {
     <Column name='username' id />
     <Column name='email'
             id
-            label={"E-Mail"} />
+            label={'E-Mail'} />
     <Column name='avatar'
             hideTools
             sortable={false} >
-        <Cell content={({object}) =>
-            <img src={'http://lorempixel.com/100/100/people'}
-                 title={object.name}
+        <Cell content={({object: {username}}) =>
+            <img src={'http://lorempixel.com/100/100/people?username='+username}
+                 title={username}
                  width={'50px'}
                  height={'50px'} />}
         />
