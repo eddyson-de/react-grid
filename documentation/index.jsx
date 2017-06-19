@@ -60,7 +60,7 @@ class DocumentationApp extends React.Component {
     render(){
         const routes = [
             {name: 'Basic Example', path: '/', exact: true, main: ()=><BasicExample data={this.state.data}/>, code: BasicExampleCode},
-            {name: 'Custom Template Example', path: '/', exact: true, main: ()=><TemplateExample data={this.state.data}/>, code: TemplateExampleCode}
+            {name: 'Custom Template Example', path: '/custom-template-example', exact: true, main: ()=><TemplateExample data={this.state.data}/>, code: TemplateExampleCode}
         ];
         const {width} = this.props;
         const {menuOpen} = this.state;
@@ -90,11 +90,11 @@ class DocumentationApp extends React.Component {
                       <div style={{
                           display: 'flex',
                           flexWrap: "wrap",
-                          paddingLeft: wide ? "250px" : null,
-                          paddingRight: wide ? "250px" : null
+                          paddingLeft: wide ? "230px" : null,
+                          paddingRight: wide ? "230px" : null
                       }}>
 
-                          <div style={{marginTop: "50px", flex: "1", minWidth: wide ? "700px": "90%",maxWidth:"800px",  overflow: "scroll", padding: "50px", marginLeft: "auto",marginRight: "auto"}}>
+                          <div style={{marginTop: "50px", flex: "1", minWidth: wide ? "700px": "90%",maxWidth:"800px",  overflow: "wrap", padding: "50px", marginLeft: "auto",marginRight: "auto"}}>
                               {routes.map(route =>
                                   <Route key={route.name} exact={route.exact} path={route.path} render={()=>
                                       <Paper elevation={2}>
@@ -106,7 +106,7 @@ class DocumentationApp extends React.Component {
                           </div>
                           <div style={{flex: "1", padding: "50px", maxWidth: "800px", marginLeft: "auto", marginRight: "auto", marginTop:"60px"}}>
                               {routes.map(route =>
-                              <Route key={route.name} exact={route.exact} path='/' render={()=> {
+                              <Route key={route.name} exact={route.exact} path={route.path} render={()=> {
                                   const Example = route.main;
                                   return(
                                       <Paper elevation={2}><Example/></Paper>);
