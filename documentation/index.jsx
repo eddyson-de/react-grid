@@ -90,11 +90,11 @@ class DocumentationApp extends React.Component {
                       <div style={{
                           display: 'flex',
                           flexWrap: "wrap",
-                          paddingLeft: wide ? "230px" : null,
-                          paddingRight: wide ? "230px" : null
+                          paddingLeft: wide ? "250px" : null,
+                          paddingRight: wide ? "50px" : null
                       }}>
 
-                          <div style={{marginTop: "50px", flex: "1", minWidth: wide ? "700px": "90%",maxWidth:"800px",  overflow: "wrap", padding: "50px", marginLeft: "auto",marginRight: "auto"}}>
+                          <div style={{marginTop: "80px", flex: "1", minWidth: wide ? "700px": "90%",maxWidth:"800px",  overflow: "auto", paddingTop: "0px", marginLeft: "auto",marginRight: "auto"}}>
                               {routes.map(route =>
                                   <Route key={route.name} exact={route.exact} path={route.path} render={()=>
                                       <Paper elevation={2}>
@@ -104,7 +104,7 @@ class DocumentationApp extends React.Component {
                                   }/>
                               )}
                           </div>
-                          <div style={{flex: "1", padding: "50px", maxWidth: "800px", marginLeft: "auto", marginRight: "auto", marginTop:"60px"}}>
+                          <div style={{flex: "1", paddingLeft: wide ? "20px" : null, minWidth: wide ? "600px": "90%", maxWidth: "700px", marginLeft: "auto", marginRight: "auto", marginTop:"87px", overflow: "auto"}}>
                               {routes.map(route =>
                               <Route key={route.name} exact={route.exact} path={route.path} render={()=> {
                                   const Example = route.main;
