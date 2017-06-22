@@ -79,12 +79,12 @@ class DocumentationApp extends React.Component {
                               <IconButton contrast onTouchTap={this.toggleMenu}  >
                                   <MenuIcon />
                               </IconButton>
-                              {!wide && <Typography  type="title" colorInherit>
+                              {!wide && <Typography  type="title" color="inherit">
                                   react-grid documentation
                               </Typography>}
                               {routes.map(route =>
                                   <Route key={route.name} exact={route.exact} path={route.path} render={()=>
-                                      <Typography style={{marginLeft: wide ? "300px": "50px"}} type="subheading" colorInherit>
+                                      <Typography style={{marginLeft: wide ? "300px": "50px"}} type="subheading" color="inherit">
                                           {route.name}
                                       </Typography>
                                   }/>
