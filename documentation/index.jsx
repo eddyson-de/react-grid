@@ -71,8 +71,9 @@ class DocumentationApp extends React.Component {
         const {width} = this.props;
         const {menuOpen} = this.state;
         const wide = isWidthUp("lg", width);
+        const basename = window.location.hostname === 'localhost' ? '/' : '/react-grid';
         return(
-            <Router basename="/react-grid">
+            <Router basename={basename}>
                   <div>
                       <AppBar>
                           <Toolbar>
