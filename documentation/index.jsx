@@ -36,6 +36,8 @@ import BasicExample from './examples/BasicExample';
 import BasicExampleCode from '!!raw-loader!./examples/BasicExample';
 import TemplateExample from './examples/TemplateExample';
 import TemplateExampleCode from '!!raw-loader!./examples/TemplateExample';
+import BootstrapExample from './examples/BootstrapExample';
+import BootstrapExampleCode from '!!raw-loader!./examples/BootstrapExample';
 
 injectTapEventPlugin();
 
@@ -66,7 +68,8 @@ class DocumentationApp extends React.Component {
     render(){
         const routes = [
             {name: 'Basic Example', path: '/', exact: true, main: ()=><BasicExample data={this.state.data}/>, code: BasicExampleCode},
-            {name: 'Custom Template Example', path: '/custom-template-example', exact: true, main: ()=><TemplateExample data={this.state.data}/>, code: TemplateExampleCode}
+            {name: 'Custom Template Example', path: '/custom-template-example', exact: true, main: ()=><TemplateExample data={this.state.data}/>, code: TemplateExampleCode},
+            {name: 'Bootstrap Example', path: '/bootstrap-example', exact: true, main: ()=><BootstrapExample data={this.state.data}/>, code: BootstrapExampleCode}
         ];
         const {width} = this.props;
         const {menuOpen} = this.state;
