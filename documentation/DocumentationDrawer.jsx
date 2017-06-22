@@ -16,7 +16,7 @@ const DocumentationDrawer = ({routes, open, docked, toggleMenu}) =>
                              onClick={toggleMenu}>
         <AppBar position="static">
             <Toolbar>
-                <Typography color="inherit" type="title">react-grid documentation</Typography>
+                <Typography style={{color: "white"}} type="title">react-grid documentation</Typography>
             </Toolbar>
         </AppBar>
         <List style={{marginTop: "60px"}}>
