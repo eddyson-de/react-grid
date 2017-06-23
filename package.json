@@ -75,6 +75,7 @@
     "raw-loader": "^0.5.1",
     "react": "^15.1.0",
     "react-addons-test-utils": "^15.1.0",
+    "react-bootstrap": "^0.31.0",
     "react-dom": "^15.1.0",
     "react-hot-loader": "3.0.0-beta.6",
     "react-prism": "^4.1.0",

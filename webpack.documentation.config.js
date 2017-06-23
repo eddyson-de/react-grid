@@ -78,6 +78,7 @@ var webpackConfig = {
         contentBase: path.join(__dirname, 'public'),
         noInfo: true, // --no-info option
         hot: true,
+        historyApiFallback: true,
         inline: true
     }
 };
