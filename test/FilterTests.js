@@ -341,4 +341,18 @@ describe('Grid filter tests', function () {
       );
       expect(grid.find("th input").at(0).prop("type")).be.equal("checkbox");
     });
+    
+    it('Should use more than one custom filterFunction', ()=>{
+        let grid = mount(
+            <Grid objects={[{name: "a", age: 1}, {name: "b", age: 2}]} defaultFilter={[{columnName: "name", expression: "a"}]} >
+                <Column name="name" >
+                    <Cell content={()=> <div>FOO</div>}/>
+                    <Filter match={() => false}/>
+                </Column>
+                <Column name="age" >
+                    <Cell content={()=> <div>BAR</div>}/>
+                    <Filter match={() => false}/>
+                </Column>
+            </Grid>);
+    });
 });
