@@ -355,4 +355,25 @@ describe('Grid filter tests', function () {
                 </Column>
             </Grid>);
     });
+
+
+    it('Can update match prop for Filter component', (done)=>{
+      const App = (props) => (
+	<Grid objects={[{name: "foo"}, {name: "bar"}]}>
+	  <Column name="name">
+	    <Filter match={({value})=> value === props.desiredValue} />
+	  </Column>
+	</Grid>
+      );
+      let app = mount(<App desiredValue="foo" />);
+      app.find('th input').first().simulate('change', {target: {value: 'xy'}});
+      setTimeout(function () {
+        expect(app.find("tbody tr").length).be.equal(1);
+        expect(app.find("tbody tr td").at(0).text()).be.equal("foo");
+        app.setProps({"desiredValue": "bar" })
+        expect(app.find("tbody tr").length).be.equal(1);
+        expect(app.find("tbody tr td").at(0).text()).be.equal("bar");
+        done()
+      }, 350);
+    });
 });
