@@ -33,6 +33,9 @@
         "semi": [
             "error",
             "always"
-        ]
+        ],
+         "react/no-find-dom-node": 1,
+         "react/no-string-refs": "error",
+         "react/jsx-no-bind": "error"
     }
 }
