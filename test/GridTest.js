@@ -1014,4 +1014,46 @@ describe('Grid render tests', function(){
       expect(instance.find('td').at(0).text()).be.equal("one");
       
     });
+      
+    it('Do not re-render row if column content is configured but does not change', function(){
+        let renderCount = 0;
+        const objects = [{"name": "foo"}, {"name": "bar"}]
+
+        const ValueDisplay = props => <span>{props.value}</span>;
+        
+        class TestRow extends React.Component {
+          
+          shouldComponentUpdate(nextProps){
+            return nextProps.object !== this.props.object || nextProps.columnConfigs !== this.props.columnConfigs;
+          }
+          
+          render(){
+            renderCount++;
+            return <tr>{this.props.children}</tr>;
+          }
+        }
+        
+        class App extends React.Component {
+          
+          constructor(props){
+            super(props);
+            this.state = {"unrelated": "foo"};
+          }
+          
+          render(){
+            return (
+              <Grid objects={objects}>
+                <Row component={TestRow} />
+                <Column name="name" id>
+                  <Cell content={ValueDisplay} />
+                </Column>
+              </Grid>
+            );
+          }
+        }
+        let app = mount(<App />);
+        expect(renderCount).to.equal(4);
+        app.setState({"unrelated": "bar"})
+        expect(renderCount).to.equal(4);
+      });
 });
