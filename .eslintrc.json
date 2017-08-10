@@ -37,6 +37,7 @@
          "react/no-find-dom-node": 1,
          "react/no-string-refs": "error",
          "react/jsx-no-bind": "error",
-         "class-methods-use-this": ["error", { "exceptMethods": ["render"] }]
+         "class-methods-use-this": ["error", { "exceptMethods": ["render"] }],
+         "react/no-unused-state": "error"
     }
 }
