@@ -83,7 +83,7 @@
     "react-router-dom": "^4.1.1",
     "react-syntax-highlighter": "^5.5.2",
     "react-tap-event-plugin": "^2.0.1",
-    "rollup": "0.45.2",
+    "rollup": "0.46.0",
     "rollup-plugin-babel": "^3.0.1",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-replace": "^1.1.1",
