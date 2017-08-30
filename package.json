@@ -56,7 +56,7 @@
     "chai": "4.1.1",
     "chai-enzyme": "0.8.0",
     "coveralls": "2.13.1",
-    "css-loader": "0.28.5",
+    "css-loader": "0.28.7",
     "enzyme": "2.9.1",
     "eslint": "4.5.0",
     "eslint-plugin-react": "7.3.0",
