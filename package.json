@@ -65,7 +65,7 @@
     "gh-pages": "^1.0.0",
     "html-webpack-plugin": "^2.28.0",
     "istanbul": "1.1.0-alpha.1",
-    "jsdom": "11.2.0",
+    "jsdom": "11.3.0",
     "material-ui": "next",
     "material-ui-icons": "^1.0.0-alpha.3",
     "mocha": "3.5.3",
