@@ -6,9 +6,12 @@ import replace from 'rollup-plugin-replace';
 process.env.BABEL_ENV = 'distribution'
 
 export default {
-  entry: 'index.js',
-  format: 'umd',
-  moduleName: 'Ardagryd',
+  input: 'index.js',
+  output: {
+    file: process.env.NODE_ENV === 'production' ? 'dist/Ardagryd.min.js' : 'dist/Ardagryd.js',
+    format: 'umd',
+  },
+  name: 'Ardagryd',
   plugins: [
     resolve(),
     replace({
@@ -19,8 +22,7 @@ export default {
     }),
     (process.env.NODE_ENV === 'production' && uglify())
   ],
-  dest: process.env.NODE_ENV === 'production' ? 'dist/Ardagryd.min.js' : 'dist/Ardagryd.js',
-  sourceMap: true,
+  sourcemap: true,
   external: [ 'react', 'prop-types' ],
   globals: {
     react: 'React',
