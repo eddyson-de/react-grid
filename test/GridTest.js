@@ -201,7 +201,7 @@ describe('Grid render tests', function(){
     );
 
    
-    expect(grid.html()).be.equal('<div></div>');
+    expect(grid.toString()).be.equal('<div></div>');
 
   });
   
@@ -210,7 +210,7 @@ describe('Grid render tests', function(){
       <Grid objects={data} hideColumnsWithoutConfig/>
     );
     //TODO what should be rendered here?
-    expect(grid.html()).be.equal('<div></div>');
+    expect(grid.toString()).be.equal('<div></div>');
 
   });
 
