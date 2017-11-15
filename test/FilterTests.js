@@ -202,9 +202,11 @@ describe('Grid filter tests', function () {
       );
       grid.find('th input').first().simulate('change', {target: {value: 'ie'}});
       setTimeout(function () {
+          grid.update();
           expect(grid.find("tbody").children().length).be.equal(2);
           grid.find('th input').first().simulate('change', {target: {value: 'er'}});
           setTimeout(function () {
+              grid.update();
               expect(grid.find("tbody").children().length).be.equal(3);
               done();
           }, 500);
@@ -326,6 +328,7 @@ describe('Grid filter tests', function () {
       expect(grid.find("input").at(0).prop("max")).be.equal(2);
       grid.find('th input').first().simulate('change', {target: {value: 'Foo'}});
       setTimeout(function () {
+          grid.update();
           expect(grid.find("input").at(0).prop("max")).be.equal(1);
           done();
       }, 500);
@@ -368,6 +371,7 @@ describe('Grid filter tests', function () {
       let app = mount(<App desiredValue="foo" />);
       app.find('th input').first().simulate('change', {target: {value: 'xy'}});
       setTimeout(function () {
+        app.update();
         expect(app.find("tbody tr").length).be.equal(1);
         expect(app.find("tbody tr td").at(0).text()).be.equal("foo");
         app.setProps({"desiredValue": "bar" })
