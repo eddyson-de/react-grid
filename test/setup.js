@@ -19,3 +19,8 @@ global.navigator = {
   userAgent: 'node.js',
 };
 copyProps(window, global);
+
+var enzyme = require('enzyme');
+var Adapter = require('enzyme-adapter-react-15');
+
+enzyme.configure({ adapter: new Adapter() });
