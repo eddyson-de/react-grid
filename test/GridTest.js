@@ -552,8 +552,7 @@ describe('Grid render tests', function(){
 
     expect(instance.find("td").first().text()).be.equal("John");
     let pageNumberInput = instance.find("input").at(0);
-    pageNumberInput.node.value = "2";
-    pageNumberInput.simulate('change', pageNumberInput);
+    pageNumberInput.simulate('change', { target: { value: '2'} });
     expect(instance.find("td").first().text()).be.equal("Jack");
     expect(pageNumberInput).to.have.value("2");
     instance.setProps({objects: people});
@@ -644,8 +643,7 @@ describe('Grid render tests', function(){
     expect(pageNumberInput.prop("max")).be.equal(2);
     expect(pageNumberInput).to.have.value("1");
     
-    pageNumberInput.node.value = "2";
-    pageNumberInput.simulate('change', pageNumberInput);
+    pageNumberInput.simulate('change', { target: { value: '2'} });
     expect(grid.find("td").first().text()).be.equal("Jack");
     expect(pageNumberInput).to.have.value("2");
 
@@ -665,8 +663,7 @@ describe('Grid render tests', function(){
     expect(pageNumberInput.prop("max")).be.equal(3);
     expect(pageNumberInput).to.have.value("1");
 
-    pageNumberInput.node.value = "3";
-    pageNumberInput.simulate('change', pageNumberInput);
+    pageNumberInput.simulate('change', { target: { value: '3'} });
     expect(grid.find("td").first().text()).be.equal("Jeff");
     expect(pageNumberInput).to.have.value("3");
 
@@ -826,8 +823,7 @@ describe('Grid render tests', function(){
       );
       expect(grid.find("tbody tr").length).be.equal(2);
       let pageSizeInput = grid.find("input").at(1);
-      pageSizeInput.node.value = "1";
-      pageSizeInput.simulate('change', pageSizeInput);
+      pageSizeInput.simulate('change', { target: { value: '1'} });
       expect(grid.find("tbody tr").length).be.equal(1);
       expect(pageSize).to.be.equal(1);
 
@@ -847,8 +843,7 @@ describe('Grid render tests', function(){
       );
       expect(grid.find("tbody tr td").at(0).text()).to.be.equal("b");
       let pageNumberInput = grid.find("input").at(0);
-      pageNumberInput.node.value = "1";
-      pageNumberInput.simulate('change', pageNumberInput);
+      pageNumberInput.simulate('change', { target: { value: '1'} });
       expect(grid.find("tbody tr td").at(0).text()).to.be.equal("a");
       expect(page).to.be.equal(1);
     });
@@ -861,8 +856,7 @@ describe('Grid render tests', function(){
       expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("Nike Floder");
       let pageNumberInput = grid.find("input").at(0);
       expect(pageNumberInput).to.have.value("1");
-      pageNumberInput.node.value = "2";
-      pageNumberInput.simulate('change', pageNumberInput);
+      pageNumberInput.simulate('change', { target: { value: '2'} });
       expect(pageNumberInput).to.have.value("1");
       expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("Nike Floder");
     });
@@ -875,8 +869,7 @@ describe('Grid render tests', function(){
       expect(grid.find("tbody tr").length).be.equal(1);
       let pageSizeInput = grid.find("input").at(1);
       expect(pageSizeInput).to.have.value("1");
-      pageSizeInput.node.value = "2";
-      pageSizeInput.simulate('change', pageSizeInput);
+      pageSizeInput.simulate('change', { target: { value: '2'} });
       expect(pageSizeInput).to.have.value("1");
       expect(grid.find("tbody tr").length).be.equal(1);
     });

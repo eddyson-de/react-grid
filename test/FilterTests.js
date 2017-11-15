@@ -238,7 +238,7 @@ describe('Grid filter tests', function () {
 
         expect(filteringWrapper.state('filter')).to.deep.equal([{columnName: "name", expression: "ie"}]);
 
-        filteringWrapper.node.updateFilter({columnName: "name", expression: ""});
+        filteringWrapper.instance().updateFilter({columnName: "name", expression: ""});
 
         expect(filteringWrapper.state('filter')).to.deep.equal([{columnName: "name", expression: ""}]);
 
