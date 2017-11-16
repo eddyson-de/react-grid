@@ -14,8 +14,8 @@
   "scripts": {
     "prepublish": "eslint index.js lib && rollup -c && NODE_ENV=production rollup -c && BABEL_ENV=distribution webpack --config webpack.documentation.config.js",
     "dev": "webpack -p --config webpack.dev-server.config.js && webpack-dev-server --config webpack.dev-server.config.js --progress --profile --colors --hot",
-    "test": "BABEL_ENV=test node $NODE_DEBUG_OPTION node_modules/mocha/bin/_mocha --compilers js:babel-core/register  --recursive --require ./test/setup.js",
-    "testw": "BABEL_ENV=test node $NODE_DEBUG_OPTION node_modules/mocha/bin/_mocha --compilers js:babel-core/register  --recursive --watch --require ./test/setup.js",
+    "test": "BABEL_ENV=test node $NODE_DEBUG_OPTION node_modules/mocha/bin/_mocha --require babel-core/register --recursive --require ./test/setup.js",
+    "testw": "BABEL_ENV=test node $NODE_DEBUG_OPTION node_modules/mocha/bin/_mocha --require babel-core/register --recursive --watch --require ./test/setup.js",
     "cover": "BABEL_ENV=test babel-node node_modules/istanbul/lib/cli cover node_modules/mocha/bin/_mocha -- --recursive --require ./test/setup.js",
     "eslint": "eslint index.js lib",
     "docu-build": "node_modules/.bin/babel-external-helpers > build/helpers.js && NODE_ENV=production BABEL_ENV=distribution webpack -p --config webpack.documentation.config.js",
