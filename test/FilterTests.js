@@ -5,6 +5,7 @@ import Cell from '../lib/Cell'
 import Filter from '../lib/Filter'
 import withFilterHandler from '../lib/FilterHandler'
 import { mount, render } from 'enzyme'
+import sinon from 'sinon'
 import React from 'react';
 
 let data = [{
@@ -290,7 +291,13 @@ describe('Grid filter tests', function () {
     });
 
     it('Filter should filter boolean values', ()=>{
-        let grid = mount(<Grid objects={[{name: "aa", x: false}, {name: "ab", x: true}, {name: "ccb", x: true}]} />);
+        let grid = mount(
+          <Grid objects={[{name: "aa", x: false}, {name: "ab", x: true}, {name: "ccb", x: true}]}>
+            <Column name="x">
+              <Filter match={({value, expression}) => value.toString().indexOf(expression) !== -1} />
+            </Column>
+          </Grid>
+        );
         expect(grid.find("tbody").children().length).be.equal(3);
 
         grid.setProps({defaultFilter: [{columnName: "x", expression: "true"}]});
@@ -379,5 +386,42 @@ describe('Grid filter tests', function () {
         expect(app.find("tbody tr td").at(0).text()).be.equal("bar");
         done()
       }, 350);
+    });
+
+
+    describe("console tests", function(){
+      var sandbox;
+
+      beforeEach(function() {
+        sandbox = sinon.sandbox.create();
+        sandbox.stub(console, "error");
+      });
+      afterEach(function() {
+         sandbox.restore();
+      });
+
+      it('Should warn when trying to filter a boolean value with a filter field', function(done) {
+
+        let grid = mount(
+            <Grid objects={[{name: "aa", foo: true}]}/>
+        );
+        grid.find('th input').at(1).simulate('change', {target: {value: 'true'}});
+        setTimeout(function () {
+            grid.update();
+            expect(grid.find("tbody").children().length).be.equal(1);
+            sinon.assert.calledWith(console.error, 'Warning: Column "foo" has rendered a value that is neither a string nor a number. The type of the value (true) is boolean, please specify a custom Filter configuration to be able to filter by this column or disable its filter.');
+            done();
+        }, 500);
+      });
+
+      it('Should warn when trying to filter a boolean value with the default filter', ()=>{
+          let grid = mount(<Grid 
+                            objects={[{name: "aa", foo: true}]}
+                            defaultFilter={[{columnName: "foo", expression: "true"}]} />);
+
+          expect(grid.find("tbody").children().length).be.equal(1);
+          sinon.assert.calledWith(console.error, 'Warning: Column "foo" has rendered a value that is neither a string nor a number. The type of the value (true) is boolean, please specify a custom Filter configuration to be able to filter by this column or disable its filter.');
+
+      });
     });
 });
