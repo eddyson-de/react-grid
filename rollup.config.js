@@ -1,3 +1,4 @@
+import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
 import babel from 'rollup-plugin-babel';
 import uglify from 'rollup-plugin-uglify';
@@ -14,6 +15,9 @@ export default {
   name: 'Ardagryd',
   plugins: [
     resolve(),
+    commonjs({
+      include: 'node_modules/**'
+    }),
     replace({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
     }),
