@@ -904,6 +904,7 @@ describe('Grid render tests', function(){
         expect(instance.find("th").length).be.equal(4);
         
         instance.setProps({children:[<Column name="name" />]});
+        instance.update();
         
         expect(instance.find("th").length).be.equal(2);
     });
@@ -937,9 +938,9 @@ describe('Grid render tests', function(){
       expect(instance.find('td').at(0).text()).be.equal("1");
       
       instance.setProps({children:[ <Column name="num" sortable={false}/>,  <Column name="en" sortable={false}/>]});
-      
+      instance.update();
+
       expect(instance.find('tr').first().find("th").length).be.equal(2);
-      
       expect(instance.find('tr').at(0).find("th").at(0).text()).be.equal("Num");
       expect(instance.find('td').at(0).text()).be.equal("1");
 
@@ -947,6 +948,7 @@ describe('Grid render tests', function(){
       expect(instance.find('td').at(1).text()).be.equal("one");
 
       instance.setProps({children:[ <Column name="en" sortable={false}/> , <Column name="num" sortable={false}/>]});
+      instance.update();
       
       expect(instance.find('tr').at(0).find("th").length).be.equal(2);
       
@@ -958,6 +960,7 @@ describe('Grid render tests', function(){
 
       
       instance.setProps({children:[ <Column name="en" sortable={false}/>]});
+      instance.update();
       
       expect(instance.find('tr').first().find("th").length).be.equal(1);
       

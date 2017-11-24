@@ -258,6 +258,7 @@ describe('Grid filter tests', function () {
                 <Filter match={({value, expression}) => true}/>
             </Column>
         });
+        grid.update();
 
         expect(grid.find("tbody").children().length).be.equal(2);
     });
