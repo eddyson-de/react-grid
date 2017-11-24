@@ -277,4 +277,29 @@ describe("Sorting tests",() => {
       grid.find("button").first().simulate('click');
       expect(grid.find("tbody tr").at(0).find("td").first().text()).to.equal("2");
     });
+
+    // https://github.com/eddyson-de/react-grid/issues/500
+    it("Default sorting should not be restored if data changes", ()=> {
+        const data = [{name: "B", nr: 1},{name: "C", nr: 2},{name: "A", nr: 3}];
+        let grid  = mount(
+          <Grid
+            objects={data}
+            defaultSort="nr" >
+            <Column name="id" hide />
+          </Grid>
+        );
+
+        grid.find("button").first().simulate('click');
+
+        expect(grid.find("tbody tr").at(0).find("td").at(0).text()).to.equal("A");
+        expect(grid.find("tbody tr").at(1).find("td").at(0).text()).to.equal("B");
+        expect(grid.find("tbody tr").at(2).find("td").at(0).text()).to.equal("C");
+
+        grid.setProps({objects: data});
+
+        expect(grid.find("tbody tr").at(0).find("td").at(0).text()).to.equal("A");
+        expect(grid.find("tbody tr").at(1).find("td").at(0).text()).to.equal("B");
+        expect(grid.find("tbody tr").at(2).find("td").at(0).text()).to.equal("C");
+
+    });
 });
