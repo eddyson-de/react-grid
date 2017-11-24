@@ -7,6 +7,7 @@ import  Cell from '../lib/Cell';
 import  Row  from '../lib/Row';
 import  Body  from '../lib/Body';
 import  HeaderRow  from '../lib/HeaderRow';
+import  Filter  from '../lib/Filter';
 import { buildGridWithTemplate } from '../lib/GridBuilder';
 import PagingHandler from "../lib/PagingHandler";
 import chai, { expect } from 'chai'
@@ -579,7 +580,9 @@ describe('Grid render tests', function(){
   it('Should be possible to hide the tools for a column', ()=>{
     let grid = mount(
         <Grid objects={[{a: "foo", b: "bar"}]}>
-            <Column name="b" hideTools={true}/>
+            <Column name="b">
+              <Filter hide />
+            </Column>
             <Column name="id" hide/>
         </Grid>);
      expect(grid.find("th input").length).be.equal(1);
