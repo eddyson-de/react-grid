@@ -51,7 +51,7 @@ class DocumentationApp extends React.Component {
         super(props);
         this.state = {
             data: [],
-            menuOpen: true
+            menuOpen: false
         };
         this.toggleMenu = this.toggleMenu.bind(this);
     }
@@ -101,7 +101,7 @@ class DocumentationApp extends React.Component {
                               </IconButton>
                           </Toolbar>
                       </AppBar>
-                      <DocumentationDrawer routes={routes} docked={wide} open={wide ? true : menuOpen} onRequestClose={this.toggleMenu}
+                      <DocumentationDrawer routes={routes} type={wide ? 'permanent' : 'temporary'} open={wide || menuOpen} onRequestClose={this.toggleMenu}
                               toggleMenu={this.toggleMenu} />
                       <div style={{
                           display: 'flex',

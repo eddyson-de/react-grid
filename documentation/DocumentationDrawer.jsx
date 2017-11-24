@@ -8,9 +8,9 @@ import AppBar from 'material-ui/AppBar';
 import Typography from 'material-ui/Typography';
 import React from 'react';
 
-const DocumentationDrawer = ({routes, open, docked, toggleMenu}) =>
+const DocumentationDrawer = ({routes, open, type, toggleMenu}) =>
     <Drawer
-        docked={docked}
+        type={type}
         open={open}
         onRequestClose={toggleMenu}
                              onClick={toggleMenu}>
