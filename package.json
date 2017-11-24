@@ -20,7 +20,7 @@
     "eslint": "eslint index.js lib",
     "docu-build": "node_modules/.bin/babel-external-helpers > build/helpers.js && NODE_ENV=production BABEL_ENV=distribution webpack -p --config webpack.documentation.config.js",
     "docu-dev": "BABEL_ENV=devserver webpack-dev-server --config webpack.documentation.config.js --progress --profile --colors --hot",
-    "docu-publish": "yarn run docu-build && node_modules/gh-pages/bin/gh-pages -d build",
+    "docu-publish": "npm run docu-build && node_modules/gh-pages/bin/gh-pages -d build",
     "check-for-only-in-tests": "! grep \\\\.only test/*"
   },
   "pre-commit": [
