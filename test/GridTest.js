@@ -207,13 +207,11 @@ describe('Grid render tests', function(){
 
   });
   
-  xit('Should not render anything if there are objects but no columns', function(){
+  it('Should not render anything if there are objects but no columns', function(){
     let grid = render(
       <Grid objects={data} hideColumnsWithoutConfig/>
     );
-    //TODO what should be rendered here?
     expect(grid.toString()).be.equal('<div></div>');
-
   });
 
   
