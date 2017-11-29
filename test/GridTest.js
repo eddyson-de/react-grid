@@ -1077,7 +1077,7 @@ describe('Grid render tests', function(){
               <Column name="name" hideTools />
             </Grid>
         );
-       sinon.assert.calledWith(console.error, 'Warning: Failed prop type: Invalid prop `hideTools` supplied to `Column`. Please use <Filter hide />.\n    in Column');
+       sinon.assert.calledWith(console.error, 'Warning: Failed prop type: Invalid prop `hideTools` supplied to `Column` "name". Please use <Filter hide />.\n    in Column');
       });
     });
 });
