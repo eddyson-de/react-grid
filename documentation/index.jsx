@@ -38,6 +38,8 @@ import TemplateExample from './examples/TemplateExample';
 import TemplateExampleCode from '!!raw-loader!./examples/TemplateExample';
 import BootstrapExample from './examples/BootstrapExample';
 import BootstrapExampleCode from '!!raw-loader!./examples/BootstrapExample';
+import GettingStarted from './examples/GettingStarted';
+import GettingStartedCode from '!!raw-loader!./examples/GettingStarted';
 
 injectTapEventPlugin();
 
@@ -56,7 +58,7 @@ class DocumentationApp extends React.Component {
         this.toggleMenu = this.toggleMenu.bind(this);
     }
     componentWillMount(){
-      this.setState({data: [...Array(8)].map(()=> faker.helpers.createCard())});
+        this.setState({data: [...Array(8)].map(()=> faker.helpers.createCard())});
     }
     
     toggleMenu(){
@@ -66,10 +68,12 @@ class DocumentationApp extends React.Component {
     
     
     render(){
+        const data = this.state.data;
         const routes = [
-            {name: 'Basic Example', path: '/', exact: true, main: ()=><BasicExample data={this.state.data}/>, code: BasicExampleCode},
-            {name: 'Custom Template Example', path: '/custom-template-example', exact: true, main: ()=><TemplateExample data={this.state.data}/>, code: TemplateExampleCode},
-            {name: 'Bootstrap Example', path: '/bootstrap-example', exact: true, main: ()=><BootstrapExample data={this.state.data}/>, code: BootstrapExampleCode}
+            {name: 'Getting Started', path: '/', exact: true, main: ()=><GettingStarted data={data}/>, code: GettingStartedCode},
+            {name: 'Basic Example', path: '/basic', main: ()=><BasicExample data={data}/>, code: BasicExampleCode},
+            {name: 'Custom Template Example', path: '/custom-template-example', exact: true, main: ()=><TemplateExample data={data}/>, code: TemplateExampleCode},
+            {name: 'Bootstrap Example', path: '/bootstrap-example', exact: true, main: ()=><BootstrapExample data={data}/>, code: BootstrapExampleCode}
         ];
         const {width} = this.props;
         const {menuOpen} = this.state;
