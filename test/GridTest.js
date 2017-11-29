@@ -13,6 +13,7 @@ import PagingHandler from "../lib/PagingHandler";
 import chai, { expect } from 'chai'
 import { mount, render } from 'enzyme'
 import chaiEnzyme from 'chai-enzyme'
+import sinon from 'sinon'
 
 chai.use(chaiEnzyme())
 
@@ -1057,4 +1058,26 @@ describe('Grid render tests', function(){
         app.setState({"unrelated": "bar"})
         expect(renderCount).to.equal(4);
       });
+
+    describe("console tests", function(){
+      var sandbox;
+
+      beforeEach(function() {
+        sandbox = sinon.sandbox.create();
+        sandbox.stub(console, "error");
+      });
+      afterEach(function() {
+         sandbox.restore();
+      });
+
+      it('Should warn when using <Column hideTools .../>', function() {
+
+        let grid = mount(
+            <Grid objects={[{name: "aa"}]}>
+              <Column name="name" hideTools />
+            </Grid>
+        );
+       sinon.assert.calledWith(console.error, 'Warning: Failed prop type: Invalid prop `hideTools` supplied to `Column`. Please use <Filter hide />.\n    in Column');
+      });
+    });
 });
