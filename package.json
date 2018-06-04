@@ -71,7 +71,7 @@
     "material-ui": "next",
     "material-ui-icons": "^1.0.0-alpha.3",
     "mocha": "4.0.1",
-    "mocha-jsdom": "1.1.0",
+    "mocha-jsdom": "2.0.0",
     "pre-commit": "^1.2.2",
     "prismjs": "^1.6.0",
     "raw-loader": "^0.5.1",
