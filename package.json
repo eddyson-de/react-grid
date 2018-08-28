@@ -85,7 +85,7 @@
     "react-syntax-highlighter": "^5.5.2",
     "react-tap-event-plugin": "^3.0.2",
     "rollup": "0.52.1",
-    "rollup-plugin-babel": "^3.0.1",
+    "rollup-plugin-babel": "^4.0.2",
     "rollup-plugin-commonjs": "^8.2.6",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-replace": "^2.0.0",
