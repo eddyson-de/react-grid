@@ -78,7 +78,7 @@
     "react": "^16.0.0",
     "react-bootstrap": "^0.31.0",
     "react-dom": "^16.0.0",
-    "react-hot-loader": "3.1.3",
+    "react-hot-loader": "4.12.2",
     "react-prism": "^4.3.0",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
